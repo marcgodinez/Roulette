@@ -10,7 +10,9 @@ export const useGameEngine = () => {
         setResult,
         setLastWinAmount,
         clearBets,
-        replaceBets
+        replaceBets,
+        setStoreOpen,
+        recordGameResult
     } = useGameStore();
 
     const triggerSpin = () => {
@@ -29,17 +31,12 @@ export const useGameEngine = () => {
         // 2. Deduct total bet amount
         updateCredits(-totalBetAmount);
 
-        // 3. Generate Fire Numbers (1 to 10 unique numbers)
-        const fireCount = Math.floor(Math.random() * 10) + 1;
-        const fireNumbers: number[] = [];
-        while (fireNumbers.length < fireCount) {
-            const num = Math.floor(Math.random() * 37); // 0-36
-            if (!fireNumbers.includes(num)) {
-                fireNumbers.push(num);
-            }
-        }
-        // Sort them for display "in order"
-        fireNumbers.sort((a, b) => a - b);
+        // 3. Generate Fire Numbers (DEBUG: ALL NUMBERS)
+        // const fireCount = Math.floor(Math.random() * 5) + 1; // Original 1-5
+        const fireNumbers = Array.from({ length: 37 }, (_, i) => i);
+
+        // Snapshot bets for Rebet feature
+        useGameStore.getState().snapshotBets();
 
         // 4. Transition to SPINNING
         setPhase('SPINNING');
@@ -57,6 +54,7 @@ export const useGameEngine = () => {
         }, 4000); // Sync with RouletteWheel duration
     };
 
+
     const resolveRound = (
         winningNumber: number,
         fireNumbers: number[],
@@ -64,7 +62,15 @@ export const useGameEngine = () => {
     ) => {
         let totalWin = 0;
         let bonusTriggered = false;
-        const winningBets: Record<string, number> = {};
+        // Identify Winning Bets (IDs) to keep on board during sweep
+        const winningBetIds: string[] = [];
+
+        // Check Fire Hit & Mode immediately
+        if (fireNumbers.includes(winningNumber)) {
+            bonusTriggered = true;
+            const hasStraightBet = currentBets[winningNumber.toString()] > 0;
+            useGameStore.getState().setBonusMode(hasStraightBet ? 'NORMAL' : 'SPECTATOR');
+        }
 
         Object.keys(currentBets).forEach(betId => {
             const amount = currentBets[betId];
@@ -74,15 +80,24 @@ export const useGameEngine = () => {
             let multiplier = 0;
 
             // 1. STRAIGHT UP (Single Number) "0", "1", "36"
+            // 1. STRAIGHT UP (Single Number) "0", "1", "36"
             if (!isNaN(parseInt(betId)) && !betId.includes('_') && !isNaN(Number(betId))) {
                 const betNum = parseInt(betId);
                 if (betNum === winningNumber) {
-                    didWin = true;
                     // CHECK BONUS
                     if (fireNumbers.includes(winningNumber)) {
                         bonusTriggered = true;
-                        multiplier = PAYOUTS.STRAIGHT;
+
+                        // Set Mode
+                        useGameStore.getState().setBonusMode('NORMAL');
+
+                        // Keep chips on board
+                        winningBetIds.push(betId);
+
+                        // DO NOT PAYOUT HERE. Bonus Game handles it.
+                        didWin = false;
                     } else {
+                        didWin = true;
                         multiplier = PAYOUTS.STRAIGHT;
                     }
                 }
@@ -162,36 +177,67 @@ export const useGameEngine = () => {
             if (didWin) {
                 const profit = amount * multiplier;
                 totalWin += profit + amount; // Total credit return
-                winningBets[betId] = profit; // Visual only shows profit
+                winningBetIds.push(betId);
             }
         });
 
-        // VISUAL UPDATE: Remove losers, show winners with profit value
-        replaceBets(winningBets);
+        // T+0s: Spin Ended. Result Phase is already ACTIVE (set in triggerSpin). 
+        // Dolly should appear now via React Prop (GameScreen passing winningNumber to BettingBoard).
 
-        if (bonusTriggered) {
-            setTimeout(() => {
+        // T+1.5s: SWEEP LOSING CHIPS
+        setTimeout(() => {
+            const { removeLosingBets } = useGameStore.getState();
+            removeLosingBets(winningBetIds);
+        }, 1500);
+
+        // T+4.0s: PAYOUT & FINISH
+        setTimeout(() => {
+            const { addToHistory, clearBets, updateCredits, setPhase, setLastWinAmount, recordGameResult } = useGameStore.getState();
+
+            if (bonusTriggered) {
                 setPhase('BONUS');
                 updateCredits(totalWin);
                 setLastWinAmount(totalWin);
-            }, 1000);
-            return;
-        }
+                clearBets();
+                return;
+            }
 
-        if (totalWin > 0) {
-            updateCredits(totalWin);
-            setLastWinAmount(totalWin);
-        } else {
-            setLastWinAmount(0);
-        }
+            if (totalWin > 0) {
+                updateCredits(totalWin);
+                setLastWinAmount(totalWin);
+            } else {
+                setLastWinAmount(0);
+            }
 
-        // WAIT 2 SECONDS THEN CLEAR
-        setTimeout(() => {
+            // ADD TO HISTORY (Standard Round)
+            addToHistory({
+                number: winningNumber,
+                isFire: fireNumbers.includes(winningNumber),
+                multiplier: null
+            });
+
+            // Record Result
+            recordGameResult(totalWin);
+
+            // Clear all bets
             clearBets();
-            setPhase('BETTING');
-            setResult(winningNumber, []);
-            setLastWinAmount(0);
-        }, 2000);
+        }, 4000);
+
+        // T+5.0s: RESET TO BETTING
+        setTimeout(() => {
+            // If we went to bonus, don't auto-reset phase here!
+            if (!bonusTriggered) {
+                setPhase('BETTING');
+                setResult(null, []); // Clear result
+                setLastWinAmount(0);
+
+                // Bankruptcy Check
+                const { credits: currentCredits } = useGameStore.getState();
+                if (currentCredits === 0 && totalWin === 0) {
+                    setTimeout(() => setStoreOpen(true), 500);
+                }
+            }
+        }, 5000);
     };
 
     return {

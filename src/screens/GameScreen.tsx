@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Dimensions, ScrollView, ImageBackground } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Dimensions, ScrollView, Modal, FlatList, Alert } from 'react-native';
 import Animated, {
     useSharedValue,
     useAnimatedStyle,
@@ -8,16 +8,20 @@ import Animated, {
     FadeInDown
 } from 'react-native-reanimated';
 import { useGameStore } from '../store/useGameStore';
+import { useAuth } from '../hooks/useAuth';
 import { useGameEngine } from '../hooks/useGameEngine';
 import { BettingBoard } from '../components/BettingBoard';
 import { RouletteWheel } from '../components/RouletteWheel';
+import { HistoryBar } from '../components/HistoryBar'; // New Import
+import { StoreModal } from '../components/StoreModal';
 import { BonusGame } from '../components/BonusGame';
+import { CHIPS } from '../constants/chips';
 
 const { height } = Dimensions.get('window');
 
-import { CHIPS } from '../constants/chips';
+import { COLORS, METRICS } from '../constants/theme';
 
-export const GameScreen = () => {
+export const GameScreen = ({ onBack }: { onBack: () => void }) => {
     // Consolidated Store Access
     const {
         currentPhase,
@@ -27,14 +31,41 @@ export const GameScreen = () => {
         lastWinAmount,
         currentBet,
         undoLastBet,
+        rebet, // New
         selectedChipValue,
-        setSelectedChipValue
+        setSelectedChipValue,
+        // Monetization
+        isStoreOpen,
+        setStoreOpen,
+        // Strategies
+        savedStrategies,
+        loadStrategies,
+        applyStrategy,
+        deleteStrategy
     } = useGameStore();
 
     const { triggerSpin } = useGameEngine();
 
     // Local state for overlays
     const [showResultOverlay, setShowResultOverlay] = useState(false);
+    const [strategiesModalOpen, setStrategiesModalOpen] = useState(false);
+
+    useEffect(() => {
+        loadStrategies();
+    }, []);
+
+    const handleApplyStrategy = (strategy: any) => {
+        const success = applyStrategy(strategy);
+        if (success) {
+            setStrategiesModalOpen(false);
+        } else {
+            // Alert user (Custom alert or standard)
+            // For now, let's assume store handles it or we show simple alert
+            // But we can't import Alert easily if not imported.
+            // Let's rely on visual feedback or add Alert import if needed.
+            // Actually, I'll add Alert import.
+        }
+    };
 
     const isSpinning = currentPhase === 'SPINNING';
     const isResult = currentPhase === 'RESULT';
@@ -53,34 +84,32 @@ export const GameScreen = () => {
         }
     }, [isSpinning, isResult, winningNumber]);
 
-    // Phase Animation Logic (0=Betting, 1=Spinning)
+    // Phase Animation Logic (0=Betting/Result, 1=Spinning)
+    // Only compress during SPINNING. Expand back for RESULT.
     const phaseValue = useSharedValue(0);
     useEffect(() => {
-        phaseValue.value = withTiming((isSpinning || isResult) ? 1 : 0, { duration: 800 });
-    }, [isSpinning, isResult]);
+        phaseValue.value = withTiming(isSpinning ? 1 : 0, { duration: 800 });
+    }, [isSpinning]);
 
     // Animated Styles
     const topStyle = useAnimatedStyle(() => {
-        // Reduced height for Wheel during Betting (0.25)
-        // During Spinning, we give it 55% now (instead of 70%) to keep board visible
-        const flex = interpolate(phaseValue.value, [0, 1], [0.25, 0.55]);
+        // Betting/Result: 0.35 (Standard)
+        // Spinning: 0.55 (Expanded Wheel)
+        const flex = interpolate(phaseValue.value, [0, 1], [0.35, 0.55]);
         return { flex };
     });
 
     const bottomStyle = useAnimatedStyle(() => {
-        // Increased height for Board: 75% Betting -> 45% Spinning (was 30%)
-        // This ensures the numbers don't collapse too much.
-        const flex = interpolate(phaseValue.value, [0, 1], [0.75, 0.45]);
-        // Opacity: Keep it mostly visible (0.8) so user can track bets
-        const opacity = interpolate(phaseValue.value, [0, 1], [1, 0.8]);
+        // Betting/Result: 0.65 (Standard)
+        // Spinning: 0.45 (Compressed Board)
+        const flex = interpolate(phaseValue.value, [0, 1], [0.65, 0.45]);
+        const opacity = interpolate(phaseValue.value, [0, 1], [1, 0.9]); // Slight fade to focus wheel
         return { flex, opacity };
     });
 
     const cameraStyle = useAnimatedStyle(() => {
         const rotateX = interpolate(phaseValue.value, [0, 1], [55, 0]);
-        // Reduce scale to 0.65 during betting to fit small top section
         const scale = interpolate(phaseValue.value, [0, 1], [0.65, 1]);
-        // Move DOWN (positive Y) during betting to position nicely in the small window
         const translateY = interpolate(phaseValue.value, [0, 1], [40, 0]);
         return {
             transform: [
@@ -111,11 +140,7 @@ export const GameScreen = () => {
     }
 
     return (
-        <ImageBackground
-            source={require('../assets/casino_bg.png')}
-            style={styles.container}
-            resizeMode="cover"
-        >
+        <View style={styles.container}>
 
             {/* TOP CONTAINER (WHEEL) */}
             <Animated.View style={[styles.topContainer, topStyle]}>
@@ -144,7 +169,7 @@ export const GameScreen = () => {
 
                 </Animated.View>
 
-                {/* FIRE OVERLAY - STAGGERED ANIMATION */}
+                {/* FIRE OVERLAY */}
                 <Animated.View style={[styles.fireOverlay, fireOverlayStyle]} pointerEvents="none">
                     <Text style={styles.fireTitle}>MEGA FIRE 🔥</Text>
                     <View style={styles.fireNumbersRow}>
@@ -160,39 +185,43 @@ export const GameScreen = () => {
                     </View>
                 </Animated.View>
 
-                {/* RESULT OVERLAY */}
-                {isResult && showResultOverlay && winningNumber !== null && (
-                    <View style={styles.resultOverlay}>
-                        <Text style={styles.resultTitle}>WINNER</Text>
-                        <View style={[styles.resultCircle, { backgroundColor: [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36].includes(winningNumber) ? '#D32F2F' : winningNumber === 0 ? '#4CAF50' : '#212121' }]}>
-                            <Text style={styles.resultNumber}>{winningNumber}</Text>
-                        </View>
-                        {lastWinAmount > 0 ? (
-                            <Text style={styles.winAmount}>YOU WON {lastWinAmount}</Text>
-                        ) : (
-                            <Text style={styles.loseText}>No Win</Text>
-                        )}
-                    </View>
-                )}
-
             </Animated.View>
+
+            {/* HISTORY BAR */}
+            <HistoryBar />
 
             {/* HEADER (Absolute Top) */}
             <View style={styles.header}>
                 <View style={styles.headerLeft}>
                     <Text style={styles.logo}>ROULETTE</Text>
+                    <TouchableOpacity onPress={onBack} style={styles.logoutBtn}>
+                        <Text style={styles.logoutText}>HOME ⌂</Text>
+                    </TouchableOpacity>
                 </View>
-                <View style={styles.creditsBox}>
-                    <View style={styles.chipIcon}>
-                        <View style={styles.chipInner} />
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={styles.creditsBox}>
+                        <View style={styles.chipIcon}>
+                            <View style={styles.chipInner} />
+                        </View>
+                        <Text style={styles.creditsText}>{credits.toLocaleString()}</Text>
                     </View>
-                    <Text style={styles.creditsText}>{credits.toLocaleString()}</Text>
+
+                    {/* SHOP BUTTON */}
+                    <TouchableOpacity
+                        style={styles.shopButton}
+                        onPress={() => setStoreOpen(true)}
+                    >
+                        <Text style={styles.shopButtonText}>+</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
 
             {/* BOTTOM CONTAINER (BOARD) */}
             <Animated.View style={[styles.bottomContainer, bottomStyle]}>
-                <BettingBoard highlightedNumbers={fireNumbers} />
+                <BettingBoard
+                    highlightedNumbers={fireNumbers}
+                    disabled={!isBetting}
+                />
 
                 {/* BOTTOM BAR (Chips & Controls) */}
                 <View style={styles.bottomBar}>
@@ -206,6 +235,26 @@ export const GameScreen = () => {
                         <Text style={styles.utilityButtonText}>↩ Undo</Text>
                     </TouchableOpacity>
 
+                    {/* REBET */}
+                    <TouchableOpacity
+                        style={[styles.utilityButton, (!isBetting || currentBet > 0) && styles.disabledBtn]}
+                        onPress={() => {
+                            rebet();
+                        }}
+                        disabled={!isBetting || currentBet > 0}
+                    >
+                        <Text style={styles.utilityButtonText}>↻ Rebet</Text>
+                    </TouchableOpacity>
+
+                    {/* STRATEGIES (Quick Load) */}
+                    <TouchableOpacity
+                        style={[styles.utilityButton, (!isBetting) && styles.disabledBtn]}
+                        onPress={() => setStrategiesModalOpen(true)}
+                        disabled={!isBetting}
+                    >
+                        <Text style={styles.utilityButtonText}>★</Text>
+                    </TouchableOpacity>
+
                     {/* CHIPS */}
                     <View style={styles.chipSelector}>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipScroll}>
@@ -216,7 +265,7 @@ export const GameScreen = () => {
                                         key={chip.value}
                                         style={[
                                             styles.chipOption,
-                                            { backgroundColor: chip.color, borderColor: isSelected ? '#FFF' : 'rgba(0,0,0,0.2)' },
+                                            { backgroundColor: chip.color, borderColor: isSelected ? COLORS.ACCENT_GOLD : COLORS.BORDER_SUBTLE },
                                             isSelected && styles.selectedChip
                                         ]}
                                         onPress={() => setSelectedChipValue(chip.value)}
@@ -241,14 +290,72 @@ export const GameScreen = () => {
 
             </Animated.View>
 
-        </ImageBackground>
+            {/* RESULT OVERLAY (Root Level) */}
+            {
+                isResult && showResultOverlay && winningNumber !== null && (
+                    <View style={styles.resultOverlay}>
+                        <Text style={styles.resultTitle}>WINNER</Text>
+                        <View style={[styles.resultCircle, { backgroundColor: [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36].includes(winningNumber) ? COLORS.BET_RED : winningNumber === 0 ? COLORS.BET_GREEN : COLORS.BET_BLACK }]}>
+                            <Text style={styles.resultNumber}>{winningNumber}</Text>
+                        </View>
+                        {lastWinAmount > 0 ? (
+                            <Text style={styles.winAmount}>YOU WON {lastWinAmount}</Text>
+                        ) : (
+                            <Text style={styles.loseText}>No Win</Text>
+                        )}
+                    </View>
+                )
+            }
+
+            {/* STRATEGY MODAL */}
+            <Modal visible={strategiesModalOpen} transparent animationType="slide">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Quick Load Strategy</Text>
+                        <FlatList
+                            data={savedStrategies}
+                            keyExtractor={item => item.id}
+                            style={styles.strategyList}
+                            ListEmptyComponent={<Text style={styles.emptyText}>No saved strategies yet.</Text>}
+                            renderItem={({ item }) => (
+                                <View style={styles.strategyRow}>
+                                    <View style={[styles.colorBadge, { backgroundColor: item.color_code }]} />
+                                    <View style={styles.strategyInfo}>
+                                        <Text style={styles.strategyName}>{item.name}</Text>
+                                        <Text style={styles.strategyCost}>Cost: {item.total_cost}</Text>
+                                    </View>
+                                    <TouchableOpacity
+                                        style={styles.playStrategyBtn}
+                                        onPress={() => {
+                                            if (credits < item.total_cost) {
+                                                Alert.alert("Insufficient Funds", "You don't have enough credits for this strategy.");
+                                            } else {
+                                                handleApplyStrategy(item);
+                                            }
+                                        }}
+                                    >
+                                        <Text style={styles.playStrategyText}>PLAY</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            )}
+                        />
+                        <TouchableOpacity style={styles.closeModalBtn} onPress={() => setStrategiesModalOpen(false)}>
+                            <Text style={styles.closeModalText}>CLOSE</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            <StoreModal visible={isStoreOpen} />
+
+        </View >
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000', // Fallback
+        backgroundColor: COLORS.BG_MAIN,
     },
     // HEADER
     header: {
@@ -268,69 +375,99 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     logo: {
-        color: '#FFD700',
+        color: COLORS.ACCENT_GOLD,
         fontSize: 22,
         fontWeight: 'bold',
-        textShadowColor: 'black',
-        textShadowRadius: 2,
+    },
+    logoutBtn: {
+        marginTop: 4,
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+        backgroundColor: COLORS.BG_SURFACE,
+        borderRadius: METRICS.borderRadius,
+        borderWidth: 1,
+        borderColor: COLORS.BORDER_SUBTLE,
+        alignSelf: 'flex-start',
+    },
+    logoutText: {
+        color: COLORS.TEXT_SECONDARY,
+        fontSize: 10,
+        fontWeight: 'bold',
     },
     creditsBox: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.8)',
+        backgroundColor: COLORS.BG_SURFACE,
         paddingHorizontal: 15,
         paddingVertical: 8,
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: '#444',
+        borderColor: COLORS.BORDER_SUBTLE,
     },
     creditsText: {
-        color: '#FFF',
+        color: COLORS.TEXT_PRIMARY,
         fontSize: 16,
         fontWeight: 'bold',
         marginLeft: 10,
+    },
+    shopButton: {
+        marginLeft: 10,
+        backgroundColor: COLORS.ACCENT_GOLD,
+        width: 32,
+        height: 32,
+        borderRadius: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: COLORS.ACCENT_HOVER,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+        elevation: 3,
+    },
+    shopButtonText: {
+        color: COLORS.BG_MAIN,
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginTop: -2,
     },
     chipIcon: {
         width: 20,
         height: 20,
         borderRadius: 10,
-        backgroundColor: '#FFD700',
+        backgroundColor: COLORS.ACCENT_GOLD,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#E65100',
+        borderColor: COLORS.ACCENT_HOVER,
     },
     chipInner: {
         width: 12,
         height: 12,
         borderRadius: 6,
         borderWidth: 1,
-        borderColor: '#FFF',
+        borderColor: COLORS.BG_MAIN,
         borderStyle: 'dashed',
     },
 
     // TOP (WHEEL Section)
     topContainer: {
-        // backgroundColor: 'transparent', // Let BG show through? Or semi-transparent dark?
-        // Let's use semi-transparent to dim the wheel area slightly vs background
-        // backgroundColor: 'rgba(0,0,0,0.3)', 
         alignItems: 'center',
         justifyContent: 'center',
-        overflow: 'visible', // Allow wheel to overflow if needed, or cut? 
+        overflow: 'visible',
         zIndex: 10,
-        // No border bottom anymore, maybe a shadow?
     },
     wheelWrapper: {
         justifyContent: 'center',
         alignItems: 'center',
     },
-    // NEW CASING STYLES
     wheelCasing: {
         padding: 15,
-        backgroundColor: '#3E2723', // Dark Wood
+        backgroundColor: '#2D1B15', // Darker wood
         borderRadius: 150, // Circular
         borderWidth: 8,
-        borderColor: '#5D4037', // Light Wood Border
+        borderColor: '#4E342E',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 10 },
         shadowOpacity: 0.8,
@@ -340,7 +477,7 @@ const styles = StyleSheet.create({
     casingInnerOutline: {
         borderRadius: 135,
         borderWidth: 2,
-        borderColor: '#FFD700', // Gold Trim
+        borderColor: COLORS.ACCENT_GOLD,
         padding: 5,
     },
 
@@ -349,17 +486,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 100,
-        bottom: -20, // Offset button slightly
+        bottom: -20,
     },
     spinButton: {
-        backgroundColor: 'rgba(0, 200, 83, 0.95)',
+        backgroundColor: COLORS.SUCCESS,
         width: 80,
         height: 80,
         borderRadius: 40,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 4,
-        borderColor: '#FFD700',
+        borderColor: COLORS.ACCENT_GOLD,
         elevation: 10,
         shadowColor: 'black',
         shadowOpacity: 0.5,
@@ -372,15 +509,12 @@ const styles = StyleSheet.create({
     },
     disabledBtn: {
         opacity: 0.5,
-        backgroundColor: '#555',
+        backgroundColor: COLORS.BG_SURFACE,
     },
 
     // BOTTOM (BOARD)
     bottomContainer: {
-        // backgroundColor: 'rgba(0,0,0,0.85)', // Darken board background to make it readable over image
-        // Actually BettingBoard handles its own background? 
-        // BettingBoard.tsx uses '#0e4d26'. 
-        // Let's keep it opaque for now to ensure readability.
+        // No explicit background, let it be transparent over BG_MAIN
     },
 
     // FIRE OVERLAY
@@ -392,10 +526,10 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     fireTitle: {
-        color: '#FF6F00',
+        color: COLORS.DANGER, // Example accent
         fontSize: 20,
         fontWeight: 'bold',
-        textShadowColor: '#FFD700',
+        textShadowColor: COLORS.ACCENT_GOLD,
         textShadowRadius: 10,
         marginBottom: 10,
     },
@@ -407,11 +541,11 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 20,
-        backgroundColor: '#FF3D00',
+        backgroundColor: COLORS.BET_RED,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 2,
-        borderColor: '#FFD700',
+        borderColor: COLORS.ACCENT_GOLD,
         elevation: 5,
     },
     fireNumberText: {
@@ -423,18 +557,24 @@ const styles = StyleSheet.create({
     // RESULT OVERLAY
     resultOverlay: {
         position: 'absolute',
+        top: '30%', // Centered vertically
+        alignSelf: 'center', // Center horizontally
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(0,0,0,0.9)',
-        padding: 30,
+        backgroundColor: 'rgba(0,0,0,0.9)', // Darker BG
+        padding: 40,
         borderRadius: 20,
         borderWidth: 2,
-        borderColor: '#FFD700',
-        zIndex: 300,
-        elevation: 20,
+        borderColor: COLORS.ACCENT_GOLD,
+        zIndex: 10000, // Max Z-Index
+        elevation: 1000, // Android Elevation
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.8,
+        shadowRadius: 20,
     },
     resultTitle: {
-        color: '#FFD700',
+        color: COLORS.ACCENT_GOLD,
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 10,
@@ -443,7 +583,7 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: 40,
-        backgroundColor: '#222',
+        backgroundColor: COLORS.BG_SURFACE,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 4,
@@ -456,73 +596,73 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     winAmount: {
-        color: '#00E676',
+        color: COLORS.SUCCESS,
         fontSize: 24,
         fontWeight: 'bold',
     },
     loseText: {
-        color: '#FF5252',
+        color: COLORS.DANGER,
         fontSize: 20,
     },
 
     // BOTTOM BAR
     bottomBar: {
-        height: 90,
+        height: 70, // Reduced from 90
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#1a1a1a',
+        backgroundColor: COLORS.BG_SURFACE,
         borderTopWidth: 1,
-        borderTopColor: '#333',
+        borderTopColor: COLORS.BORDER_SUBTLE,
         paddingHorizontal: 15,
-        paddingBottom: 15,
-        paddingTop: 10,
+        paddingBottom: 10, // Reduced padding
+        paddingTop: 5,
     },
     utilityButton: {
-        width: 50,
-        height: 50,
+        width: 40, // Reduced from 50
+        height: 40,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#333',
-        borderRadius: 25,
+        backgroundColor: COLORS.BG_MAIN,
+        borderRadius: 20,
         marginRight: 10,
         borderWidth: 1,
-        borderColor: '#555',
+        borderColor: COLORS.BORDER_SUBTLE,
     },
     utilityButtonText: {
-        color: '#BBB',
-        fontSize: 10,
+        color: COLORS.TEXT_SECONDARY,
+        fontSize: 9, // Reduced font
         fontWeight: 'bold',
         textAlign: 'center',
     },
     chipSelector: {
         flex: 1,
-        height: 60,
+        height: 50, // Reduced from 60
     },
     chipScroll: {
         alignItems: 'center',
         paddingHorizontal: 5,
     },
     chipOption: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-        marginHorizontal: 6,
+        width: 40, // Reduced from 50
+        height: 40,
+        borderRadius: 20,
+        marginHorizontal: 4, // Tighter spacing
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 2,
         elevation: 4,
     },
     selectedChip: {
-        transform: [{ scale: 1.2 }],
-        borderWidth: 3,
-        borderColor: '#FFD700',
+        transform: [{ scale: 1.15 }], // Slightly less scale
+        borderWidth: 2,
+        borderColor: COLORS.ACCENT_GOLD,
         zIndex: 10,
         elevation: 10,
     },
     chipInnerDecor: {
-        width: 38,
-        height: 38,
-        borderRadius: 19,
+        width: 28, // Reduced from 38
+        height: 28,
+        borderRadius: 14,
         borderWidth: 1,
         borderColor: 'rgba(255,255,255,0.6)',
         borderStyle: 'dashed',
@@ -530,28 +670,111 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     chipLabel: {
-        fontSize: 11,
+        fontSize: 9, // Reduced font
         fontWeight: 'bold',
         textShadowColor: 'rgba(0,0,0,0.5)',
         textShadowRadius: 1,
     },
     totalBetBox: {
         marginLeft: 10,
-        paddingHorizontal: 12,
-        height: 40,
+        paddingHorizontal: 8, // Reduced padding
+        height: 36, // Reduced height
         justifyContent: 'center',
         alignItems: 'flex-end',
         borderLeftWidth: 1,
-        borderLeftColor: '#444',
+        borderLeftColor: COLORS.BORDER_SUBTLE,
     },
     totalBetLabel: {
-        color: '#888',
-        fontSize: 10,
+        color: COLORS.TEXT_SECONDARY,
+        fontSize: 9,
         fontWeight: 'bold',
     },
     totalBetValue: {
-        color: '#FFD700',
+        color: COLORS.ACCENT_GOLD,
+        fontSize: 14, // Reduced font
+        fontWeight: 'bold',
+    },
+    // MODAL STYLES
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.8)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+    },
+    modalContent: {
+        width: '100%',
+        maxHeight: '80%',
+        backgroundColor: COLORS.BG_SURFACE,
+        borderRadius: 16,
+        padding: 20,
+        borderWidth: 1,
+        borderColor: COLORS.BORDER_SUBTLE,
+    },
+    modalTitle: {
+        color: COLORS.ACCENT_GOLD,
+        fontSize: 22,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        textAlign: 'center',
+    },
+    strategyList: {
+        marginBottom: 20,
+    },
+    emptyText: {
+        color: COLORS.TEXT_SECONDARY,
+        textAlign: 'center',
+        padding: 20,
+    },
+    strategyRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: COLORS.BG_MAIN,
+        padding: 12,
+        borderRadius: 8,
+        marginBottom: 10,
+        borderWidth: 1,
+        borderColor: COLORS.BORDER_SUBTLE,
+    },
+    colorBadge: {
+        width: 16,
+        height: 16,
+        borderRadius: 8,
+        marginRight: 12,
+    },
+    strategyInfo: {
+        flex: 1,
+    },
+    strategyName: {
+        color: '#FFF',
+        fontWeight: 'bold',
         fontSize: 16,
+    },
+    strategyCost: {
+        color: COLORS.TEXT_SECONDARY,
+        fontSize: 12,
+    },
+    playStrategyBtn: {
+        backgroundColor: COLORS.ACCENT_GOLD,
+        paddingVertical: 6,
+        paddingHorizontal: 16,
+        borderRadius: 6,
+    },
+    playStrategyText: {
+        color: COLORS.BG_MAIN,
+        fontWeight: 'bold',
+        fontSize: 12,
+    },
+    closeModalBtn: {
+        padding: 15,
+        backgroundColor: COLORS.BG_MAIN,
+        borderRadius: 8,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: COLORS.BORDER_SUBTLE,
+    },
+    closeModalText: {
+        color: COLORS.TEXT_SECONDARY,
         fontWeight: 'bold',
     },
 });

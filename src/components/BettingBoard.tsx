@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, LayoutChangeEvent, Alert } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, { useSharedValue, useAnimatedStyle, runOnJS, withTiming } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, runOnJS, withTiming, FadeIn, ZoomIn, SlideOutDown } from 'react-native-reanimated';
 import { useGameStore } from '../store/useGameStore';
 import { getChipColor } from '../constants/chips';
 
@@ -15,10 +15,39 @@ const ROWS = 12;
 
 interface Props {
     highlightedNumbers?: number[];
+    isSpinning?: boolean;
+    winningNumber?: number | null;
+
+    // Controlled Mode Props (Strategy Editor)
+    externalBets?: Record<string, number>;
+    onExternalBet?: (id: string, amount: number) => boolean;
+    externalChipValue?: number;
+    disabled?: boolean;
 }
 
-export const BettingBoard: React.FC<Props> = ({ highlightedNumbers = [] }) => {
-    const { bets, placeBet, selectedChipValue } = useGameStore();
+export const BettingBoard: React.FC<Props> = ({
+    highlightedNumbers = [],
+    isSpinning = false,
+    winningNumber = null,
+    externalBets,
+    onExternalBet,
+    externalChipValue,
+    disabled = false
+}) => {
+    const { bets: storeBets, placeBet: storePlaceBet, selectedChipValue: storeChipValue } = useGameStore();
+
+    // specific toggle: determine if we are in "controlled" mode or "connected" mode
+    const isControlled = externalBets !== undefined;
+
+    const bets = externalBets || storeBets;
+    const selectedChipValue = externalChipValue !== undefined ? externalChipValue : storeChipValue;
+
+    const placeBet = (id: string, amount: number) => {
+        if (onExternalBet) {
+            return onExternalBet(id, amount);
+        }
+        return storePlaceBet(id, amount);
+    };
 
     // Layout State
     const [gridMetrics, setGridMetrics] = useState({ x: 0, y: 0, width: 0, height: 0 });
@@ -46,6 +75,7 @@ export const BettingBoard: React.FC<Props> = ({ highlightedNumbers = [] }) => {
     };
 
     const handlePress = (id: string) => {
+        if (disabled) return;
         const success = placeBet(id, selectedChipValue);
         if (!success) alertNoFunds();
     };
@@ -153,6 +183,7 @@ export const BettingBoard: React.FC<Props> = ({ highlightedNumbers = [] }) => {
         });
 
     function processTap(x: number, y: number) {
+        if (disabled) return;
         if (!gridMetrics.width) return;
         // User wants Precision (Splits/Corners) on Tap too
         const target = resolveBetTarget(x, y, true);
@@ -215,6 +246,7 @@ export const BettingBoard: React.FC<Props> = ({ highlightedNumbers = [] }) => {
 
     // PAINT: Drops chips as we move (Trail)
     function processPaintDrag(x: number, y: number) {
+        if (disabled) return;
         if (!gridMetrics.width) return;
         // User wants Precision (Splits/Corners) on Drag too
         const target = resolveBetTarget(x, y, true);
@@ -231,6 +263,7 @@ export const BettingBoard: React.FC<Props> = ({ highlightedNumbers = [] }) => {
 
     // PRECISION: Updates Ghost Target
     function processPrecisionDrag(x: number, y: number) {
+        if (disabled) return;
         if (!gridMetrics.width) return;
         const target = resolveBetTarget(x, y, true); // ALLOW Corners/Splits
         if (target) {
@@ -282,23 +315,48 @@ export const BettingBoard: React.FC<Props> = ({ highlightedNumbers = [] }) => {
         const chipColor = getChipColor(amount);
         const textColor = chipColor === '#000000' ? '#FFF' : '#000';
 
+        // Format Amount (e.g. 1000 -> 1k)
+        let displayAmount = amount.toString();
+        if (amount >= 1000000) {
+            displayAmount = (amount / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+        } else if (amount >= 1000) {
+            displayAmount = (amount / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+        }
+
+        const fontSize = displayAmount.length > 3 ? 8 : 9;
+
         return (
-            <View style={[styles.chip, { backgroundColor: chipColor, borderColor: chipColor }, customStyle]}>
+            <Animated.View
+                entering={FadeIn}
+                exiting={SlideOutDown.duration(800)}
+                style={[styles.chip, { backgroundColor: chipColor, borderColor: chipColor }, customStyle]}
+            >
                 <View style={[styles.chipInner, { backgroundColor: chipColor, borderColor: '#FFF' }]}>
-                    <Text style={[styles.chipText, { color: textColor }]}>{amount}</Text>
+                    <Text style={[styles.chipText, { color: textColor, fontSize }]}>{displayAmount}</Text>
                 </View>
-            </View>
+            </Animated.View>
         );
     };
 
+    const renderDolly = () => (
+        <Animated.View
+            entering={ZoomIn.duration(500)}
+            style={styles.dolly}
+        >
+            <View style={styles.dollyHandle} />
+            <View style={styles.dollyBase} />
+        </Animated.View>
+    );
+
     const renderNumberCell = (num: number) => {
         const isRed = RED_NUMBERS.includes(num);
-        const color = isRed ? '#D32F2F' : '#212121';
+        const color = isRed ? COLORS.BET_RED : COLORS.BET_BLACK;
         const isFire = highlightedNumbers.includes(num);
 
         // Highlight if part of active target
         const hasBet = bets[num.toString()] !== undefined && bets[num.toString()] > 0;
         const isTargeted = activeTarget?.numbers.includes(num);
+        const isWinner = winningNumber === num;
 
         return (
             <View
@@ -306,7 +364,6 @@ export const BettingBoard: React.FC<Props> = ({ highlightedNumbers = [] }) => {
                 style={[
                     styles.gridCell,
                     isFire && styles.fireCell,
-                    // Add special highlighting if it's a Fire Number AND the user bet on it
                     (isFire && hasBet) && styles.fireBetHighlight,
                     isTargeted && styles.targetHighlight
                 ]}
@@ -316,10 +373,13 @@ export const BettingBoard: React.FC<Props> = ({ highlightedNumbers = [] }) => {
                     onPress={() => handlePress(num.toString())}
                 >
                     <View style={[styles.numberOval, { backgroundColor: color }]}>
-                        <Text style={styles.numberText}>{num}</Text>
+                        <Text style={[styles.numberText, isSpinning && { fontSize: 12 }]}>{num}</Text>
                     </View>
+                    {/* OPTIONAL: Highlight winning cell bg? */}
                 </TouchableOpacity>
                 {renderChip(num.toString())}
+                {/* RENDER DOLLY IF WINNER */}
+                {isWinner && renderDolly()}
             </View>
         );
     };
@@ -338,7 +398,7 @@ export const BettingBoard: React.FC<Props> = ({ highlightedNumbers = [] }) => {
     };
 
     const renderColorCell = (color: 'RED' | 'BLACK', id: string) => {
-        const bgColor = color === 'RED' ? '#D32F2F' : '#212121';
+        const bgColor = color === 'RED' ? COLORS.BET_RED : COLORS.BET_BLACK;
         return (
             <TouchableOpacity
                 style={styles.colorBetCell}
@@ -417,6 +477,8 @@ export const BettingBoard: React.FC<Props> = ({ highlightedNumbers = [] }) => {
                                     const c1 = (n1 - 1) % 3;
                                     const r2 = Math.floor((n2 - 1) / 3);
                                     const c2 = (n2 - 1) % 3;
+
+                                    // Calculate center of the two cells
                                     cx = ((c1 + c2) / 2) * cellWidth + cellWidth / 2;
                                     cy = ((r1 + r2) / 2) * cellHeight + cellHeight / 2;
                                 }
@@ -425,13 +487,14 @@ export const BettingBoard: React.FC<Props> = ({ highlightedNumbers = [] }) => {
                                     if (p.length < 4) return null;
 
                                     const n1 = p[0];
-                                    const n4 = p[3];
+                                    const n4 = p[3]; // The furthest corner
 
                                     const r1 = Math.floor((n1 - 1) / 3);
                                     const c1 = (n1 - 1) % 3;
                                     const r4 = Math.floor((n4 - 1) / 3);
                                     const c4 = (n4 - 1) % 3;
 
+                                    // Center of the 4 cells
                                     cx = ((c1 + c4) / 2) * cellWidth + cellWidth / 2;
                                     cy = ((r1 + r4) / 2) * cellHeight + cellHeight / 2;
                                 } else {
@@ -441,17 +504,17 @@ export const BettingBoard: React.FC<Props> = ({ highlightedNumbers = [] }) => {
                                 if (isNaN(cx) || isNaN(cy)) return null;
 
                                 return (
-                                    <View key={betId} style={[styles.ghostChip, {
-                                        opacity: 1,
-                                        backgroundColor: 'transparent',
-                                        borderWidth: 0,
+                                    <View key={betId} style={{
+                                        position: 'absolute',
+                                        left: 0,
+                                        top: 0,
                                         transform: [
-                                            { translateX: cx - 15 },
-                                            { translateY: cy - 15 }
-                                        ]
-                                    }]}>
-                                        {/* Reuse standard chip logic specifically for this bet */}
-                                        {renderChip(betId, { left: 0, top: 0, margin: 0 })}
+                                            { translateX: cx - 12 }, // Center 24px chip (24/2 = 12)
+                                            { translateY: cy - 12 }
+                                        ],
+                                        zIndex: 30
+                                    }}>
+                                        {renderChip(betId, { position: 'relative', left: 0, top: 0, margin: 0 })}
                                     </View>
                                 );
                             }
@@ -479,16 +542,21 @@ export const BettingBoard: React.FC<Props> = ({ highlightedNumbers = [] }) => {
     );
 };
 
+import { COLORS, METRICS } from '../constants/theme';
+
 // 0-14 unit height layout
-const BORDER_COLOR = 'rgba(212, 175, 55, 0.3)'; // Fairly transparent Gold
+const BORDER_COLOR = COLORS.BORDER_SUBTLE;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: '#0A3d20', // Darker, richer green
+        backgroundColor: COLORS.BG_SURFACE, // Flat dark background instead of green felt
         paddingHorizontal: 20,
         paddingVertical: 10,
+        // Add top border to separate from game area?
+        borderTopWidth: 1,
+        borderColor: COLORS.BORDER_SUBTLE,
     },
     // COLUMNS
     col1: {
@@ -552,7 +620,7 @@ const styles = StyleSheet.create({
         width: '60%',
         height: '80%',
         borderRadius: 50,
-        backgroundColor: '#4CAF50',
+        backgroundColor: COLORS.BET_GREEN,
         justifyContent: 'center',
         alignItems: 'center',
         elevation: 2,
@@ -613,7 +681,7 @@ const styles = StyleSheet.create({
         textShadowRadius: 1,
     },
     labelText: {
-        color: '#D4AF37', // Gold
+        color: COLORS.ACCENT_GOLD,
         fontWeight: '700',
         fontSize: 14,
         textAlign: 'center',
@@ -646,9 +714,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255,255,255,0.2)',
     },
     chipText: {
-        fontSize: 8,
         fontWeight: 'bold',
         color: '#000',
+        textAlign: 'center',
     },
 
     cellTouch: {
@@ -659,23 +727,23 @@ const styles = StyleSheet.create({
     },
     // HIGHLIGHTS
     fireCell: {
-        backgroundColor: 'rgba(255, 69, 0, 0.4)',
-        borderColor: '#FFD700',
+        backgroundColor: 'rgba(255, 69, 0, 0.2)',
+        borderColor: COLORS.ACCENT_GOLD,
         borderWidth: 1,
     },
     fireBetHighlight: {
-        backgroundColor: 'rgba(255, 215, 0, 0.6)',
-        borderWidth: 3,
-        borderColor: '#FFF',
+        backgroundColor: 'rgba(255, 215, 0, 0.3)',
+        borderWidth: 2,
+        borderColor: COLORS.ACCENT_GOLD,
     },
     targetHighlight: {
-        backgroundColor: 'rgba(255, 255, 255, 0.4)',
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
     },
     ghostChip: {
         position: 'absolute',
-        width: 30,
-        height: 30,
-        borderRadius: 15,
+        width: 24, // Consistent with standard chip
+        height: 24,
+        borderRadius: 12,
         backgroundColor: 'rgba(255, 235, 59, 0.7)',
         justifyContent: 'center',
         alignItems: 'center',
@@ -683,4 +751,37 @@ const styles = StyleSheet.create({
         borderColor: '#FFF',
         zIndex: 100,
     },
+    // DOLLY (Win Marker)
+    dolly: {
+        position: 'absolute',
+        zIndex: 200,
+        width: 24,
+        height: 48,
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        top: -10, // Offset to look like it's standing
+    },
+    dollyBase: {
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        backgroundColor: 'rgba(255, 215, 0, 0.6)', // Glassy Gold
+        borderWidth: 2,
+        borderColor: COLORS.ACCENT_GOLD,
+        shadowColor: 'black',
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 10,
+    },
+    dollyHandle: {
+        width: 8,
+        height: 24,
+        backgroundColor: 'rgba(255, 215, 0, 0.8)',
+        borderWidth: 1,
+        borderColor: '#FFF',
+        borderTopLeftRadius: 4,
+        borderTopRightRadius: 4,
+        position: 'absolute',
+        top: 0,
+    }
 });
