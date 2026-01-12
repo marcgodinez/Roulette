@@ -5,7 +5,9 @@ import Animated, {
     useAnimatedStyle,
     withTiming,
     interpolate,
-    FadeInDown
+    FadeInDown,
+    withRepeat,
+    withSequence
 } from 'react-native-reanimated';
 import { useGameStore } from '../store/useGameStore';
 import { useAuth } from '../hooks/useAuth';
@@ -16,10 +18,12 @@ import { HistoryBar } from '../components/HistoryBar'; // New Import
 import { StoreModal } from '../components/StoreModal';
 import { BonusGame } from '../components/BonusGame';
 import { CHIPS } from '../constants/chips';
+import { isRed } from '../constants/gameRules';
 
 const { height } = Dimensions.get('window');
 
 import { COLORS, METRICS } from '../constants/theme';
+import { AudioManager } from '../services/AudioManager';
 
 export const GameScreen = ({ onBack }: { onBack: () => void }) => {
     // Consolidated Store Access
@@ -49,9 +53,13 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
     // Local state for overlays
     const [showResultOverlay, setShowResultOverlay] = useState(false);
     const [strategiesModalOpen, setStrategiesModalOpen] = useState(false);
+    const [showFire, setShowFire] = useState(false);
 
     useEffect(() => {
         loadStrategies();
+        AudioManager.initialize().then(() => {
+            AudioManager.playBGM('CASINO');
+        });
     }, []);
 
     const handleApplyStrategy = (strategy: any) => {
@@ -83,6 +91,17 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
             return () => clearTimeout(timer);
         }
     }, [isSpinning, isResult, winningNumber]);
+
+    // Fire Visibility Timer
+    useEffect(() => {
+        if (isSpinning) {
+            setShowFire(true);
+            const timer = setTimeout(() => setShowFire(false), 3500);
+            return () => clearTimeout(timer);
+        } else {
+            setShowFire(false);
+        }
+    }, [isSpinning]);
 
     // Phase Animation Logic (0=Betting/Result, 1=Spinning)
     // Only compress during SPINNING. Expand back for RESULT.
@@ -123,13 +142,40 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
 
     const fireOverlayStyle = useAnimatedStyle(() => {
         return {
-            opacity: withTiming(isSpinning ? 1 : 0, { duration: 500 })
+            opacity: withTiming(showFire ? 1 : 0, { duration: 500 })
         };
     });
 
     const handleSpin = () => {
+        if (currentBet === 0) {
+            Alert.alert("Place Your Bets", "You need to place at least one chip to spin the wheel!");
+            return;
+        }
         triggerSpin();
     };
+
+    // Spin Pulse Animation
+    const spinPulse = useSharedValue(1);
+    useEffect(() => {
+        if (isBetting) {
+            spinPulse.value = withRepeat(
+                withSequence(
+                    withTiming(1.1, { duration: 700 }),
+                    withTiming(1, { duration: 700 })
+                ),
+                -1,
+                true
+            );
+        } else {
+            spinPulse.value = 1;
+        }
+    }, [isBetting]);
+
+    const spinButtonStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ scale: spinPulse.value }]
+        };
+    });
 
     if (isBonus) {
         return (
@@ -158,32 +204,12 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
                         </View>
                     </View>
 
-                    {/* Spin Button */}
-                    {isBetting && (
-                        <View style={styles.spinButtonContainer}>
-                            <TouchableOpacity style={styles.spinButton} onPress={handleSpin}>
-                                <Text style={styles.spinText}>SPIN</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
+
 
                 </Animated.View>
 
                 {/* FIRE OVERLAY */}
-                <Animated.View style={[styles.fireOverlay, fireOverlayStyle]} pointerEvents="none">
-                    <Text style={styles.fireTitle}>MEGA FIRE 🔥</Text>
-                    <View style={styles.fireNumbersRow}>
-                        {fireNumbers.map((num, i) => (
-                            <Animated.View
-                                key={i}
-                                style={styles.fireBubble}
-                                entering={FadeInDown.delay(i * 300).springify()}
-                            >
-                                <Text style={styles.fireNumberText}>{num}</Text>
-                            </Animated.View>
-                        ))}
-                    </View>
-                </Animated.View>
+                {/* FIRE OVERLAY MOVED TO ROOT */}
 
             </Animated.View>
 
@@ -203,7 +229,7 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
                         <View style={styles.chipIcon}>
                             <View style={styles.chipInner} />
                         </View>
-                        <Text style={styles.creditsText}>{credits.toLocaleString()}</Text>
+                        <Text style={styles.creditsText}>{(credits || 0).toLocaleString()}</Text>
                     </View>
 
                     {/* SHOP BUTTON */}
@@ -218,6 +244,16 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
 
             {/* BOTTOM CONTAINER (BOARD) */}
             <Animated.View style={[styles.bottomContainer, bottomStyle]}>
+
+                {/* SPIN BUTTON (Relocated) */}
+                {/* SPIN BUTTON (Relocated & Animated) */}
+                {isBetting && (
+                    <Animated.View style={[styles.spinButtonContainerMoved, spinButtonStyle]}>
+                        <TouchableOpacity style={styles.spinButton} onPress={handleSpin}>
+                            <Text style={styles.spinText}>SPIN</Text>
+                        </TouchableOpacity>
+                    </Animated.View>
+                )}
                 <BettingBoard
                     highlightedNumbers={fireNumbers}
                     disabled={!isBetting}
@@ -288,6 +324,27 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
 
                 </View>
 
+            </Animated.View>
+
+            {/* FIRE OVERLAY (Root Level) */}
+            <Animated.View style={[styles.fireOverlay, fireOverlayStyle]} pointerEvents="none">
+                <View style={styles.fireContainerPanel}>
+                    <Text style={styles.fireTitle}>MEGA FIRE 🔥</Text>
+                    <View style={styles.fireNumbersRow}>
+                        {fireNumbers.map((num, i) => (
+                            <Animated.View
+                                key={i}
+                                style={[
+                                    styles.fireBubble,
+                                    { backgroundColor: num === 0 ? COLORS.BET_GREEN : isRed(num) ? COLORS.BET_RED : COLORS.BET_BLACK }
+                                ]}
+                                entering={FadeInDown.delay(i * 50).springify()}
+                            >
+                                <Text style={styles.fireNumberText}>{num}</Text>
+                            </Animated.View>
+                        ))}
+                    </View>
+                </View>
             </Animated.View>
 
             {/* RESULT OVERLAY (Root Level) */}
@@ -481,31 +538,33 @@ const styles = StyleSheet.create({
         padding: 5,
     },
 
-    spinButtonContainer: {
+    spinButtonContainerMoved: {
         position: 'absolute',
+        left: 15,
+        top: -130,
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 100,
-        bottom: -20,
     },
     spinButton: {
         backgroundColor: COLORS.SUCCESS,
-        width: 80,
-        height: 80,
-        borderRadius: 40,
+        width: 65,
+        height: 65,
+        borderRadius: 32.5,
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 4,
+        borderWidth: 3,
         borderColor: COLORS.ACCENT_GOLD,
-        elevation: 10,
+        elevation: 8,
         shadowColor: 'black',
-        shadowOpacity: 0.5,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.6,
         shadowRadius: 5,
     },
     spinText: {
         color: '#FFF',
         fontWeight: 'bold',
-        fontSize: 16,
+        fontSize: 14,
     },
     disabledBtn: {
         opacity: 0.5,
@@ -514,39 +573,56 @@ const styles = StyleSheet.create({
 
     // BOTTOM (BOARD)
     bottomContainer: {
-        // No explicit background, let it be transparent over BG_MAIN
+        zIndex: 20, // Ensure it's above TopContainer so Spin Button is clickable
+        // No explicit background
     },
 
     // FIRE OVERLAY
     fireOverlay: {
-        position: 'absolute',
-        top: 100,
+        ...StyleSheet.absoluteFillObject,
+        justifyContent: 'center',
         alignItems: 'center',
         zIndex: 150,
+        backgroundColor: 'rgba(0,0,0,0.4)',
+    },
+    fireContainerPanel: {
+        backgroundColor: 'rgba(0,0,0,0.85)',
+        padding: 15,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: COLORS.ACCENT_GOLD,
+        alignItems: 'center',
         width: '100%',
+        maxWidth: 400,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+        elevation: 10,
     },
     fireTitle: {
-        color: COLORS.DANGER, // Example accent
-        fontSize: 20,
+        color: '#FF4500',
+        fontSize: 22,
         fontWeight: 'bold',
-        textShadowColor: COLORS.ACCENT_GOLD,
-        textShadowRadius: 10,
+        textShadowColor: 'orange',
+        textShadowRadius: 5,
         marginBottom: 10,
     },
     fireNumbersRow: {
         flexDirection: 'row',
-        gap: 10,
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: 8,
     },
     fireBubble: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        backgroundColor: COLORS.BET_RED,
+        width: 36,
+        height: 36,
+        borderRadius: 18,
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 2,
-        borderColor: COLORS.ACCENT_GOLD,
-        elevation: 5,
+        borderWidth: 1.5,
+        borderColor: '#FFF',
+        elevation: 3,
     },
     fireNumberText: {
         color: '#FFF',

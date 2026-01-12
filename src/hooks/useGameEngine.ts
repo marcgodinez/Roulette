@@ -31,9 +31,31 @@ export const useGameEngine = () => {
         // 2. Deduct total bet amount
         updateCredits(-totalBetAmount);
 
-        // 3. Generate Fire Numbers (DEBUG: ALL NUMBERS)
-        // const fireCount = Math.floor(Math.random() * 5) + 1; // Original 1-5
-        const fireNumbers = Array.from({ length: 37 }, (_, i) => i);
+        // 3. Generate Fire Numbers (Weighted Probability)
+        const r = Math.random() * 100;
+        let min = 1;
+        let max = 5;
+
+        // 80% chance: 1-5 numbers (Common)
+        // 15% chance: 6-10 numbers (Uncommon)
+        // 5% chance: 11-15 numbers (Rare)
+        if (r >= 80 && r < 95) {
+            min = 6;
+            max = 10;
+        } else if (r >= 95) {
+            min = 11;
+            max = 15;
+        }
+
+        const fireCount = Math.floor(Math.random() * (max - min + 1)) + min;
+
+        const allNumbers = Array.from({ length: 37 }, (_, i) => i);
+        // Fisher-Yates Shuffle
+        for (let i = allNumbers.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [allNumbers[i], allNumbers[j]] = [allNumbers[j], allNumbers[i]];
+        }
+        const fireNumbers = allNumbers.slice(0, fireCount).sort((a, b) => a - b);
 
         // Snapshot bets for Rebet feature
         useGameStore.getState().snapshotBets();
@@ -47,11 +69,11 @@ export const useGameEngine = () => {
         // We set the result immediately so the wheel knows where to go.
         setResult(winningNumber, fireNumbers);
 
-        // Wait for Spin Animation Duration (4000ms) before resolving
+        // Wait for Spin Animation Duration (6500ms) before resolving
         setTimeout(() => {
             setPhase('RESULT');
             resolveRound(winningNumber, fireNumbers, bets);
-        }, 4000); // Sync with RouletteWheel duration
+        }, 6500); // Sync with RouletteWheel duration
     };
 
 
@@ -62,15 +84,12 @@ export const useGameEngine = () => {
     ) => {
         let totalWin = 0;
         let bonusTriggered = false;
+        let calculatedBonusStake = 0;
+
         // Identify Winning Bets (IDs) to keep on board during sweep
         const winningBetIds: string[] = [];
 
-        // Check Fire Hit & Mode immediately
-        if (fireNumbers.includes(winningNumber)) {
-            bonusTriggered = true;
-            const hasStraightBet = currentBets[winningNumber.toString()] > 0;
-            useGameStore.getState().setBonusMode(hasStraightBet ? 'NORMAL' : 'SPECTATOR');
-        }
+        const isFireHit = fireNumbers.includes(winningNumber);
 
         Object.keys(currentBets).forEach(betId => {
             const amount = currentBets[betId];
@@ -78,32 +97,23 @@ export const useGameEngine = () => {
 
             let didWin = false;
             let multiplier = 0;
+            let isInsideBet = false;
+            let coverage = 1;
 
-            // 1. STRAIGHT UP (Single Number) "0", "1", "36"
             // 1. STRAIGHT UP (Single Number) "0", "1", "36"
             if (!isNaN(parseInt(betId)) && !betId.includes('_') && !isNaN(Number(betId))) {
+                isInsideBet = true;
+                coverage = 1;
                 const betNum = parseInt(betId);
                 if (betNum === winningNumber) {
-                    // CHECK BONUS
-                    if (fireNumbers.includes(winningNumber)) {
-                        bonusTriggered = true;
-
-                        // Set Mode
-                        useGameStore.getState().setBonusMode('NORMAL');
-
-                        // Keep chips on board
-                        winningBetIds.push(betId);
-
-                        // DO NOT PAYOUT HERE. Bonus Game handles it.
-                        didWin = false;
-                    } else {
-                        didWin = true;
-                        multiplier = PAYOUTS.STRAIGHT;
-                    }
+                    didWin = true;
+                    multiplier = PAYOUTS.STRAIGHT;
                 }
             }
             // 2. SPLIT "SPLIT_1_2"
             else if (betId.startsWith('SPLIT')) {
+                isInsideBet = true;
+                coverage = 2;
                 const parts = betId.split('_');
                 const n1 = parseInt(parts[1]);
                 const n2 = parseInt(parts[2]);
@@ -114,6 +124,8 @@ export const useGameEngine = () => {
             }
             // 3. CORNER "COR_1_2_4_5"
             else if (betId.startsWith('COR')) {
+                isInsideBet = true;
+                coverage = 4;
                 const parts = betId.split('_').slice(1).map(n => parseInt(n));
                 if (parts.includes(winningNumber)) {
                     didWin = true;
@@ -175,11 +187,34 @@ export const useGameEngine = () => {
             }
 
             if (didWin) {
-                const profit = amount * multiplier;
-                totalWin += profit + amount; // Total credit return
-                winningBetIds.push(betId);
+                // FIRE + INSIDE BET -> ACCUMULATE BONUS STAKE
+                if (isFireHit && isInsideBet) {
+                    calculatedBonusStake += (amount / coverage);
+                    winningBetIds.push(betId); // Keep chips
+                }
+                // STANDARD WIN (Outside Bet OR Non-Fire Inside Bet)
+                else {
+                    const profit = amount * multiplier;
+                    totalWin += profit + amount;
+                    winningBetIds.push(betId);
+                }
             }
         });
+
+        // Resolve Fire Bonus Trigger
+        if (isFireHit) {
+            useGameStore.getState().setBonusStake(calculatedBonusStake);
+
+            if (calculatedBonusStake > 0) {
+                bonusTriggered = true;
+                useGameStore.getState().setBonusMode('NORMAL');
+            } else {
+                bonusTriggered = true;
+                useGameStore.getState().setBonusMode('SPECTATOR');
+            }
+        } else {
+            useGameStore.getState().setBonusStake(0);
+        }
 
         // T+0s: Spin Ended. Result Phase is already ACTIVE (set in triggerSpin). 
         // Dolly should appear now via React Prop (GameScreen passing winningNumber to BettingBoard).
@@ -196,8 +231,9 @@ export const useGameEngine = () => {
 
             if (bonusTriggered) {
                 setPhase('BONUS');
-                updateCredits(totalWin);
-                setLastWinAmount(totalWin);
+                if (totalWin > 0) {
+                    updateCredits(totalWin);
+                }
                 clearBets();
                 return;
             }
@@ -217,7 +253,7 @@ export const useGameEngine = () => {
             });
 
             // Record Result
-            recordGameResult(totalWin);
+            recordGameResult(winningNumber, fireNumbers.includes(winningNumber), null, totalWin);
 
             // Clear all bets
             clearBets();

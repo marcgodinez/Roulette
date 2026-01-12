@@ -3,12 +3,14 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, FlatList }
 import { useGameStore } from '../store/useGameStore';
 import { COLORS } from '../constants/theme';
 import { RED_NUMBERS } from '../constants/gameRules';
+import { StatisticsModal } from './StatisticsModal';
 
 export const HistoryBar = () => {
     const { history, fullHistory } = useGameStore();
     const [modalVisible, setModalVisible] = useState(false);
+    const [statsVisible, setStatsVisible] = useState(false);
 
-    if (history.length === 0) return null;
+    // if (history.length === 0) return null; // Removed to allow empty/loading state
 
     const getNumberColor = (num: number) => {
         if (num === 0) return COLORS.BET_GREEN;
@@ -39,6 +41,11 @@ export const HistoryBar = () => {
 
     return (
         <View style={styles.container}>
+            {/* STATS BUTTON (Fixed Left) */}
+            <TouchableOpacity style={styles.statsBtn} onPress={() => setStatsVisible(true)}>
+                <Text style={styles.statsText}>📊</Text>
+            </TouchableOpacity>
+
             <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
@@ -73,6 +80,9 @@ export const HistoryBar = () => {
                     </View>
                 </View>
             </Modal>
+
+            {/* ADVANCED STATS MODAL */}
+            <StatisticsModal visible={statsVisible} onClose={() => setStatsVisible(false)} />
         </View>
     );
 };
@@ -81,11 +91,28 @@ const styles = StyleSheet.create({
     container: {
         height: 60,
         backgroundColor: 'transparent',
-        justifyContent: 'center',
+        flexDirection: 'row', // Row layout
+        alignItems: 'center',
         marginVertical: 5,
+        paddingLeft: 10,
+    },
+    // NEW STATS BTN
+    statsBtn: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: '#1E293B',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: COLORS.ACCENT_GOLD,
+        marginRight: 10,
+    },
+    statsText: {
+        fontSize: 18,
     },
     scrollContent: {
-        paddingHorizontal: 15,
+        paddingRight: 15,
         alignItems: 'center',
         gap: 10,
     },

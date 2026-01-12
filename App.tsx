@@ -11,13 +11,14 @@ import { StrategyEditor } from './src/screens/StrategyEditor';
 
 export default function App() {
   const { session, loading } = useAuth();
-  const { loadUserProfile, setStoreOpen } = useGameStore();
+  const { loadUserProfile, setStoreOpen, initializeHistory } = useGameStore();
   const [inGame, setInGame] = useState(false);
   const [inStrategyLab, setInStrategyLab] = useState(false);
 
   useEffect(() => {
     if (session) {
       loadUserProfile();
+      initializeHistory();
     } else {
       setInGame(false);
       setInStrategyLab(false);

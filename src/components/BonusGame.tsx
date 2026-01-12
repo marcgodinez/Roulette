@@ -15,7 +15,8 @@ export const BonusGame = () => {
         setResult,
         addToHistory,
         bonusMode,
-        credits
+        bonusStake, // From GameEngine (Weighted Sum)
+        recordGameResult
     } = useGameStore();
 
     const [grid, setGrid] = useState<(number | null)[]>(Array(GRID_SIZE).fill(null));
@@ -25,6 +26,8 @@ export const BonusGame = () => {
     const [finalStats, setFinalStats] = useState({ multiplier: 0, payout: 0 });
 
     const isSpectator = bonusMode === 'SPECTATOR';
+    // Use weighted stake, or 10 if spectator
+    const activeStake = isSpectator ? 10 : bonusStake;
 
     const handleComplete = useCallback(() => {
         setPhase('BETTING');
@@ -32,15 +35,9 @@ export const BonusGame = () => {
     }, [setPhase, setResult]);
 
     const finishBonus = useCallback((finalGrid: (number | null)[]) => {
-        // Calculate Payout
         const totalMultiplier = finalGrid.reduce((acc, val) => acc + (val || 0), 0);
 
-        // Base Bet for calculation
-        // If Spectator, assume 10 chips for demo
-        const originalBet = winningNumber !== null ? (bets[winningNumber.toString()] || 0) : 0;
-        const betForCalc = isSpectator ? 10 : originalBet;
-
-        const payout = totalMultiplier * betForCalc;
+        const payout = Math.floor(totalMultiplier * activeStake);
 
         setFinalStats({ multiplier: totalMultiplier, payout });
         setShowResult(true);
@@ -49,14 +46,16 @@ export const BonusGame = () => {
             updateCredits(payout);
         }
 
-        // Add to History
         addToHistory({
             number: winningNumber || 0,
             isFire: true,
             multiplier: totalMultiplier
         });
 
-    }, [bets, winningNumber, updateCredits, addToHistory, isSpectator]);
+        // Record Result to DB
+        recordGameResult(winningNumber || 0, true, totalMultiplier, payout);
+
+    }, [activeStake, winningNumber, updateCredits, addToHistory, isSpectator, recordGameResult]);
 
     useEffect(() => {
         if (spinsLeft <= 0) {
@@ -78,8 +77,19 @@ export const BonusGame = () => {
 
             if (shouldLand) {
                 const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-                const multipliers = [2, 3, 5, 10, 15, 20, 50, 100];
-                const val = multipliers[Math.floor(Math.random() * multipliers.length)];
+
+                // Weighted Value Selection (Avg ~9x)
+                const rand = Math.random() * 100;
+                let val = 5;
+                if (rand < 10) val = 2;         // 10%
+                else if (rand < 25) val = 3;    // 15%
+                else if (rand < 50) val = 5;    // 25%
+                else if (rand < 70) val = 8;    // 20%
+                else if (rand < 85) val = 10;   // 15%
+                else if (rand < 93) val = 15;   // 8%
+                else if (rand < 97) val = 20;   // 4%
+                else if (rand < 99) val = 50;   // 2%
+                else val = 100;                 // 1%
 
                 const newGrid = [...grid];
                 newGrid[randomIndex] = val;
@@ -95,6 +105,10 @@ export const BonusGame = () => {
 
         return () => clearTimeout(interval);
     }, [spinsLeft, grid, finishBonus]);
+
+    // Calculate live stats for Debug Display
+    const currentMultiplier = grid.reduce((acc, val) => acc + (val || 0), 0);
+    const currentTotalWin = Math.floor(currentMultiplier * activeStake);
 
     // RESULT SCREEN
     if (showResult) {
@@ -151,6 +165,15 @@ export const BonusGame = () => {
                     </View>
                 ))}
             </View>
+
+            {/* DEBUG / LIVE INFO (Per User Request) */}
+            <View style={styles.debugInfo}>
+                <Text style={styles.debugText}>Bonus Stake: ${activeStake.toFixed(2)}</Text>
+                <Text style={styles.debugText}>Multiplier: {currentMultiplier}x</Text>
+                <Text style={[styles.debugText, { color: COLORS.ACCENT_GOLD }]}>
+                    {activeStake.toFixed(2)} * {currentMultiplier} = ${currentTotalWin}
+                </Text>
+            </View>
         </View>
     );
 };
@@ -165,7 +188,8 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: COLORS.ACCENT_GOLD,
         alignSelf: 'center',
-        marginVertical: 40,
+        marginTop: 100, // Adjusted for Dynamic Island
+        marginBottom: 40,
         zIndex: 100,
     },
     title: {
@@ -295,5 +319,21 @@ const styles = StyleSheet.create({
         color: '#000',
         fontWeight: 'bold',
         fontSize: 16,
+    },
+    debugInfo: {
+        marginTop: 20,
+        alignItems: 'center',
+        backgroundColor: '#333',
+        padding: 10,
+        borderRadius: 10,
+        width: '100%',
+        borderWidth: 1,
+        borderColor: '#555'
+    },
+    debugText: {
+        color: '#BBB',
+        fontSize: 14,
+        fontFamily: 'monospace',
+        marginBottom: 2
     }
 });

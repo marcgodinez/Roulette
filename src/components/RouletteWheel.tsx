@@ -59,7 +59,7 @@ export const RouletteWheel: React.FC<Props> = ({ isSpinning, winningNumber }) =>
             if (delta < 0) delta += 360;
 
             const targetWheel = currentWheel + minSpins + delta;
-            const DURATION = 4000; // 4 Seconds Spin
+            const DURATION = 6500; // 6.5 Seconds Spin
 
             // Spin Wheel
             wheelRotation.value = withTiming(targetWheel, {

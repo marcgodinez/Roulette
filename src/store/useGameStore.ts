@@ -1,4 +1,3 @@
-
 import { create } from 'zustand';
 import { Phase } from '../types';
 import { supabase } from '../services/supabase';
@@ -55,7 +54,8 @@ interface GameState {
 
     // Supabase Actions
     loadUserProfile: () => Promise<void>;
-    recordGameResult: (outcome: number) => Promise<void>;
+    initializeHistory: () => Promise<void>;
+    recordGameResult: (winNum: number, isFire: boolean, multiplier: number | null, totalWin: number) => Promise<void>;
 }
 
 export interface SavedStrategy {
@@ -73,15 +73,11 @@ export const useGameStore = create<GameState>((set, get) => ({
     lastRoundBets: {},
     betHistory: [],
 
-    history: Array.from({ length: 15 }, () => ({
-        number: Math.floor(Math.random() * 37),
-        isFire: Math.random() > 0.8,
-        multiplier: Math.random() > 0.8 ? [50, 100, 200][Math.floor(Math.random() * 3)] : null
-    })),
-    fullHistory: [], // Starts empty or could load from DB
+    history: [],
+    fullHistory: [],
 
     addToHistory: (entry) => set((state) => {
-        const newFull = [entry, ...state.fullHistory];
+        const newFull = [entry, ...state.fullHistory].slice(0, 100); // Cap at 100
         const newRecent = [entry, ...state.history].slice(0, 15); // Cap at 15
         return {
             fullHistory: newFull,
@@ -251,11 +247,6 @@ export const useGameStore = create<GameState>((set, get) => ({
                     newBets[id] = state.bets[id];
                 }
             });
-            // Update currentBet total to reflect only remaining bets? 
-            // Usually currentBet tracks "Amount Bet in this round". 
-            // If we remove losers, 'bets' changes. 'currentBet' technically shouldn't change for history, but for UI display logic...
-            // Let's just update 'bets'. currentBet can stay or update. 
-            // Updating it to match remaining chips is probably cleaner for UI if it uses currentBet to display total on table.
             const newTotal = Object.values(newBets).reduce((a, b) => a + b, 0);
             return { bets: newBets, currentBet: newTotal };
         });
@@ -295,17 +286,45 @@ export const useGameStore = create<GameState>((set, get) => ({
         }
     },
 
-    recordGameResult: async (outcome: number) => {
+    initializeHistory: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        // Load existing history (populated by DB trigger for new users)
+        const { data: existingData, error } = await supabase
+            .from('bet_history')
+            .select('winning_number, is_fire, multiplier')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false })
+            .limit(100);
+
+        if (existingData && existingData.length > 0) {
+            const history = existingData.map(d => ({
+                number: d.winning_number,
+                isFire: d.is_fire || false,
+                multiplier: d.multiplier
+            }));
+
+            set({
+                fullHistory: history,
+                history: history.slice(0, 15)
+            });
+        }
+    },
+
+    recordGameResult: async (winNum, isFire, multiplier, totalWin) => {
         const state = get();
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
             await supabase.from('bet_history').insert({
                 user_id: user.id,
+                winning_number: winNum,
+                is_fire: isFire,
+                multiplier: multiplier,
                 bet_details: state.bets,
-                amount: state.currentBet,
-                outcome: outcome
+                total_bet: state.currentBet,
+                total_win: totalWin
             });
         }
     }
 }));
-

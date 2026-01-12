@@ -4,6 +4,8 @@ import { useHubData } from '../hooks/useHubData';
 import { useGameStore } from '../store/useGameStore';
 import { useAuth } from '../hooks/useAuth';
 import { StoreModal } from '../components/StoreModal';
+import { SettingsModal } from '../components/SettingsModal';
+import { Ionicons } from '@expo/vector-icons';
 
 import { COLORS, METRICS } from '../constants/theme';
 
@@ -22,6 +24,7 @@ export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrate
     const { credits, setStoreOpen, isStoreOpen } = useGameStore();
     const { user, signOut } = useAuth();
     const [tab, setTab] = useState<'WEEKLY' | 'LEGENDARY'>('WEEKLY');
+    const [settingsOpen, setSettingsOpen] = useState(false);
 
     // Helper to mask email
     const maskEmail = (email: string) => {
@@ -43,8 +46,8 @@ export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrate
                         <Text style={styles.welcomeText}>WELCOME BACK</Text>
                         <Text style={styles.userEmail}>{maskEmail(user?.email || '')}</Text>
                     </View>
-                    <TouchableOpacity onPress={signOut} style={styles.logoutBtn}>
-                        <Text style={styles.logoutText}>LOGOUT</Text>
+                    <TouchableOpacity onPress={() => setSettingsOpen(true)} style={styles.settingsBtn}>
+                        <Ionicons name="settings-sharp" size={24} color={COLORS.ACCENT_GOLD} />
                     </TouchableOpacity>
                 </View>
 
@@ -52,7 +55,7 @@ export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrate
                 <View style={styles.creditCard}>
                     <Text style={styles.creditLabel}>TOTAL BALANCE</Text>
                     <View style={styles.creditRow}>
-                        <Text style={styles.creditValue}>{credits.toLocaleString()}</Text>
+                        <Text style={styles.creditValue}>{(credits || 0).toLocaleString()}</Text>
                         <TouchableOpacity style={styles.addBtn} onPress={() => setStoreOpen(true)}>
                             <Text style={styles.addBtnText}>+</Text>
                         </TouchableOpacity>
@@ -156,6 +159,7 @@ export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrate
             </ScrollView>
 
             <StoreModal visible={isStoreOpen} />
+            <SettingsModal visible={settingsOpen} onClose={() => setSettingsOpen(false)} />
         </View>
     );
 };
@@ -187,18 +191,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
-    logoutBtn: {
-        paddingVertical: 6,
-        paddingHorizontal: 12,
-        backgroundColor: COLORS.BG_SURFACE,
+    settingsBtn: {
+        width: 40,
+        height: 40,
         borderRadius: METRICS.borderRadius,
+        backgroundColor: COLORS.BG_SURFACE,
+        justifyContent: 'center',
+        alignItems: 'center',
         borderWidth: 1,
         borderColor: COLORS.BORDER_SUBTLE,
-    },
-    logoutText: {
-        color: COLORS.TEXT_MUTED,
-        fontSize: 10,
-        fontWeight: 'bold',
     },
     creditCard: {
         backgroundColor: COLORS.BG_SURFACE,

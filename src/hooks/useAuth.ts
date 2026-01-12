@@ -43,14 +43,30 @@ export const useAuth = () => {
     };
 
     const signUpWithEmail = async (email: string, password: string) => {
+        console.warn("[SignUp] Starting sign up for:", email);
         setLoading(true);
-        const { error } = await supabase.auth.signUp({
-            email,
-            password,
-        });
-        setLoading(false);
-        if (error) throw error;
-        Alert.alert('Verification Sent', 'Please check your email to verify your account.');
+        try {
+            console.warn("[SignUp] Calling supabase.auth.signUp...");
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
+            });
+
+            console.warn("[SignUp] Response received.");
+            if (error) {
+                console.error("[SignUp] Error Details:", JSON.stringify(error, null, 2));
+                console.error("[SignUp] Error Message:", error.message);
+                throw error;
+            }
+
+            console.warn("[SignUp] Success. Data:", JSON.stringify(data, null, 2));
+            Alert.alert('Verification Sent', 'Please check your email to verify your account.');
+        } catch (err: any) {
+            console.error("[SignUp] Exception Caught:", err);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
     };
 
     const signOut = async () => {
