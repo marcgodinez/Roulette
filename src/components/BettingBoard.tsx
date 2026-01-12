@@ -298,8 +298,8 @@ export const BettingBoard: React.FC<Props> = ({
         return {
             opacity: activeDrag.value ? 1 : 0,
             transform: [
-                { translateX: ghostX.value - 15 }, // Center chip (30px size)
-                { translateY: ghostY.value - 15 },
+                { translateX: ghostX.value - 18 }, // Center chip (36px size)
+                { translateY: ghostY.value - 18 },
                 { scale: activeDrag.value ? 1.2 : 0 }
             ]
         };
@@ -323,7 +323,7 @@ export const BettingBoard: React.FC<Props> = ({
             displayAmount = (amount / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
         }
 
-        const fontSize = displayAmount.length > 3 ? 8 : 9;
+        const fontSize = displayAmount.length > 3 ? 10 : 12;
 
         return (
             <Animated.View
@@ -509,8 +509,8 @@ export const BettingBoard: React.FC<Props> = ({
                                         left: 0,
                                         top: 0,
                                         transform: [
-                                            { translateX: cx - 12 }, // Center 24px chip (24/2 = 12)
-                                            { translateY: cy - 12 }
+                                            { translateX: cx - 18 }, // Center 36px chip
+                                            { translateY: cy - 18 }
                                         ],
                                         zIndex: 30
                                     }}>
@@ -551,26 +551,25 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: COLORS.BG_SURFACE, // Flat dark background instead of green felt
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        // Add top border to separate from game area?
+        backgroundColor: COLORS.BG_SURFACE,
+        paddingHorizontal: 2, // Slight padding
+        paddingVertical: 2,
         borderTopWidth: 1,
         borderColor: COLORS.BORDER_SUBTLE,
     },
     // COLUMNS
     col1: {
-        flex: 2,
+        flex: 1.3, // Balanced sidebar
         borderRightWidth: 1,
         borderColor: BORDER_COLOR,
     },
     col2: {
-        flex: 1.2,
+        flex: 0.9,
         borderRightWidth: 1,
         borderColor: BORDER_COLOR,
     },
     col3: {
-        flex: 6,
+        flex: 9, // Dominant grid
     },
 
     // INTERNAL SPACERS
@@ -691,9 +690,9 @@ const styles = StyleSheet.create({
     // CHIPS...
     chip: {
         position: 'absolute',
-        width: 24,
-        height: 24,
-        borderRadius: 12,
+        width: 36,
+        height: 36,
+        borderRadius: 18,
         backgroundColor: '#FFEB3B',
         justifyContent: 'center',
         alignItems: 'center',
@@ -703,15 +702,14 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     chipInner: {
-        width: 16,
-        height: 16,
-        borderRadius: 8,
+        width: 28,
+        height: 28,
+        borderRadius: 14,
         borderWidth: 1,
-        borderColor: '#FFF',
-        borderStyle: 'dashed',
+        borderColor: 'rgba(255,255,255,0.8)', // More solid border
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(255,255,255,0.2)',
+        backgroundColor: 'rgba(0,0,0,0.1)', // Darker contrast backing for text?
     },
     chipText: {
         fontWeight: 'bold',
@@ -741,9 +739,9 @@ const styles = StyleSheet.create({
     },
     ghostChip: {
         position: 'absolute',
-        width: 24, // Consistent with standard chip
-        height: 24,
-        borderRadius: 12,
+        width: 36,
+        height: 36,
+        borderRadius: 18,
         backgroundColor: 'rgba(255, 235, 59, 0.7)',
         justifyContent: 'center',
         alignItems: 'center',

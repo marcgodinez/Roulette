@@ -19,6 +19,7 @@ import { StoreModal } from '../components/StoreModal';
 import { BonusGame } from '../components/BonusGame';
 import { CHIPS } from '../constants/chips';
 import { isRed } from '../constants/gameRules';
+import { RacetrackBoard } from '../components/RacetrackBoard';
 
 const { height } = Dimensions.get('window');
 
@@ -54,6 +55,7 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
     const [showResultOverlay, setShowResultOverlay] = useState(false);
     const [strategiesModalOpen, setStrategiesModalOpen] = useState(false);
     const [showFire, setShowFire] = useState(false);
+    const [viewMode, setViewMode] = useState<'GRID' | 'TRACK'>('GRID');
 
     useEffect(() => {
         loadStrategies();
@@ -112,24 +114,24 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
 
     // Animated Styles
     const topStyle = useAnimatedStyle(() => {
-        // Betting/Result: 0.35 (Standard)
+        // Betting/Result: 0.20 (Balanced)
         // Spinning: 0.55 (Expanded Wheel)
-        const flex = interpolate(phaseValue.value, [0, 1], [0.35, 0.55]);
+        const flex = interpolate(phaseValue.value, [0, 1], [0.20, 0.55]);
         return { flex };
     });
 
     const bottomStyle = useAnimatedStyle(() => {
-        // Betting/Result: 0.65 (Standard)
-        // Spinning: 0.45 (Compressed Board)
-        const flex = interpolate(phaseValue.value, [0, 1], [0.65, 0.45]);
-        const opacity = interpolate(phaseValue.value, [0, 1], [1, 0.9]); // Slight fade to focus wheel
+        // Betting/Result: 0.80 (Large but not overwhelming)
+        // Spinning: 0.45 
+        const flex = interpolate(phaseValue.value, [0, 1], [0.80, 0.45]);
+        const opacity = interpolate(phaseValue.value, [0, 1], [1, 0.9]);
         return { flex, opacity };
     });
 
     const cameraStyle = useAnimatedStyle(() => {
         const rotateX = interpolate(phaseValue.value, [0, 1], [55, 0]);
         const scale = interpolate(phaseValue.value, [0, 1], [0.65, 1]);
-        const translateY = interpolate(phaseValue.value, [0, 1], [40, 0]);
+        const translateY = interpolate(phaseValue.value, [0, 1], [0, 0]); // Removed offset
         return {
             transform: [
                 { perspective: 1000 },
@@ -254,13 +256,28 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
                         </TouchableOpacity>
                     </Animated.View>
                 )}
-                <BettingBoard
-                    highlightedNumbers={fireNumbers}
-                    disabled={!isBetting}
-                />
+                {/* CENTERED BOARD AREA */}
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    {viewMode === 'GRID' ? (
+                        <BettingBoard
+                            highlightedNumbers={fireNumbers}
+                            disabled={!isBetting}
+                        />
+                    ) : (
+                        <RacetrackBoard width={Dimensions.get('window').width} height={300} />
+                    )}
+                </View>
 
                 {/* BOTTOM BAR (Chips & Controls) */}
                 <View style={styles.bottomBar}>
+
+                    {/* TOGGLE VIEW */}
+                    <TouchableOpacity
+                        style={styles.utilityButton}
+                        onPress={() => setViewMode(prev => prev === 'GRID' ? 'TRACK' : 'GRID')}
+                    >
+                        <Text style={styles.utilityButtonText}>{viewMode === 'GRID' ? 'TRACK' : 'GRID'}</Text>
+                    </TouchableOpacity>
 
                     {/* UNDO */}
                     <TouchableOpacity
@@ -514,6 +531,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         overflow: 'visible',
         zIndex: 10,
+        paddingTop: 80, // Compensate for Header
     },
     wheelWrapper: {
         justifyContent: 'center',
@@ -683,7 +701,7 @@ const styles = StyleSheet.create({
 
     // BOTTOM BAR
     bottomBar: {
-        height: 70, // Reduced from 90
+        height: 50, // Reduced from 70 to 50
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: COLORS.BG_SURFACE,
@@ -692,6 +710,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingBottom: 10, // Reduced padding
         paddingTop: 5,
+        marginTop: 'auto', // Push to bottom
     },
     utilityButton: {
         width: 40, // Reduced from 50

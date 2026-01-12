@@ -31,3 +31,12 @@ export const getDozen = (num: number) => {
 export const EUROPEAN_SEQUENCE = [
     0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
 ];
+
+// French Bets / Call Bets Sequences
+export const SEQ_VOISINS_ZERO = [22, 18, 29, 7, 28, 12, 35, 3, 26, 0, 32, 15, 19, 4, 21, 2, 25];
+export const SEQ_TIERS = [27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33];
+export const SEQ_ORPHELINS = [1, 20, 14, 31, 9, 17, 34, 6];
+export const SEQ_JEU0 = [12, 35, 3, 26, 0, 32, 15];
+
+// Visual Wheel Order (Clockwise from 0)
+export const RACETRACK_SEQUENCE = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
