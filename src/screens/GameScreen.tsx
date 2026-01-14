@@ -25,6 +25,11 @@ const { height } = Dimensions.get('window');
 
 import { COLORS, METRICS } from '../constants/theme';
 import { AudioManager } from '../services/AudioManager';
+import { HapticManager } from '../services/HapticManager';
+import { AdManager } from '../services/AdManager';
+import { formatCurrency } from '../utils/format';
+import { StrategySelector } from '../components/StrategySelector';
+// StatsModal handled by HistoryBar now
 
 export const GameScreen = ({ onBack }: { onBack: () => void }) => {
     // Consolidated Store Access
@@ -56,13 +61,42 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
     const [strategiesModalOpen, setStrategiesModalOpen] = useState(false);
     const [showFire, setShowFire] = useState(false);
     const [viewMode, setViewMode] = useState<'GRID' | 'TRACK'>('GRID');
+    const [boardSize, setBoardSize] = useState({ width: 0, height: 0 });
+
+    const spinCount = React.useRef(0);
 
     useEffect(() => {
         loadStrategies();
         AudioManager.initialize().then(() => {
             AudioManager.playBGM('CASINO');
         });
+        AdManager.loadInterstitial(); // Preload
     }, []);
+
+    // Ad Logic on Spin End (or Start)
+    // User requested: "after first spin" and "every X spins".
+    // We'll Trigger it when betting box re-opens (i.e., Phase goes BACK to BETTING) or when Spin Starts?
+    // "After 1st spin" usually means after result.
+    // Let's hook into `isResult` becoming true.
+
+    useEffect(() => {
+        if (currentPhase === 'RESULT') {
+            spinCount.current += 1;
+            const count = spinCount.current;
+
+            // Logic: 1st spin, then every 5 spins (6, 11, 16...)
+            // User said: "despues de la primera" (1) and "cada X" (say, 5).
+            // So: 1, 6, 11, 16...
+            if (count === 1 || (count - 1) % 5 === 0) {
+                // Delay slightly so user sees the win first? 
+                // Or show it when they close the result overlay?
+                // Let's show it after a short delay to not block the "You Won" euphoria immediately.
+                setTimeout(() => {
+                    AdManager.showInterstitial();
+                }, 3000);
+            }
+        }
+    }, [currentPhase]);
 
     const handleApplyStrategy = (strategy: any) => {
         const success = applyStrategy(strategy);
@@ -115,15 +149,15 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
     // Animated Styles
     const topStyle = useAnimatedStyle(() => {
         // Betting/Result: 0.20 (Balanced)
-        // Spinning: 0.55 (Expanded Wheel)
-        const flex = interpolate(phaseValue.value, [0, 1], [0.20, 0.55]);
+        // Spinning: 0.45 (Reduced from 0.55 to keep board visible)
+        const flex = interpolate(phaseValue.value, [0, 1], [0.20, 0.45]);
         return { flex };
     });
 
     const bottomStyle = useAnimatedStyle(() => {
         // Betting/Result: 0.80 (Large but not overwhelming)
-        // Spinning: 0.45 
-        const flex = interpolate(phaseValue.value, [0, 1], [0.80, 0.45]);
+        // Spinning: 0.55 (Increased from 0.45 so grid doesn't squash)
+        const flex = interpolate(phaseValue.value, [0, 1], [0.80, 0.55]);
         const opacity = interpolate(phaseValue.value, [0, 1], [1, 0.9]);
         return { flex, opacity };
     });
@@ -153,6 +187,7 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
             Alert.alert("Place Your Bets", "You need to place at least one chip to spin the wheel!");
             return;
         }
+        HapticManager.trigger('selection');
         triggerSpin();
     };
 
@@ -202,6 +237,7 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
                             <RouletteWheel
                                 isSpinning={isSpinning}
                                 winningNumber={winningNumber}
+                                fireNumbers={fireNumbers}
                             />
                         </View>
                     </View>
@@ -221,9 +257,8 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
             {/* HEADER (Absolute Top) */}
             <View style={styles.header}>
                 <View style={styles.headerLeft}>
-                    <Text style={styles.logo}>ROULETTE</Text>
-                    <TouchableOpacity onPress={onBack} style={styles.logoutBtn}>
-                        <Text style={styles.logoutText}>HOME ⌂</Text>
+                    <TouchableOpacity onPress={onBack} style={styles.homeButton}>
+                        <Text style={styles.homeButtonText}>⌂</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -231,7 +266,7 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
                         <View style={styles.chipIcon}>
                             <View style={styles.chipInner} />
                         </View>
-                        <Text style={styles.creditsText}>{(credits || 0).toLocaleString()}</Text>
+                        <Text style={styles.creditsText}>{formatCurrency(credits || 0)}</Text>
                     </View>
 
                     {/* SHOP BUTTON */}
@@ -257,14 +292,42 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
                     </Animated.View>
                 )}
                 {/* CENTERED BOARD AREA */}
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <View
+                    style={{
+                        flex: 1,
+                        width: '95%', // Slight horizontal margin
+                        alignSelf: 'center',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: COLORS.BG_SURFACE, // Defined backing
+                        borderRadius: 12,
+                        borderWidth: 1,
+                        borderColor: COLORS.BORDER_SUBTLE,
+                        marginVertical: 10,
+                        overflow: 'hidden', // Clip board corners
+                        shadowColor: "#000",
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3.84,
+                        elevation: 5,
+                    }}
+                    onLayout={(event) => {
+                        const { width, height } = event.nativeEvent.layout;
+                        setBoardSize({ width, height });
+                    }}
+                >
                     {viewMode === 'GRID' ? (
                         <BettingBoard
                             highlightedNumbers={fireNumbers}
                             disabled={!isBetting}
                         />
                     ) : (
-                        <RacetrackBoard width={Dimensions.get('window').width} height={300} />
+                        boardSize.height > 0 && (
+                            <RacetrackBoard
+                                width={boardSize.width}
+                                height={boardSize.height}
+                            />
+                        )
                     )}
                 </View>
 
@@ -285,7 +348,7 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
                         onPress={undoLastBet}
                         disabled={!isBetting}
                     >
-                        <Text style={styles.utilityButtonText}>↩ Undo</Text>
+                        <Text style={styles.utilityButtonText}>UNDO</Text>
                     </TouchableOpacity>
 
                     {/* REBET */}
@@ -296,7 +359,7 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
                         }}
                         disabled={!isBetting || currentBet > 0}
                     >
-                        <Text style={styles.utilityButtonText}>↻ Rebet</Text>
+                        <Text style={styles.utilityButtonText}>REBET</Text>
                     </TouchableOpacity>
 
                     {/* STRATEGIES (Quick Load) */}
@@ -305,7 +368,7 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
                         onPress={() => setStrategiesModalOpen(true)}
                         disabled={!isBetting}
                     >
-                        <Text style={styles.utilityButtonText}>★</Text>
+                        <Text style={styles.utilityButtonText}>⭐</Text>
                     </TouchableOpacity>
 
                     {/* CHIPS */}
@@ -336,7 +399,7 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
                     {/* TOTAL BET */}
                     <View style={styles.totalBetBox}>
                         <Text style={styles.totalBetLabel}>BET</Text>
-                        <Text style={styles.totalBetValue}>{currentBet}</Text>
+                        <Text style={styles.totalBetValue}>{formatCurrency(currentBet)}</Text>
                     </View>
 
                 </View>
@@ -373,7 +436,7 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
                             <Text style={styles.resultNumber}>{winningNumber}</Text>
                         </View>
                         {lastWinAmount > 0 ? (
-                            <Text style={styles.winAmount}>YOU WON {lastWinAmount}</Text>
+                            <Text style={styles.winAmount}>YOU WON {formatCurrency(lastWinAmount)}</Text>
                         ) : (
                             <Text style={styles.loseText}>No Win</Text>
                         )}
@@ -382,43 +445,10 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
             }
 
             {/* STRATEGY MODAL */}
-            <Modal visible={strategiesModalOpen} transparent animationType="slide">
-                <View style={styles.modalOverlay}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Quick Load Strategy</Text>
-                        <FlatList
-                            data={savedStrategies}
-                            keyExtractor={item => item.id}
-                            style={styles.strategyList}
-                            ListEmptyComponent={<Text style={styles.emptyText}>No saved strategies yet.</Text>}
-                            renderItem={({ item }) => (
-                                <View style={styles.strategyRow}>
-                                    <View style={[styles.colorBadge, { backgroundColor: item.color_code }]} />
-                                    <View style={styles.strategyInfo}>
-                                        <Text style={styles.strategyName}>{item.name}</Text>
-                                        <Text style={styles.strategyCost}>Cost: {item.total_cost}</Text>
-                                    </View>
-                                    <TouchableOpacity
-                                        style={styles.playStrategyBtn}
-                                        onPress={() => {
-                                            if (credits < item.total_cost) {
-                                                Alert.alert("Insufficient Funds", "You don't have enough credits for this strategy.");
-                                            } else {
-                                                handleApplyStrategy(item);
-                                            }
-                                        }}
-                                    >
-                                        <Text style={styles.playStrategyText}>PLAY</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            )}
-                        />
-                        <TouchableOpacity style={styles.closeModalBtn} onPress={() => setStrategiesModalOpen(false)}>
-                            <Text style={styles.closeModalText}>CLOSE</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
+            <StrategySelector
+                visible={strategiesModalOpen}
+                onClose={() => setStrategiesModalOpen(false)}
+            />
 
             <StoreModal visible={isStoreOpen} />
 
@@ -448,24 +478,25 @@ const styles = StyleSheet.create({
     headerLeft: {
         justifyContent: 'center',
     },
-    logo: {
-        color: COLORS.ACCENT_GOLD,
-        fontSize: 22,
-        fontWeight: 'bold',
-    },
-    logoutBtn: {
-        marginTop: 4,
-        paddingVertical: 4,
-        paddingHorizontal: 8,
-        backgroundColor: COLORS.BG_SURFACE,
-        borderRadius: METRICS.borderRadius,
+    homeButton: {
+        width: 48,
+        height: 48,
+        borderRadius: 24,
+        backgroundColor: COLORS.BG_ELEVATED,
+        justifyContent: 'center',
+        alignItems: 'center',
         borderWidth: 1,
         borderColor: COLORS.BORDER_SUBTLE,
-        alignSelf: 'flex-start',
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 6,
     },
-    logoutText: {
-        color: COLORS.TEXT_SECONDARY,
-        fontSize: 10,
+    homeButtonText: {
+        color: COLORS.ACCENT_GOLD,
+        fontSize: 28,
+        marginTop: -4, // Optical correction
         fontWeight: 'bold',
     },
     creditsBox: {
@@ -725,7 +756,7 @@ const styles = StyleSheet.create({
     },
     utilityButtonText: {
         color: COLORS.TEXT_SECONDARY,
-        fontSize: 9, // Reduced font
+        fontSize: 10, // Reduced font
         fontWeight: 'bold',
         textAlign: 'center',
     },

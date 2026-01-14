@@ -3,6 +3,7 @@ import { Modal, View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Scr
 import { useGameStore } from '../store/useGameStore';
 import { monetizationManager } from '../services/MonetizationManager';
 import { Config } from '../config/Config';
+import { formatCurrency } from '../utils/format';
 
 interface Package {
     identifier: string;
@@ -45,7 +46,7 @@ export const StoreModal = ({ visible }: { visible: boolean }) => {
                 // Find credit amount from Config or default
                 const amount = Config.MOCK_PACKAGES.find(p => p.identifier === pkg.identifier)?.credits || 1000;
                 addCredits(amount);
-                Alert.alert("Success", `You purchased ${amount.toLocaleString()} coins!`);
+                Alert.alert("Success", `You purchased ${formatCurrency(amount)} coins!`);
             }
         } catch (e) {
             Alert.alert("Error", "Purchase failed.");

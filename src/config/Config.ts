@@ -12,34 +12,64 @@ export const Config = {
     // Mock Data
     MOCK_PACKAGES: [
         {
-            identifier: 'coins_small',
+            identifier: 'coins_tiny',
             product: {
                 priceString: '$0.99',
-                title: 'Small Pile',
-                description: '1,000 Coins to get you started',
+                title: 'Starter Stash',
+                description: '1,000 Coins',
             },
             offeringIdentifier: 'default',
             credits: 1000
         },
         {
-            identifier: 'coins_medium',
+            identifier: 'coins_small',
             product: {
                 priceString: '$4.99',
-                title: 'Suitcase',
-                description: '6,000 Coins (20% Bonus)',
+                title: 'Coin Pouch',
+                description: '10,000 Coins',
             },
             offeringIdentifier: 'default',
-            credits: 6000
+            credits: 10000
+        },
+        {
+            identifier: 'coins_medium',
+            product: {
+                priceString: '$9.99',
+                title: 'Briefcase',
+                description: '25,000 Coins',
+            },
+            offeringIdentifier: 'default',
+            credits: 25000
         },
         {
             identifier: 'coins_large',
             product: {
-                priceString: '$9.99',
-                title: 'Vault',
-                description: '15,000 Coins (50% Bonus)',
+                priceString: '$19.99',
+                title: 'Bank Vault',
+                description: '60,000 Coins',
             },
             offeringIdentifier: 'default',
-            credits: 15000
+            credits: 60000
+        },
+        {
+            identifier: 'coins_huge',
+            product: {
+                priceString: '$49.99',
+                title: 'Mega Vault',
+                description: '200,000 Coins (Best Value)',
+            },
+            offeringIdentifier: 'default',
+            credits: 200000
+        },
+        {
+            identifier: 'coins_tycoon',
+            product: {
+                priceString: '$99.99',
+                title: 'Tycoon Status',
+                description: '2,000,000 Coins (Ultimate)',
+            },
+            offeringIdentifier: 'default',
+            credits: 2000000
         }
     ],
 

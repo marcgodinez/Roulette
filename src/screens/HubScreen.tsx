@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, RefreshControl, Image } from 'react-native';
 import { useHubData } from '../hooks/useHubData';
 import { useGameStore } from '../store/useGameStore';
@@ -6,6 +6,10 @@ import { useAuth } from '../hooks/useAuth';
 import { StoreModal } from '../components/StoreModal';
 import { SettingsModal } from '../components/SettingsModal';
 import { Ionicons } from '@expo/vector-icons';
+import { NewsTicker } from '../components/NewsTicker';
+import { usePresence } from '../hooks/usePresence';
+import { formatCurrency } from '../utils/format';
+import { AdManager } from '../services/AdManager';
 
 import { COLORS, METRICS } from '../constants/theme';
 
@@ -18,33 +22,50 @@ export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrate
         nextBonusTime,
         claimBonus,
         refresh,
-        loading
+        loading,
+        username,
+        claimAdReward
     } = useHubData();
 
     const { credits, setStoreOpen, isStoreOpen } = useGameStore();
     const { user, signOut } = useAuth();
+    const onlineCount = usePresence(); // Hook
     const [tab, setTab] = useState<'WEEKLY' | 'LEGENDARY'>('WEEKLY');
     const [settingsOpen, setSettingsOpen] = useState(false);
+    const [adLoading, setAdLoading] = useState(false);
 
-    // Helper to mask email
-    const maskEmail = (email: string) => {
-        if (!email) return 'Anonymous';
-        const [name, domain] = email.split('@');
-        return `${name.substring(0, 3)}***@${domain}`;
+    useEffect(() => {
+        AdManager.loadRewarded();
+    }, []);
+
+    const handleWatchAd = async () => {
+        setAdLoading(true);
+        const earned = await AdManager.showRewarded();
+        setAdLoading(false);
+        if (earned) {
+            claimAdReward();
+        }
     };
+
+
+
 
     return (
         <View style={styles.container}>
+            <NewsTicker />
             <ScrollView
                 contentContainerStyle={styles.scroll}
                 refreshControl={<RefreshControl refreshing={loading} onRefresh={refresh} colors={[COLORS.ACCENT_GOLD]} tintColor={COLORS.ACCENT_GOLD} />}
             >
-
                 {/* HEADER */}
                 <View style={styles.header}>
-                    <View>
+                    <View style={styles.headerTextContainer}>
                         <Text style={styles.welcomeText}>WELCOME BACK</Text>
-                        <Text style={styles.userEmail}>{maskEmail(user?.email || '')}</Text>
+                        <Text style={styles.userEmail} numberOfLines={1} adjustsFontSizeToFit>
+                            {username
+                                ? username.toUpperCase()
+                                : (user?.user_metadata?.username?.toUpperCase() || user?.email?.split('@')[0]?.toUpperCase() || 'ANONYMOUS')}
+                        </Text>
                     </View>
                     <TouchableOpacity onPress={() => setSettingsOpen(true)} style={styles.settingsBtn}>
                         <Ionicons name="settings-sharp" size={24} color={COLORS.ACCENT_GOLD} />
@@ -55,7 +76,7 @@ export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrate
                 <View style={styles.creditCard}>
                     <Text style={styles.creditLabel}>TOTAL BALANCE</Text>
                     <View style={styles.creditRow}>
-                        <Text style={styles.creditValue}>{(credits || 0).toLocaleString()}</Text>
+                        <Text style={styles.creditValue}>{formatCurrency(credits || 0)}</Text>
                         <TouchableOpacity style={styles.addBtn} onPress={() => setStoreOpen(true)}>
                             <Text style={styles.addBtnText}>+</Text>
                         </TouchableOpacity>
@@ -85,10 +106,14 @@ export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrate
                     </TouchableOpacity>
 
                     {/* FREE COINS */}
-                    <TouchableOpacity style={styles.actionCard} onPress={() => setStoreOpen(true)}>
+                    <TouchableOpacity
+                        style={[styles.actionCard, adLoading && styles.disabledCard]}
+                        onPress={handleWatchAd}
+                        disabled={adLoading}
+                    >
                         <Text style={styles.actionIcon}>📺</Text>
                         <Text style={styles.actionTitle}>FREE COINS</Text>
-                        <Text style={styles.actionSub}>Watch Ads</Text>
+                        <Text style={styles.actionSub}>{adLoading ? 'Loading Ad...' : 'Watch Video'}</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -102,10 +127,16 @@ export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrate
                     <Text style={styles.strategyText}>STRATEGY LAB 🧪</Text>
                 </TouchableOpacity>
 
-                {/* MY STATS */}
+                {/* INFO ROW: BEST WIN + ONLINE */}
                 <View style={styles.statsRow}>
-                    <Text style={styles.statLabel}>MY BEST WIN:</Text>
-                    <Text style={styles.statValue}>{myBestWin > 0 ? `+${myBestWin.toLocaleString()}` : '-'}</Text>
+                    <View>
+                        <Text style={styles.statLabel}>MY BEST WIN</Text>
+                        <Text style={styles.statValue}>{myBestWin > 0 ? `+${formatCurrency(myBestWin)}` : '-'}</Text>
+                    </View>
+                    <View style={styles.onlineContainer}>
+                        <View style={styles.onlineDot} />
+                        <Text style={styles.onlineText}>{onlineCount} LIVE</Text>
+                    </View>
                 </View>
 
                 {/* LEADERBOARDS */}
@@ -135,8 +166,8 @@ export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrate
                                         <View style={[styles.rankBadge, index === 0 && styles.goldBadge]}>
                                             <Text style={styles.rankText}>#{index + 1}</Text>
                                         </View>
-                                        <Text style={styles.rankUser}>{maskEmail(item.email)}</Text>
-                                        <Text style={styles.rankScore}>+{item.total_profit?.toLocaleString()}</Text>
+                                        <Text style={styles.rankUser}>{item.username}</Text>
+                                        <Text style={styles.rankScore}>+{formatCurrency(item.total_profit)}</Text>
                                     </View>
                                 ))
                             )
@@ -147,8 +178,25 @@ export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrate
                                 <View style={styles.legendCard}>
                                     <Text style={styles.legendTitle}>🏆 BIGGEST HIT 🏆</Text>
                                     <View style={styles.legendDivider} />
-                                    <Text style={styles.legendScore}>{legendaryTop[0].max_win?.toLocaleString()}</Text>
-                                    <Text style={styles.legendUser}>{maskEmail(legendaryTop[0].email)}</Text>
+
+                                    <View style={styles.legendDetailsRow}>
+                                        <View style={[styles.legendNumberBadge,
+                                        legendaryTop[0].winning_number === 0 ? { backgroundColor: COLORS.BET_GREEN } :
+                                            [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36].includes(legendaryTop[0].winning_number) ?
+                                                { backgroundColor: COLORS.BET_RED } : { backgroundColor: COLORS.BET_BLACK }
+                                        ]}>
+                                            <Text style={styles.legendNumberText}>{legendaryTop[0].winning_number}</Text>
+                                        </View>
+
+                                        {legendaryTop[0].is_fire && (
+                                            <View style={styles.legendFireBadge}>
+                                                <Text style={styles.legendFireText}>🔥 {legendaryTop[0].multiplier}x</Text>
+                                            </View>
+                                        )}
+                                    </View>
+
+                                    <Text style={styles.legendScore}>+{formatCurrency(legendaryTop[0].max_win)}</Text>
+                                    <Text style={styles.legendUser}>{legendaryTop[0].username}</Text>
                                 </View>
                             )
                         )}
@@ -156,11 +204,11 @@ export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrate
                 </View>
 
                 <View style={{ height: 100 }} />
-            </ScrollView>
+            </ScrollView >
 
             <StoreModal visible={isStoreOpen} />
             <SettingsModal visible={settingsOpen} onClose={() => setSettingsOpen(false)} />
-        </View>
+        </View >
     );
 };
 
@@ -428,4 +476,63 @@ const styles = StyleSheet.create({
         color: COLORS.TEXT_SECONDARY,
         fontSize: 14,
     },
+    legendDetailsRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    legendNumberBadge: {
+        width: 36,
+        height: 36,
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 10,
+        borderWidth: 2,
+        borderColor: COLORS.ACCENT_GOLD
+    },
+    legendNumberText: {
+        color: '#FFF',
+        fontWeight: '900',
+        fontSize: 16
+    },
+    legendFireBadge: {
+        backgroundColor: 'rgba(255, 69, 0, 0.2)',
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#FF4500'
+    },
+    legendFireText: {
+        color: '#FF4500', // Fire Orange
+        fontWeight: 'bold',
+        fontSize: 14
+    },
+    onlineContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        opacity: 0.8
+    },
+    onlineDot: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: '#00FF00',
+        marginRight: 6,
+        shadowColor: '#00FF00',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.8,
+        shadowRadius: 5
+    },
+    onlineText: {
+        color: COLORS.TEXT_SECONDARY,
+        fontSize: 12,
+        fontWeight: 'bold',
+        letterSpacing: 1
+    },
+    headerTextContainer: {
+        flex: 1,
+        marginRight: 10
+    }
 });

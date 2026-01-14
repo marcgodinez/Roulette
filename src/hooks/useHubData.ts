@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../services/supabase';
 import { useAuth } from './useAuth';
 import { Alert } from 'react-native';
+import { NotificationManager } from '../services/NotificationManager';
 
 const BONUS_AMOUNT = 1000;
 const BONUS_COOLDOWN_HOURS = 24;
@@ -10,54 +11,99 @@ export const useHubData = () => {
     const { user } = useAuth();
     const [loading, setLoading] = useState(true);
 
+    // ...
+
+    useEffect(() => {
+        // Request Permissions on mount
+        NotificationManager.registerForPushNotificationsAsync();
+    }, []);
+
     // Data States
     const [weeklyTop, setWeeklyTop] = useState<any[]>([]);
     const [legendaryTop, setLegendaryTop] = useState<any[]>([]);
     const [myBestWin, setMyBestWin] = useState<number>(0);
     const [dailyBonusAvailable, setDailyBonusAvailable] = useState(false);
     const [nextBonusTime, setNextBonusTime] = useState<Date | null>(null);
+    const [username, setUsername] = useState<string | null>(null);
 
     const fetchData = useCallback(async () => {
         if (!user) return;
         setLoading(true);
 
         try {
-            // 1. Fetch Profile for Bonus Check
-            const { data: profile } = await supabase
+            // 1. Fetch Profile for Bonus Check + Username
+            const { data: profile, error: fetchError } = await supabase
                 .from('profiles')
-                .select('credits, last_daily_bonus')
+                .select('credits, last_daily_bonus, username')
                 .eq('id', user.id)
                 .single();
 
-            if (profile) {
-                checkBonusStatus(profile.last_daily_bonus);
+            if (fetchError && fetchError.code !== 'PGRST116') {
+                console.error('[HubData] Error fetching profile:', fetchError);
             }
 
+            if (profile) {
+                console.log('[HubData] Profile loaded:', profile);
+                checkBonusStatus(profile.last_daily_bonus);
+                setUsername(profile.username);
+            } else {
+                console.warn('[HubData] Profile missing or hidden. Attempting safe create/recover...');
+
+                // Fallback: Upsert Profile (Do NOT overwrite if exists)
+                const usernameFromMeta = user.user_metadata?.username || user.email?.split('@')[0] || 'Player';
+
+                const { error: insertError } = await supabase
+                    .from('profiles')
+                    .upsert({
+                        id: user.id,
+                        email: user.email,
+                        username: usernameFromMeta,
+                        credits: 1000
+                    }, { onConflict: 'id', ignoreDuplicates: true });
+
+                if (insertError) {
+                    console.error('[HubData] Profile creation/recovery failed:', insertError);
+                } else {
+                    console.log('[HubData] Profile checked/created. Retrying fetch...');
+                    setUsername(usernameFromMeta);
+                    setDailyBonusAvailable(true);
+                    // Optionally trigger a re-fetch here if we want to be sure
+                }
+            }
+            // ... rest of fetch data (Weekly, Legendary, MyStats) same as before or slightly shifted logic inside try block
             // 2. Weekly Leaderboard
-            const { data: weekly } = await supabase
+            const { data: weekly, error: weeklyError } = await supabase
                 .from('weekly_leaderboard')
                 .select('*')
                 .limit(5);
+
+            if (weeklyError) console.error('Weekly Leaderboard Error:', weeklyError);
             setWeeklyTop(weekly || []);
 
             // 3. Legendary Hits (Top 1)
-            const { data: legendary } = await supabase
+            const { data: legendary, error: legendaryError } = await supabase
                 .from('legendary_wins')
                 .select('*')
                 .limit(1);
+
+            if (legendaryError) console.error('Legendary Wins Error:', legendaryError);
             setLegendaryTop(legendary || []);
 
             // 4. My Stats
-            const { data: myStats } = await supabase
+            const { data: myStats, error: myStatsError } = await supabase
                 .from('bet_history')
-                .select('outcome')
+                .select('total_win')
                 .eq('user_id', user.id)
-                .order('outcome', { ascending: false })
+                .order('total_win', { ascending: false })
                 .limit(1)
                 .single();
 
+            if (myStatsError && myStatsError.code !== 'PGRST116') {
+                console.error('My Best Win Error:', myStatsError);
+            }
+
             if (myStats) {
-                setMyBestWin(myStats.outcome);
+                setMyBestWin(myStats.total_win);
             }
 
         } catch (error) {
@@ -93,8 +139,6 @@ export const useHubData = () => {
 
         try {
             // 1. Update Profile (Add Credits + Set Timestamp)
-            // We need to fetch current credits first or use an RPC. 
-            // For simplicity, let's just do a direct update. Race conditions are minor risk here.
             const { data: profile } = await supabase
                 .from('profiles')
                 .select('credits')
@@ -114,10 +158,29 @@ export const useHubData = () => {
             if (error) throw error;
 
             Alert.alert("Daily Bonus", `You claimed ${BONUS_AMOUNT} credits!`);
-            fetchData(); // Refresh
-
+            NotificationManager.scheduleBonusNotification();
+            fetchData();
         } catch (e: any) {
             Alert.alert("Error", e.message);
+        }
+    };
+
+    const claimAdReward = async () => {
+        if (!user) return;
+        try {
+            const { data: profile } = await supabase.from('profiles').select('credits').eq('id', user.id).single();
+            if (!profile) return;
+
+            const newCredits = (profile.credits || 0) + 500; // 500 Coins for Ad
+            const { error } = await supabase.from('profiles').update({ credits: newCredits }).eq('id', user.id);
+
+            if (error) throw error;
+
+            Alert.alert("Reward Earned", "You received 500 coins!");
+            fetchData();
+        } catch (e: any) {
+            console.error("Ad Reward Error", e);
+            Alert.alert("Error", "Could not claim reward.");
         }
     };
 
@@ -133,6 +196,8 @@ export const useHubData = () => {
         nextBonusTime,
         claimBonus,
         refresh: fetchData,
-        loading
+        loading,
+        username, // Expose username
+        claimAdReward
     };
 };

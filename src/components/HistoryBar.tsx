@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, FlatList }
 import { useGameStore } from '../store/useGameStore';
 import { COLORS } from '../constants/theme';
 import { RED_NUMBERS } from '../constants/gameRules';
-import { StatisticsModal } from './StatisticsModal';
+import { StatsModal } from './StatsModal';
 
 export const HistoryBar = () => {
     const { history, fullHistory } = useGameStore();
@@ -81,15 +81,15 @@ export const HistoryBar = () => {
                 </View>
             </Modal>
 
-            {/* ADVANCED STATS MODAL */}
-            <StatisticsModal visible={statsVisible} onClose={() => setStatsVisible(false)} />
+            {/* UNIFIED STATS MODAL */}
+            <StatsModal visible={statsVisible} onClose={() => setStatsVisible(false)} />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        height: 60,
+        height: 70, // Increased to fit badges
         backgroundColor: 'transparent',
         flexDirection: 'row', // Row layout
         alignItems: 'center',
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     },
     scrollContent: {
         paddingRight: 15,
+        paddingVertical: 15, // Push bubbles down to make room for top badges
         alignItems: 'center',
         gap: 10,
     },
@@ -148,8 +149,9 @@ const styles = StyleSheet.create({
     },
     badge: {
         position: 'absolute',
-        top: -5,
+        top: -10,
         right: -8,
+        zIndex: 10, // Ensure on top
         backgroundColor: COLORS.ACCENT_GOLD,
         borderRadius: 8,
         paddingHorizontal: 4,

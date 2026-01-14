@@ -21,9 +21,10 @@ const AnimatedImage = Animated.createAnimatedComponent(Image);
 interface Props {
     isSpinning: boolean;
     winningNumber: number | null;
+    fireNumbers: number[];
 }
 
-export const RouletteWheel: React.FC<Props> = ({ isSpinning, winningNumber }) => {
+export const RouletteWheel: React.FC<Props> = ({ isSpinning, winningNumber, fireNumbers = [] }) => {
     const wheelRotation = useSharedValue(0);
     const ballRotation = useSharedValue(0);
     // Ball Radius: Start at Rim (0.95), drop to Pocket (0.76)
@@ -122,10 +123,40 @@ export const RouletteWheel: React.FC<Props> = ({ isSpinning, winningNumber }) =>
         <View style={styles.container}>
             {/* 1. Wheel */}
             <View style={styles.shadow}>
-                <AnimatedImage
-                    source={require('../assets/images/roulette_wheel_transparent.png')}
-                    style={[styles.wheelImage, wheelStyle]}
-                />
+                <Animated.View style={[wheelStyle, { width: WHEEL_SIZE, height: WHEEL_SIZE, justifyContent: 'center', alignItems: 'center' }]}>
+                    <Image
+                        source={require('../assets/images/roulette_wheel_transparent.png')}
+                        style={styles.wheelImage}
+                    />
+
+                    {/* FIRE NUMBERS OVERLAY (Rotates WITH Wheel) */}
+                    {fireNumbers.map((num) => {
+                        // Calculate Angle for this number
+                        const index = EUROPEAN_SEQUENCE.indexOf(num);
+                        const angle = index * (360 / 37); // 37 numbers
+
+                        // We need to place a marker at this angle at a specific radius
+                        // Radius ~ 0.8 of half-width (adjust based on image)
+                        const markerRadius = RADIUS * 0.78; // Adjust to match number ring position
+
+                        return (
+                            <View
+                                key={num}
+                                style={[
+                                    styles.fireMarkerContainer,
+                                    {
+                                        transform: [
+                                            { rotate: `${angle}deg` },
+                                            { translateY: -markerRadius }
+                                        ]
+                                    }
+                                ]}
+                            >
+                                <View style={styles.fireGlow} />
+                            </View>
+                        );
+                    })}
+                </Animated.View>
             </View>
 
             {/* 2. Ball Layer */}
@@ -215,5 +246,31 @@ const styles = StyleSheet.create({
         shadowColor: 'black',
         shadowOpacity: 0.5,
         shadowRadius: 2,
+    },
+    // FIRE MARKERS
+    fireMarkerContainer: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        width: 24, // Approx number width
+        height: 24,
+        marginLeft: -12, // Center
+        marginTop: -12, // Center
+        justifyContent: 'center',
+        alignItems: 'center',
+        // Creating a pivot point for translateY
+        // We handle rotation via parent transform, then translate UP to the radius.
+    },
+    fireGlow: {
+        width: 28,
+        height: 28,
+        borderRadius: 14,
+        borderWidth: 2,
+        borderColor: '#FFD700', // Gold
+        backgroundColor: 'rgba(255, 215, 0, 0.3)', // Semi-transparent gold
+        shadowColor: '#FFD700',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 1,
+        shadowRadius: 10,
     }
 });

@@ -3,6 +3,7 @@ import { supabase } from '../services/supabase';
 import { Session, User } from '@supabase/supabase-js';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
+import * as AppleAuthentication from 'expo-apple-authentication';
 import { makeRedirectUri } from 'expo-auth-session';
 import { Alert } from 'react-native';
 import { Config } from '../config/Config';
@@ -42,7 +43,7 @@ export const useAuth = () => {
         if (error) throw error;
     };
 
-    const signUpWithEmail = async (email: string, password: string) => {
+    const signUpWithEmail = async (email: string, password: string, username?: string) => {
         console.warn("[SignUp] Starting sign up for:", email);
         setLoading(true);
         try {
@@ -50,6 +51,11 @@ export const useAuth = () => {
             const { data, error } = await supabase.auth.signUp({
                 email,
                 password,
+                options: {
+                    data: {
+                        username: username // Save to metadata so Trigger can use it
+                    }
+                }
             });
 
             console.warn("[SignUp] Response received.");
@@ -107,13 +113,43 @@ export const useAuth = () => {
         }
     };
 
+    // Apple Auth
+    const signInWithApple = async () => {
+        setLoading(true);
+        try {
+            const credential = await AppleAuthentication.signInAsync({
+                requestedScopes: [
+                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                    AppleAuthentication.AppleAuthenticationScope.EMAIL,
+                ],
+            });
+
+            if (credential.identityToken) {
+                const { error } = await supabase.auth.signInWithIdToken({
+                    provider: 'apple',
+                    token: credential.identityToken,
+                });
+                if (error) throw error;
+            }
+        } catch (e: any) {
+            if (e.code === 'ERR_REQUEST_CANCELED') {
+                // handle that the user canceled the sign-in flow
+            } else {
+                Alert.alert('Apple Sign-In Error', e.message);
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return {
         session,
         user,
         loading,
         signInWithEmail,
         signUpWithEmail,
+        signInWithApple, // Exposed
         signOut,
-        promptAsync, // Expose this to trigger the flow
+        promptAsync,
     };
 };

@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { supabase } from '../services/supabase';
 import { useAuth } from '../hooks/useAuth';
+import * as AppleAuthentication from 'expo-apple-authentication';
 
 import { COLORS, METRICS } from '../constants/theme';
 
 export const AuthScreen = () => {
-    const { signInWithEmail, signUpWithEmail, promptAsync } = useAuth();
+    const { signInWithEmail, signUpWithEmail, promptAsync, signInWithApple } = useAuth();
     const [isLogin, setIsLogin] = useState(true);
     const [email, setEmail] = useState('');
+    const [username, setUsername] = useState(''); // New State
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async () => {
-        if (!email || !password) {
+        if (!password || (isLogin && !email) || (!isLogin && (!email || !username))) {
             Alert.alert('Error', 'Please fill in all fields');
             return;
         }
@@ -20,9 +23,36 @@ export const AuthScreen = () => {
         setLoading(true);
         try {
             if (isLogin) {
-                await signInWithEmail(email, password);
+                let targetEmail = email;
+                // 1. Resolve Username if input is not email
+                if (!email.includes('@')) {
+                    const { data, error } = await supabase
+                        .from('profiles')
+                        .select('email')
+                        .eq('username', email)
+                        .single();
+
+                    if (error || !data) {
+                        throw new Error('Username not found');
+                    }
+                    targetEmail = data.email;
+                }
+                await signInWithEmail(targetEmail, password);
             } else {
-                await signUpWithEmail(email, password);
+                // 2. Sign Up with Username
+                if (username.length < 3) throw new Error("Username must be at least 3 chars");
+
+                // Check availability
+                const { data: existing } = await supabase
+                    .from('profiles')
+                    .select('id')
+                    .eq('username', username)
+                    .single();
+
+                if (existing) throw new Error("Username already taken");
+
+                // @ts-ignore - Updating signature next
+                await signUpWithEmail(email, password, username);
             }
         } catch (error: any) {
             Alert.alert('Error', error.message || 'Authentication failed');
@@ -63,15 +93,30 @@ export const AuthScreen = () => {
 
                         {/* FORM */}
                         <View style={styles.form}>
-                            <Text style={styles.label}>EMAIL</Text>
+
+                            {!isLogin && (
+                                <>
+                                    <Text style={styles.label}>USERNAME</Text>
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="Maverick"
+                                        placeholderTextColor={COLORS.TEXT_MUTED}
+                                        value={username}
+                                        onChangeText={setUsername}
+                                        autoCapitalize="none"
+                                    />
+                                </>
+                            )}
+
+                            <Text style={styles.label}>{isLogin ? 'EMAIL OR USERNAME' : 'EMAIL'}</Text>
                             <TextInput
                                 style={styles.input}
-                                placeholder="vip@casino.com"
+                                placeholder={isLogin ? "user or email@..." : "vip@casino.com"}
                                 placeholderTextColor={COLORS.TEXT_MUTED}
                                 value={email}
                                 onChangeText={setEmail}
                                 autoCapitalize="none"
-                                keyboardType="email-address"
+                                keyboardType={isLogin ? "default" : "email-address"}
                             />
 
                             <Text style={styles.label}>PASSWORD</Text>
@@ -108,6 +153,22 @@ export const AuthScreen = () => {
                             <Text style={styles.googleBtnText}>Continue with Google</Text>
                         </TouchableOpacity>
 
+                        {/* APPLE AUTH */}
+                        {Platform.OS === 'ios' && (
+                            <AppleAuthentication.AppleAuthenticationButton
+                                buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+                                buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE}
+                                cornerRadius={METRICS.borderRadius}
+                                style={styles.appleBtn}
+                                onPress={async () => {
+                                    try {
+                                        await signInWithApple();
+                                    } catch (e: any) {
+                                        // Error handled in hook
+                                    }
+                                }}
+                            />
+                        )}
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
@@ -234,5 +295,10 @@ const styles = StyleSheet.create({
         color: '#000',
         fontWeight: 'bold',
         fontSize: 16,
+    },
+    appleBtn: {
+        width: '100%',
+        height: 50,
+        marginTop: 10,
     },
 });

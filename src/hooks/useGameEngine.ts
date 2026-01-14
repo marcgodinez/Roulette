@@ -185,6 +185,47 @@ export const useGameEngine = () => {
                     multiplier = PAYOUTS.DOZEN;
                 }
             }
+            // 9. LINE BETS "LINE_13_18"
+            else if (betId.startsWith('LINE')) {
+                const parts = betId.split('_'); // LINE, 13, 18
+                if (parts.length === 3) {
+                    const start = parseInt(parts[1]);
+                    const end = parseInt(parts[2]);
+                    if (winningNumber >= start && winningNumber <= end) {
+                        didWin = true;
+                        multiplier = PAYOUTS.LINE;
+                        isInsideBet = true; // Technically inside (or outside? usually line is inside table)
+                        coverage = 6;
+                    }
+                }
+            }
+            // 10. STREET BETS "STREET_1_3" or "STREET_0_2_3"
+            else if (betId.startsWith('STREET')) {
+                const parts = betId.split('_').slice(1).map(n => parseInt(n));
+                // Handle ranges or specific lists
+                // If standard street 1-3, parts might be [1, 3] or [1, 2, 3] depending on how we define it.
+                // For safety, checks if number is in parts OR in range if parts has 2 and gap matches
+                // For now, let's assume we pass ALL numbers or Range.
+                // Voisins sends STREET_0_2_3 -> [0, 2, 3].
+                if (parts.includes(winningNumber)) {
+                    didWin = true;
+                    multiplier = PAYOUTS.STREET;
+                    isInsideBet = true;
+                    coverage = 3;
+                }
+                // Fallback for "STREET_1_3" meaning 1,2,3?
+                // Let's rely on explicit numbering for Trio, or range for standard?
+                // Standard Street is 3 sequential numbers. 
+                // If input is STREET_1_3... let's check range?
+                else if (parts.length === 2 && (parts[1] - parts[0] === 2)) {
+                    if (winningNumber >= parts[0] && winningNumber <= parts[1]) {
+                        didWin = true;
+                        multiplier = PAYOUTS.STREET;
+                        isInsideBet = true;
+                        coverage = 3;
+                    }
+                }
+            }
 
             if (didWin) {
                 // FIRE + INSIDE BET -> ACCUMULATE BONUS STAKE

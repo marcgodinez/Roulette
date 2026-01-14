@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
-import Svg, { G, Text as SvgText, Defs, LinearGradient, Stop, Path, Rect, Circle, Line } from 'react-native-svg';
+import Svg, { G, Text as SvgText, Defs, Path, Circle, Line, Rect } from 'react-native-svg';
 import { COLORS } from '../constants/theme';
 import {
     RACETRACK_SEQUENCE,
@@ -12,334 +12,433 @@ import {
 } from '../constants/gameRules';
 import { useGameStore } from '../store/useGameStore';
 import { getChipColor } from '../constants/chips';
+import { HapticManager } from '../services/HapticManager';
 
 interface RacetrackBoardProps {
     width: number;
     height: number;
 }
 
+// Correct Indices in RACETRACK_SEQUENCE (0-based)
+// Voisins: 22..25 -> Indices 28..7 (wrapping)
+// Orph (Right): 17..6 -> Indices 8..10
+// Tiers: 27..33 -> Indices 11..22
+// Orph (Left): 1..9 -> Indices 23..27
+const ZONE_RANGES = {
+    VOISINS: { start: 28, end: 7, count: 17, color: '#FFD700' }, // Ends at 7 inclusive
+    ORPHELINS_RIGHT: { start: 8, end: 10, count: 3, color: '#FF8C00' },
+    TIERS: { start: 11, end: 22, count: 12, color: '#00BFFF' },
+    ORPHELINS_LEFT: { start: 23, end: 27, count: 5, color: '#FF8C00' } // Same color as Right
+};
+
 export const RacetrackBoard = ({ width, height }: RacetrackBoardProps) => {
     const { placeBet, selectedChipValue, bets } = useGameStore();
 
+    // Interaction State
+    const [activeZone, setActiveZone] = useState<string | null>(null);
+
     // --- GEOMETRY CONFIGURATION ---
-    const PADDING = 2;
-    const TRACK_THICKNESS = 48;
-
-    // Determine Orientation - FORCE VERTICAL as requested
+    const PADDING = 10;
+    const TRACK_THICKNESS = 60;
     const isVertical = true;
-
-    // Use passed width/height directly
     const W = width;
     const H = height;
 
-    // --- VERTICAL STADIUM (PILL) GEOMETRY ---
-    // Maximized width.
-    // Radius = (W - 2*PADDING) / 2
-    const R_OUTER = (W - 2 * PADDING) / 2;
-
-    // Straight Line Length (Vertical)
-    const L_STRAIGHT = Math.max(0, H - 2 * R_OUTER - 2 * PADDING);
-
-    // Horizontal Mode L_STRAIGHT (Legacy support or if switched back)
-    const L_STRAIGHT_H = Math.max(0, W - 2 * ((H - PADDING) / 2) - 2 * PADDING);
-
-    const CX = W / 2;
-    const CY = H / 2;
-
-    // Centers for Vertical Stadium Arcs
-    // Top Arc Center
-    const CY_TOP = CY - L_STRAIGHT / 2;
-    // Bottom Arc Center
-    const CY_BOT = CY + L_STRAIGHT / 2;
-
-    // Horizontal Centers
-    const CX_LEFT = CX - L_STRAIGHT_H / 2;
-    const CX_RIGHT = CX + L_STRAIGHT_H / 2;
-
+    // Constrain Radius to fit in the smaller dimension (with margin)
+    // 0.90 factor provides the requested lateral margins
+    // USER REQUEST: Make it "narrower" (mas estrecha).
+    // limiting width to 75% of available width to elongate the shape.
+    const maxDiameter = Math.min(W * 0.75, H * 0.90);
+    const R_OUTER = maxDiameter / 2;
     const R_INNER = R_OUTER - TRACK_THICKNESS;
     const R_MID = R_OUTER - (TRACK_THICKNESS / 2);
 
-    // Perimeters
-    // Vertical: 2 * (Half Arc PI*R) + 2 * L_STRAIGHT
-    const PERIMETER_MID = 2 * Math.PI * R_MID + 2 * (isVertical ? L_STRAIGHT : L_STRAIGHT_H);
+    const L_STRAIGHT = Math.max(0, H - (2 * R_OUTER) - (2 * PADDING));
 
+    const CX = W / 2;
+    const CY = H / 2;
+    const CY_TOP = CY - L_STRAIGHT / 2;
+    const CY_BOT = CY + L_STRAIGHT / 2;
+
+    const ARC_LEN = Math.PI * R_MID;
+    const PERIMETER_MID = 2 * ARC_LEN + 2 * L_STRAIGHT;
     const NUM_SEGMENTS = 37;
     const SEGMENT_LENGTH = PERIMETER_MID / NUM_SEGMENTS;
 
-    // --- HELPER: Get Coordinates for a distance 'd' along the perimeter ---
-    const getPosForDist = (distance: number, radius: number) => {
-        // Normalize distance
-        let d = distance % PERIMETER_MID;
-        if (d < 0) d += PERIMETER_MID;
+    const OFFSET_D = ((Math.PI / 2) * R_MID) - (0.5 * SEGMENT_LENGTH);
 
-        if (isVertical) {
-            // VERTICAL PILL LOGIC
-            // Standard Start: Angle 0 (Right, 3 o'clock).
-            // But usually we want 0 (Top) to be first? 
-            // Let's assume Angle 0 (Right) is start of the Top Arc's right side?
-            // Top Arc spans from Angle 0 to -180 (Right -> Top -> Left).
+    // --- GEOMETRY HELPERS ---
+    const getPosCCW = (d: number, r: number) => {
+        const arcHalf = Math.PI * R_MID;
 
-            const arcHalfMid = Math.PI * R_MID;
-
-            // 1. Top Arc (0 to -180 degrees)
-            if (d < arcHalfMid) {
-                // Angle goes from 0 to -PI
-                const angleRad = -(d / R_MID);
-                const x = CX + radius * Math.cos(angleRad);
-                const y = CY_TOP + radius * Math.sin(angleRad);
-                return { x, y, angleRad, isCurve: true, center: 'TOP' };
-            }
-            d -= arcHalfMid;
-
-            // 2. Left Line (Top to Bottom)
-            if (d < L_STRAIGHT) {
-                const x = CX - radius;
-                const y = CY_TOP + d;
-                return { x, y, angleRad: -Math.PI, isCurve: false };
-            }
-            d -= L_STRAIGHT;
-
-            // 3. Bottom Arc (-180 start? No, technically -180 relative to center)
-            // Bottom Arc spans from -180 (Left) to -360 (Right)
-            if (d < arcHalfMid) {
-                const angleRad = -Math.PI - (d / R_MID);
-                const x = CX + radius * Math.cos(angleRad);
-                const y = CY_BOT + radius * Math.sin(angleRad);
-                return { x, y, angleRad, isCurve: true, center: 'BOT' };
-            }
-            d -= arcHalfMid;
-
-            // 4. Right Line (Bottom to Top)
-            if (d < L_STRAIGHT) {
-                const x = CX + radius;
-                const y = CY_BOT - d;
-                return { x, y, angleRad: 0, isCurve: false };
-            }
-
-            return { x: CX + radius, y: CY_TOP, angleRad: 0, isCurve: true, center: 'TOP' };
-
-        } else {
-            // HORIZONTAL LOGIC (Original)
-            // ... (Same as before)
-            const arcQuarterMid = (Math.PI * R_MID) / 2;
-            if (d < arcQuarterMid) {
-                const angleRad = -(d / R_MID);
-                const x = CX_RIGHT + radius * Math.cos(angleRad);
-                const y = CY + radius * Math.sin(angleRad);
-                return { x, y, angleRad, isCurve: true, center: 'RIGHT' };
-            }
-
-            d -= arcQuarterMid;
-
-            if (d < L_STRAIGHT_H) {
-                const x = CX_RIGHT - d;
-                const y = CY - radius;
-                return { x, y, angleRad: -Math.PI / 2, isCurve: false };
-            }
-
-            d -= L_STRAIGHT_H;
-
-            const arcHalfMid = Math.PI * R_MID;
-
-            if (d < arcHalfMid) {
-                const angleRad = -Math.PI / 2 - (d / R_MID);
-                const x = CX_LEFT + radius * Math.cos(angleRad);
-                const y = CY + radius * Math.sin(angleRad);
-                return { x, y, angleRad, isCurve: true, center: 'LEFT' };
-            }
-
-            d -= arcHalfMid;
-
-            if (d < L_STRAIGHT_H) {
-                const x = CX_LEFT + d;
-                const y = CY + radius; // Bottom line
-                return { x, y, angleRad: Math.PI / 2, isCurve: false };
-            }
-
-            d -= L_STRAIGHT_H;
-
-            // Right Arc Part 2
-            const angleRad = -3 * Math.PI / 2 - (d / R_MID);
-            const x = CX_RIGHT + radius * Math.cos(angleRad);
-            const y = CY + radius * Math.sin(angleRad);
-            return { x, y, angleRad, isCurve: true, center: 'RIGHT' };
+        if (d < arcHalf) {
+            const angle = -(d / R_MID);
+            return { x: CX + r * Math.cos(angle), y: CY_TOP + r * Math.sin(angle), angle, section: 'TOP' };
         }
+        d -= arcHalf;
+        if (d < L_STRAIGHT) {
+            return { x: CX - r, y: CY_TOP + d, angle: -Math.PI, section: 'LEFT' };
+        }
+        d -= L_STRAIGHT;
+        if (d < arcHalf) {
+            const angle = -Math.PI - (d / R_MID);
+            return { x: CX + r * Math.cos(angle), y: CY_BOT + r * Math.sin(angle), angle, section: 'BOT' };
+        }
+        d -= arcHalf;
+        return { x: CX + r, y: CY_BOT - d, angle: 0, section: 'RIGHT' };
     };
 
-    // Generate accurate path for a segment
+    const getPosForDist = (rawDistance: number, radius: number) => {
+        let d = (rawDistance + OFFSET_D) % PERIMETER_MID;
+        if (d < 0) d += PERIMETER_MID;
+        return getPosCCW(d, radius);
+    };
+
     const getSegmentPath = (i: number) => {
-        const dStart = i * SEGMENT_LENGTH;
-        const dEnd = (i + 1) * SEGMENT_LENGTH;
+        const dCenter = (OFFSET_D - (i * SEGMENT_LENGTH)) % PERIMETER_MID;
+        const dStart = (dCenter + SEGMENT_LENGTH / 2);
+        const dEnd = (dCenter - SEGMENT_LENGTH / 2);
 
-        const p1 = getPosForDist(dStart, R_OUTER); // Outer Start
-        const p2 = getPosForDist(dEnd, R_OUTER);   // Outer End
-        const p3 = getPosForDist(dEnd, R_INNER);   // Inner End
-        const p4 = getPosForDist(dStart, R_INNER); // Inner Start
+        const norm = (val: number) => {
+            let v = val % PERIMETER_MID;
+            if (v < 0) v += PERIMETER_MID;
+            return v;
+        };
 
-        // Construct Path Command
-        // Move to P1
+        const p1 = getPosCCW(norm(dStart), R_OUTER);
+        const p2 = getPosCCW(norm(dEnd), R_OUTER);
+        const p3 = getPosCCW(norm(dEnd), R_INNER);
+        const p4 = getPosCCW(norm(dStart), R_INNER);
+
         let d = `M ${p1.x} ${p1.y}`;
-
-        // Line/Arc to P2
-        if (p1.isCurve && p2.isCurve && p1.center === p2.center) {
-            // Both on same arc -> A command
-            // Sweep flag is 0 (CCW for SVG Y-down coordinates with negative angles? No, Math.sin works normally)
-            // My angles go 0 -> -90 (CCW visually).
-            // So sweep flag 0? 
-            // Lets check: Start 0, End -10. 
-            // SVG Arc: Start -> End. if sweep=0, goes "Left" way?
-            // Usually 0 is 'short way' or 'ccw'. 
-            // Let's rely on LargeArcFlag 0 (small slice). 
-            // Sweep: 0 for CCW (negative angle direction)?
-            d += ` A ${R_OUTER} ${R_OUTER} 0 0 0 ${p2.x} ${p2.y}`;
+        if (p1.section === p2.section && (p1.section === 'TOP' || p1.section === 'BOT')) {
+            d += ` A ${R_OUTER} ${R_OUTER} 0 0 1 ${p2.x} ${p2.y}`;
         } else {
-            // Straight line or crossing boundary (treat as straight for small segments)
-            // Even if crossing from Arc to Line, L works fine for small step.
             d += ` L ${p2.x} ${p2.y}`;
         }
-
-        // Line to P3
         d += ` L ${p3.x} ${p3.y}`;
+        d += ` L ${p4.x} ${p4.y}`;
+        d += ` Z`;
+        return d;
+    };
 
-        // Line/Arc to P4 (Backward)
-        if (p3.isCurve && p4.isCurve && p3.center === p4.center) {
-            // Going P3 -> P4 (CCW in angle, but traversing backwards along track?)
-            // P3 angle is "more negative" (later). P4 is "less negative" (earlier).
-            // So we go from -10 to 0. Positive direction.
-            // Sweep flag 1.
-            d += ` A ${R_INNER} ${R_INNER} 0 0 1 ${p4.x} ${p4.y}`;
-        } else {
-            d += ` L ${p4.x} ${p4.y}`;
+    // --- CHECK IN ZONE ---
+    const isInZone = (idx: number, zoneName: string | null) => {
+        if (!zoneName) return false;
+        if (zoneName === 'VOISINS') {
+            return (idx >= ZONE_RANGES.VOISINS.start || idx <= ZONE_RANGES.VOISINS.end);
         }
+        if (zoneName === 'TIERS') {
+            return (idx >= ZONE_RANGES.TIERS.start && idx <= ZONE_RANGES.TIERS.end);
+        }
+        if (zoneName === 'ORPHELINS') {
+            const inRight = (idx >= ZONE_RANGES.ORPHELINS_RIGHT.start && idx <= ZONE_RANGES.ORPHELINS_RIGHT.end);
+            const inLeft = (idx >= ZONE_RANGES.ORPHELINS_LEFT.start && idx <= ZONE_RANGES.ORPHELINS_LEFT.end);
+            return inRight || inLeft;
+        }
+        if (zoneName === 'ZERO') {
+            return (idx >= 33 || idx <= 2);
+        }
+        return false;
+    };
+
+    const trackItems = useMemo(() => {
+        return RACETRACK_SEQUENCE.map((num, i) => {
+            const dCenter = (OFFSET_D - (i * SEGMENT_LENGTH)) % PERIMETER_MID;
+            let dNorm = dCenter;
+            if (dNorm < 0) dNorm += PERIMETER_MID;
+
+            const pos = getPosCCW(dNorm, R_MID);
+            const rot = (pos.angle * 180 / Math.PI) + 90;
+
+            let baseColor = '#000';
+            if (num === 0) baseColor = COLORS.BET_GREEN;
+            else if (isRed(num)) baseColor = COLORS.BET_RED;
+            else baseColor = COLORS.BET_BLACK;
+
+            return {
+                num,
+                index: i,
+                path: getSegmentPath(i),
+                textPos: pos,
+                rot,
+                baseColor
+            };
+        });
+    }, [PERIMETER_MID, R_OUTER, R_INNER, SEGMENT_LENGTH]);
+
+
+    // --- INNER ZONES GEOMETRY ---
+    // We visually divide the inner void into 3 main blocks: 
+    // 1. VOISINS (Top)
+    // 2. ORPHELINS (Middle)
+    // 3. TIERS (Bottom)
+    // And a sub-zone ZERO SPIEL inside Voisins.
+
+    // Calculate "Cut Points" on the Inner Radius
+    const getInnerPoint = (i: number, side: 'Start' | 'End') => {
+        // Start of i: d = Offset - i*Seg + Seg/2
+        // End of i:   d = Offset - i*Seg - Seg/2
+        const dCenter = (OFFSET_D - (i * SEGMENT_LENGTH));
+        const d = side === 'Start' ? dCenter + SEGMENT_LENGTH / 2 : dCenter - SEGMENT_LENGTH / 2;
+
+        let val = d % PERIMETER_MID;
+        if (val < 0) val += PERIMETER_MID;
+
+        return getPosCCW(val, R_INNER);
+    };
+
+    // VOISINS: Index 27 (End of Orph Left) -> Index 8 (Start of Orph Right) ?
+    // Actually Voisins Range: Starts 28, Ends 7.
+    // So "Cut Line" is between Index 28 (Start) and Index 7 (End).
+    // Wait, 28 is on the Left. 7 is on the Right.
+    // So we connect InnerPoint(28, Start) to InnerPoint(7, End)?
+    // Or InnerPoint(28, corner) to InnerPoint(7, corner).
+    // Let's use the explicit boundaries we used for Regions.
+
+    // Bounds Indices:
+    // Voisins: [28, 29... 0 ... 7]
+    // Tiers: [11 ... 22]
+    // Orphelins: The Middle.
+
+    const pVoisinsLeft = getInnerPoint(28, 'Start'); // The logical start of Voisins zone
+    const pVoisinsRight = getInnerPoint(7, 'End'); // The logical end of Voisins zone
+
+    const pTiersRight = getInnerPoint(11, 'Start'); // Start of Tiers
+    const pTiersLeft = getInnerPoint(22, 'End'); // End of Tiers
+
+    // Construct Paths
+    // 1. VOISINS PATH
+    // Trace Inner Track from 28(Start) -> 7(End) -> Line to 28(Start)
+    const getZonePath = (indices: number[], closeLine: boolean = true) => {
+        if (!indices.length) return '';
+        const startI = indices[0];
+        const endI = indices[indices.length - 1];
+
+        // Move to Start
+        const pStart = getInnerPoint(startI, 'Start');
+        let d = `M ${pStart.x} ${pStart.y}`;
+
+        // Trace Inner
+        indices.forEach(i => {
+            const pEnd = getInnerPoint(i, 'End');
+            // We can use Line or Arc. For simplicity & robustness, Lines.
+            // (37 segments is smooth enough)
+            d += ` L ${pEnd.x} ${pEnd.y}`;
+        });
 
         // Close
+        if (closeLine) {
+            d += ` Z`;
+        }
+        return d;
+    };
+
+    // Helper to get range
+    const getIndices = (start: number, end: number) => {
+        const list = [];
+        let curr = start;
+        if (curr === end) return [curr];
+        while (true) {
+            list.push(curr);
+            if (curr === end) break;
+            curr = (curr + 1) % 37;
+        }
+        return list;
+    };
+
+    const voisinsIndices = getIndices(28, 7);
+    const tiersIndices = getIndices(11, 22);
+    // Orphelins is the "Rest". We can construct it by connecting the 4 points:
+    // VoisinsLeft -> VoisinsRight -> TiersRight -> TiersLeft -> Z
+    // But we need to trace the track edges for OrphRight and OrphLeft.
+    // OrphRight: 8..10.
+    // OrphLeft: 23..27.
+
+    const orphRightIndices = getIndices(8, 10);
+    const orphLeftIndices = getIndices(23, 27);
+
+    // ORPHELINS PATH: 
+    // Start at VoisinsRight (End of 7) -> Trace OrphRight (8..10) -> TiersRight (Start of 11)
+    // -> Line to TiersLeft (End of 22) -> Trace OrphLeft (23..27) -> VoisinsLeft (Start of 28)
+    // -> Line to Start.
+
+    const getOrphelinsPath = () => {
+        // 1. Start at End of Voisins (which is Start of OrphRight basically, coincident points)
+        const pStart = getInnerPoint(7, 'End');
+        let d = `M ${pStart.x} ${pStart.y}`;
+
+        // 2. Trace Orph Right
+        orphRightIndices.forEach(i => {
+            const p = getInnerPoint(i, 'End');
+            d += ` L ${p.x} ${p.y}`;
+        });
+
+        // 3. Line to Tiers Left (Actually Tiers End is 22... wait Tiers Start is 11)
+        // We just finished 10. Next is 11.
+        // Effectively we are at Start of 11. 
+        // We want to draw a Line across to End of 22? 
+        // NO. We want to draw a line to the Start of the Orph Left side?
+        // The Orphelins zone fills the middle.
+        // So it connects the "Right Side" to the "Left Side".
+        // Connection 1: End of OrphRight (10) -> Start of Tiers (11)? 
+        // No, Tiers is the bottom cap.
+        // So Orphelins touches Tiers.
+        // So we trace 8..10. Now we are at boundary with Tiers.
+        // We draw Line to boundary of Tiers/OrphLeft? 
+        // Tiers is 11..22.
+        // So boundary is between 22 and 23.
+        // We draw Line from (End of 10) to (Start of 23)?
+        // Or do we include Tiers boundary?
+        // The border is the line connecting EndOf10 and StartOf23? No.
+        // The border is strict.
+        // Visually, Orphelins is a polygon covering the middle void.
+        // One visual edge is the boundary with Voisins.
+        // Other edge is boundary with Tiers.
+        // So:
+        // Edge 1 (Top): Line from VoisinsRight(7_End) to VoisinsLeft(28_start).
+        // Edge 2 (Right): Inner Track 8..10.
+        // Edge 3 (Bottom): Line from TiersRight(11_start) to TiersLeft(22_end).
+        // Edge 4 (Left): Inner Track 27..23 (Reverse).
+
+        // Let's build this.
+
+        // A: Move to VoisinsRight (7 End / 8 Start)
+        // B: Trace 8..10. End at 10 End.
+        // 11 is Tiers Start (Bottom Right).
+        // So 10 End connects to 11 Start.
+        // But Tiers Zone is a "Cap".
+        // The Orphelins Zone shares the "Cut Line" with Tiers.
+        // Cut Line connects 11_Start and 22_End.
+        // So we go 10_End -> 11_Start -> (Line across) -> 22_End -> (Trace Backwards 27..23) -> 23_Start -> (Line across) -> 8_Start?
+        // No. 
+        // 23_Start is OrphLeft Start.
+        // 23..27 goes UP the Left side.
+        // 27 End connects to 28 Start (Voisins Left).
+        // Voisins Cut Line connects 28_Start and 7_End.
+
+        // Path:
+        // 1. Move to 7_End (Right Top).
+        // 2. Trace 8..10 (Right Side Down). Ends at 10_End (Right Bot).
+        // 3. Line to 22_End (Left Bot).  <-- This is the Tiers Boundary Line.
+        // 4. Trace 23..27 (Left Side Up). Need to verify order.
+        //    Indices 23..27 go Up? 
+        //    CCW Geometry: 23 is Bot Left. 27 is Top Left.
+        //    Yes. So we trace 23 -> 27?
+        const p22End = getInnerPoint(22, 'End');
+        d += ` L ${p22End.x} ${p22End.y}`;
+
+        // Trace 23..27? No, our trace logic (getInnerPoint) follows CCW index order?
+        // 23..27 is [23, 24, 25, 26, 27].
+        // 23 is Bottom Left.
+        // 27 is Top Left.
+        // So tracing 23->27 goes UP perfectly.
+        // BUT we are at 22_End (which is 23_Start).
+        // So we just Trace 23..27 normally.
+        orphLeftIndices.forEach(i => {
+            const p = getInnerPoint(i, 'End');
+            d += ` L ${p.x} ${p.y}`;
+        });
+
+        // Now at 27_End.
+        // Line to 7_End (Start Point). <-- This is Voisins Boundary Line.
         d += ` Z`;
 
         return d;
     };
 
-    const trackItems = useMemo(() => {
-        return RACETRACK_SEQUENCE.map((num, i) => {
-            const dCenter = (i + 0.5) * SEGMENT_LENGTH;
-            const pos = getPosForDist(dCenter, R_MID);
+    // ZERO SPIEL: Subzone within Voisins. 
+    // Indices: [33, 34, 35, 36, 0, 1, 2] -> 12, 35, 3, 26, 0, 32, 15.
+    // Range: 33..2.
+    // It's the "Tip" of the Voisins Cap.
+    // We can draw it overlaying Voisins.
+    // Boundary of Zero Spiel is 33_Start and 2_End.
+    const zeroSpielIndices = getIndices(33, 2);
 
-            // Text rotation
-            // Normal to surface or upright?
-            // Standard: Rotated so bottom fits center.
-            // pos.angleRad is tangent? No, it's radial angle from center.
-            // +90 deg.
-            const textRot = (pos.angleRad * 180 / Math.PI) + 90;
+    const pathVoisins = getZonePath(voisinsIndices);
+    const pathTiers = getZonePath(tiersIndices);
+    const pathOrphelins = getOrphelinsPath();
+    const pathZero = getZonePath(zeroSpielIndices);
 
-            let color = '#000';
-            if (num === 0) color = COLORS.BET_GREEN;
-            else if (isRed(num)) color = COLORS.BET_RED;
+    // Labels Positions (Centroids adjustment)
+    // Voisins: Inside Top Cap. Center of Cap is CY_TOP.
+    // Zero Spiel: Very Top Tip.
+    // Tiers: Inside Bottom Cap. Center of Cap is CY_BOT.
 
-            return {
-                num,
-                path: getSegmentPath(i),
-                textPos: pos,
-                textRot,
-                color
-            };
-        });
-    }, [PERIMETER_MID, CX_RIGHT, CX_LEFT, CY, R_MID, L_STRAIGHT, L_STRAIGHT_H]);
+    // We want Voisins Text to be inside the Top Arc area.
+    // CY_TOP is the center of the arc.
+    // So let's place it slightly "Up" from the center of the arc to be distinct from Orphelins.
+    const pVoisinsCenter = { x: CX, y: CY_TOP - (R_INNER * 0.4) };
 
-    const handleCallBet = (sequence: number[]) => {
-        sequence.forEach(num => {
-            placeBet(num.toString(), selectedChipValue);
-        });
+    // Tiers Text: Inside Bottom Arc.
+    const pTiersCenter = { x: CX, y: CY_BOT + (R_INNER * 0.4) };
+
+    const pOrphelinsCenter = { x: CX, y: CY };
+
+    // Zero Spiel: Inside Voisins, closer to the '0' at the top.
+    const pZeroCenter = { x: CX, y: CY_TOP - (R_INNER * 0.75) };
+
+    const handleCallBet = (seq: number[]) => {
+        seq.forEach(n => placeBet(n.toString(), selectedChipValue));
+        HapticManager.playChipSound();
     };
 
-    // --- DIVIDERS LAYER (Memoized) ---
-    const DividersLayer = useMemo(() => {
-        const getOuterPos = (i: number) => getPosForDist(i * SEGMENT_LENGTH, R_OUTER);
-        const getInnerPos = (i: number) => getPosForDist(i * SEGMENT_LENGTH, R_INNER);
-
-        if (isVertical) {
-            // Pill Top Y is Top of the Straight section (CY - L_STRAIGHT/2).
-            const boxTopY = CY - L_STRAIGHT / 2;
-
-            // Ratios (Total 10.5)
-            // Zero (1.0) -> Voisins (4.0) -> Orph (3.0) -> Tiers (2.5)
-            const share = L_STRAIGHT / 10.5;
-
-            const y1 = boxTopY + share * 1.0;
-            const y2 = boxTopY + share * (1.0 + 4.0);
-            const y3 = boxTopY + share * (5.0 + 3.0);
-
-            // Inner width boundaries
-            const boxLeft = CX - R_INNER + 4;
-            const boxRight = CX + R_INNER - 4;
-
-            return (
-                <G>
-                    <Line x1={boxLeft} y1={y1} x2={boxRight} y2={y1} stroke="rgba(255,255,255,0.5)" strokeWidth={1} />
-                    <Line x1={boxLeft} y1={y2} x2={boxRight} y2={y2} stroke="rgba(255,255,255,0.5)" strokeWidth={1} />
-                    <Line x1={boxLeft} y1={y3} x2={boxRight} y2={y3} stroke="rgba(255,255,255,0.5)" strokeWidth={1} />
-                </G>
-            );
-        } else {
-            const boxX = PADDING + TRACK_THICKNESS + 4;
-            const boxY = PADDING + TRACK_THICKNESS + 4;
-            const boxH = H - 2 * boxY;
-            const boxW = W - 2 * boxX;
-
-            const x1 = boxX + boxW * (2.5 / 10.5);
-            const x2 = boxX + boxW * (5.5 / 10.5);
-            const x3 = boxX + boxW * (9.5 / 10.5);
-
-            return (
-                <G>
-                    <Line x1={x1} y1={boxY} x2={x1} y2={boxY + boxH} stroke="rgba(255,255,255,0.5)" strokeWidth={1} />
-                    <Line x1={x2} y1={boxY} x2={x2} y2={boxY + boxH} stroke="rgba(255,255,255,0.5)" strokeWidth={1} />
-                    <Line x1={x3} y1={boxY} x2={x3} y2={boxY + boxH} stroke="rgba(255,255,255,0.5)" strokeWidth={1} />
-                </G>
-            );
-        }
-    }, [isVertical, W, H, L_STRAIGHT, L_STRAIGHT_H, R_OUTER, R_INNER, PADDING, TRACK_THICKNESS, CX, CY, SEGMENT_LENGTH]);
     return (
-        <View style={[styles.container, { width, height }]}>
-            <Svg width={width} height={height}>
-                <Defs>
-                    {/* Glossy gradient if needed */}
-                </Defs>
+        <View style={styles.container}>
+            <Svg width={W} height={H}>
+                <Defs />
 
-                {DividersLayer}
-
-                {/* Track Cells */}
+                {/* TRACK ITEMS (Outer Ring) */}
                 {trackItems.map((item) => {
-                    const betAmount = bets[item.num.toString()] || 0;
-                    const hasBet = betAmount > 0;
+                    const betAmt = bets[item.num.toString()] || 0;
+
+                    // Interaction Logic
+                    const isZoneActive = activeZone !== null;
+                    const belongsToZone = isInZone(item.index, activeZone);
+
+                    let opacity = 1;
+                    let strokeWidth = 1;
+                    let strokeColor = "rgba(255,255,255,0.2)";
+
+                    if (isZoneActive) {
+                        if (belongsToZone) {
+                            opacity = 1;
+                            strokeWidth = 2;
+                            strokeColor = "#FFF"; // Highlight border
+                        } else {
+                            opacity = 0.3; // Dim others
+                        }
+                    }
 
                     return (
                         <G key={item.num} onPress={() => handleCallBet([item.num])}>
-                            {/* Shape */}
                             <Path
                                 d={item.path}
-                                fill={item.color}
-                                stroke="rgba(255,255,255,0.2)" // Separator lines
-                                strokeWidth={1}
+                                fill={item.baseColor}
+                                fillOpacity={opacity}
+                                stroke={strokeColor}
+                                strokeWidth={strokeWidth}
                             />
-
-                            {/* Bet Indicator */}
-                            {hasBet ? (
+                            {betAmt > 0 ? (
                                 <Circle
                                     cx={item.textPos.x}
                                     cy={item.textPos.y}
-                                    r={8}
-                                    fill={getChipColor(betAmount)}
+                                    r={9}
+                                    fill={getChipColor(betAmt)}
                                     stroke="#000"
+                                    opacity={opacity}
                                 />
                             ) : (
                                 <SvgText
+                                    x={item.textPos.x}
+                                    y={item.textPos.y}
                                     fill="#FFF"
-                                    fontSize={10}
+                                    fillOpacity={opacity}
+                                    fontSize={12}
                                     fontWeight="bold"
                                     textAnchor="middle"
                                     alignmentBaseline="middle"
-                                    x={item.textPos.x}
-                                    y={item.textPos.y}
-                                    rotation={item.textRot}
+                                    rotation={item.rot}
                                     origin={`${item.textPos.x}, ${item.textPos.y}`}
                                 >
                                     {item.num}
@@ -348,53 +447,40 @@ export const RacetrackBoard = ({ width, height }: RacetrackBoardProps) => {
                         </G>
                     );
                 })}
+
+                {/* INNER ZONES (The Backgrounds) */}
+                {/* 1. Voisins (Base) */}
+                <G onPress={() => handleCallBet(SEQ_VOISINS_ZERO)} onPressIn={() => setActiveZone('VOISINS')} onPressOut={() => setActiveZone(null)}>
+                    <Path d={pathVoisins} fill="none" stroke={COLORS.ACCENT_GOLD} strokeWidth={2} />
+                    <SvgText x={pVoisinsCenter.x} y={pVoisinsCenter.y} fill={COLORS.ACCENT_GOLD} fontSize={14} fontWeight="bold" textAnchor="middle" alignmentBaseline="middle">
+                        VOISINS
+                    </SvgText>
+                </G>
+
+                {/* 2. Orphelins */}
+                <G onPress={() => handleCallBet(SEQ_ORPHELINS)} onPressIn={() => setActiveZone('ORPHELINS')} onPressOut={() => setActiveZone(null)}>
+                    <Path d={pathOrphelins} fill="none" stroke={COLORS.ACCENT_GOLD} strokeWidth={2} />
+                    <SvgText x={pOrphelinsCenter.x} y={pOrphelinsCenter.y} fill={COLORS.ACCENT_GOLD} fontSize={14} fontWeight="bold" textAnchor="middle" alignmentBaseline="middle" origin={`${pOrphelinsCenter.x}, ${pOrphelinsCenter.y}`}>
+                        ORPHELINS
+                    </SvgText>
+                </G>
+
+                {/* 3. Tiers */}
+                <G onPress={() => handleCallBet(SEQ_TIERS)} onPressIn={() => setActiveZone('TIERS')} onPressOut={() => setActiveZone(null)}>
+                    <Path d={pathTiers} fill="none" stroke={COLORS.ACCENT_GOLD} strokeWidth={2} />
+                    <SvgText x={pTiersCenter.x} y={pTiersCenter.y} fill={COLORS.ACCENT_GOLD} fontSize={14} fontWeight="bold" textAnchor="middle" alignmentBaseline="middle">
+                        TIERS
+                    </SvgText>
+                </G>
+
+                {/* 4. Zero Spiel (Overlay on Voisins) */}
+                <G onPress={() => handleCallBet(SEQ_JEU0)} onPressIn={() => setActiveZone('ZERO')} onPressOut={() => setActiveZone(null)}>
+                    <Path d={pathZero} fill="none" stroke={COLORS.ACCENT_GOLD} strokeWidth={2} />
+                    <SvgText x={pZeroCenter.x} y={pZeroCenter.y} fill={COLORS.ACCENT_GOLD} fontSize={10} fontWeight="bold" textAnchor="middle" alignmentBaseline="middle">
+                        ZERO
+                    </SvgText>
+                </G>
             </Svg>
-
-            {/* Central Betting Zones */}
-            <View style={[
-                styles.centerControls,
-                {
-                    left: PADDING + TRACK_THICKNESS + 4,
-                    right: PADDING + TRACK_THICKNESS + 4,
-                    top: PADDING + TRACK_THICKNESS + 4,
-                    bottom: PADDING + TRACK_THICKNESS + 4,
-                    borderRadius: R_INNER - 4,
-                }
-            ]}>
-
-                {/* 1. SERIE 5/8 (Tiers) - Left Side */}
-                <TouchableOpacity
-                    style={[styles.zone, styles.zoneTiers]}
-                    onPress={() => handleCallBet(SEQ_TIERS)}
-                >
-                    <Text style={styles.zoneTitle}>SERIE 5/8</Text>
-                </TouchableOpacity>
-
-                {/* 2. ORPHELINS (Orph) - Middle Left */}
-                <TouchableOpacity
-                    style={[styles.zone, styles.zoneOrph]}
-                    onPress={() => handleCallBet(SEQ_ORPHELINS)}
-                >
-                    <Text style={styles.zoneTitle}>ORPHELINS</Text>
-                </TouchableOpacity>
-
-                {/* 3. SERIE 0/2/3 (Voisins) - Middle Right */}
-                <TouchableOpacity
-                    style={[styles.zone, styles.zoneVoisins]}
-                    onPress={() => handleCallBet(SEQ_VOISINS_ZERO)}
-                >
-                    <Text style={styles.zoneTitle}>SERIE 0/2/3</Text>
-                </TouchableOpacity>
-
-                {/* 4. ZERO SPIEL (Zero) - Right Edge */}
-                <TouchableOpacity
-                    style={[styles.zone, styles.zoneZero]}
-                    onPress={() => handleCallBet(SEQ_JEU0)}
-                >
-                    <Text style={[styles.zoneTitle, { width: 40, textAlign: 'center' }]}>ZERO</Text>
-                </TouchableOpacity>
-
-            </View>
         </View>
     );
 };
@@ -404,38 +490,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    centerControls: {
-        position: 'absolute',
-        flexDirection: 'row',
-        backgroundColor: 'transparent',
-        overflow: 'hidden',
-        borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.3)'
-    },
-    zone: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        // borderRightWidth removed, handled by SVG
-        height: '100%'
-    },
-    zoneTitle: {
-        fontSize: 10,
-        fontWeight: 'bold',
-        color: '#FFFFFF',
-        textAlign: 'center'
-    },
-    zoneTiers: {
-        flex: 2.5,
-    },
-    zoneOrph: {
-        flex: 3.0,
-    },
-    zoneVoisins: {
-        flex: 4.0,
-    },
-    zoneZero: {
-        flex: 1.0,
-        borderRightWidth: 0,
-        backgroundColor: 'rgba(255,255,255,0.1)'
-    }
 });
