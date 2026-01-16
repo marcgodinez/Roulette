@@ -115,6 +115,14 @@ class AudioManagerService {
             } catch (error) { }
         }
     }
+    // --- ALIASES FOR COMPATIBILITY ---
+    async playBackgroundMusic() {
+        return this.playBGM('CASINO');
+    }
+
+    async stopBackgroundMusic() {
+        return this.stopBGM();
+    }
 }
 
 export const AudioManager = new AudioManagerService();

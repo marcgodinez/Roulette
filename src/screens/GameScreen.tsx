@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Dimensions, ScrollView, Modal, FlatList, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Dimensions, Modal, Alert } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import Animated, {
     useSharedValue,
     useAnimatedStyle,
@@ -9,30 +10,40 @@ import Animated, {
     withRepeat,
     withSequence
 } from 'react-native-reanimated';
+import Svg, { Circle, Path } from 'react-native-svg';
 import { useGameStore } from '../store/useGameStore';
-import { useAuth } from '../hooks/useAuth';
 import { useGameEngine } from '../hooks/useGameEngine';
 import { BettingBoard } from '../components/BettingBoard';
 import { RouletteWheel } from '../components/RouletteWheel';
-import { HistoryBar } from '../components/HistoryBar'; // New Import
+import { HistoryBar } from '../components/HistoryBar';
+import { BettingControls } from '../components/BettingControls';
 import { StoreModal } from '../components/StoreModal';
 import { BonusGame } from '../components/BonusGame';
-import { CHIPS } from '../constants/chips';
 import { isRed } from '../constants/gameRules';
 import { RacetrackBoard } from '../components/RacetrackBoard';
+import { ChipSelector } from '../components/ChipSelector'; // Imported
 
 const { height } = Dimensions.get('window');
 
-import { COLORS, METRICS } from '../constants/theme';
+import { COLORS, SHADOWS } from '../constants/theme';
 import { AudioManager } from '../services/AudioManager';
-import { HapticManager } from '../services/HapticManager';
-import { AdManager } from '../services/AdManager';
 import { formatCurrency } from '../utils/format';
 import { StrategySelector } from '../components/StrategySelector';
-// StatsModal handled by HistoryBar now
+
+// --- NEON ICONS ---
+const RouletteIcon = ({ size = 20, color = "#FFF" }) => (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <Circle cx="12" cy="12" r="10" stroke={color} strokeWidth="2" />
+        <Circle cx="12" cy="12" r="6" stroke={color} strokeWidth="1.5" />
+        <Circle cx="12" cy="12" r="2" fill={color} />
+        <Path d="M12 2 L12 6" stroke={color} strokeWidth="1.5" />
+        <Path d="M12 18 L12 22" stroke={color} strokeWidth="1.5" />
+        <Path d="M2 12 L6 12" stroke={color} strokeWidth="1.5" />
+        <Path d="M18 12 L22 12" stroke={color} strokeWidth="1.5" />
+    </Svg>
+);
 
 export const GameScreen = ({ onBack }: { onBack: () => void }) => {
-    // Consolidated Store Access
     const {
         currentPhase,
         fireNumbers,
@@ -41,385 +52,173 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
         lastWinAmount,
         currentBet,
         undoLastBet,
-        rebet, // New
+        rebet,
         selectedChipValue,
         setSelectedChipValue,
-        // Monetization
-        isStoreOpen,
-        setStoreOpen,
-        // Strategies
-        savedStrategies,
-        loadStrategies,
-        applyStrategy,
-        deleteStrategy
+        applyStrategy
     } = useGameStore();
 
-    const { triggerSpin } = useGameEngine();
-
-    // Local state for overlays
-    const [showResultOverlay, setShowResultOverlay] = useState(false);
     const [strategiesModalOpen, setStrategiesModalOpen] = useState(false);
-    const [showFire, setShowFire] = useState(false);
-    const [viewMode, setViewMode] = useState<'GRID' | 'TRACK'>('GRID');
+    const [isStoreOpen, setStoreOpen] = useState(false);
     const [boardSize, setBoardSize] = useState({ width: 0, height: 0 });
-
-    const spinCount = React.useRef(0);
+    const [viewMode, setViewMode] = useState<'GRID' | 'TRACK'>('GRID');
+    const spinPulse = useSharedValue(1);
 
     useEffect(() => {
-        loadStrategies();
-        AudioManager.initialize().then(() => {
-            AudioManager.playBGM('CASINO');
-        });
-        AdManager.loadInterstitial(); // Preload
+        AudioManager.playBackgroundMusic();
+        return () => AudioManager.stopBackgroundMusic();
     }, []);
 
-    // Ad Logic on Spin End (or Start)
-    // User requested: "after first spin" and "every X spins".
-    // We'll Trigger it when betting box re-opens (i.e., Phase goes BACK to BETTING) or when Spin Starts?
-    // "After 1st spin" usually means after result.
-    // Let's hook into `isResult` becoming true.
+    const { prepareRound, startRound } = useGameEngine();
+    const [showResultOverlay, setShowResultOverlay] = useState(false);
+    const showFire = fireNumbers.length > 0 && currentPhase !== 'BETTING';
 
     useEffect(() => {
-        if (currentPhase === 'RESULT') {
-            spinCount.current += 1;
-            const count = spinCount.current;
-
-            // Logic: 1st spin, then every 5 spins (6, 11, 16...)
-            // User said: "despues de la primera" (1) and "cada X" (say, 5).
-            // So: 1, 6, 11, 16...
-            if (count === 1 || (count - 1) % 5 === 0) {
-                // Delay slightly so user sees the win first? 
-                // Or show it when they close the result overlay?
-                // Let's show it after a short delay to not block the "You Won" euphoria immediately.
-                setTimeout(() => {
-                    AdManager.showInterstitial();
-                }, 3000);
-            }
+        const isBetting = currentPhase === 'BETTING';
+        if (isBetting) {
+            spinPulse.value = withRepeat(withSequence(withTiming(1.1, { duration: 700 }), withTiming(1, { duration: 700 })), -1, true);
+        } else {
+            spinPulse.value = 1;
         }
     }, [currentPhase]);
-
-    const handleApplyStrategy = (strategy: any) => {
-        const success = applyStrategy(strategy);
-        if (success) {
-            setStrategiesModalOpen(false);
-        } else {
-            // Alert user (Custom alert or standard)
-            // For now, let's assume store handles it or we show simple alert
-            // But we can't import Alert easily if not imported.
-            // Let's rely on visual feedback or add Alert import if needed.
-            // Actually, I'll add Alert import.
-        }
-    };
 
     const isSpinning = currentPhase === 'SPINNING';
     const isResult = currentPhase === 'RESULT';
     const isBonus = currentPhase === 'BONUS';
     const isBetting = currentPhase === 'BETTING';
 
-    // Timer for Result Overlay
     useEffect(() => {
         if (isSpinning) {
             setShowResultOverlay(false);
         } else if (isResult && winningNumber !== null) {
             const timer = setTimeout(() => {
                 setShowResultOverlay(true);
-            }, 4000); // Wait for ball to settle (approx)
+            }, 500); // Faster result show
             return () => clearTimeout(timer);
         }
     }, [isSpinning, isResult, winningNumber]);
 
-    // Fire Visibility Timer
-    useEffect(() => {
-        if (isSpinning) {
-            setShowFire(true);
-            const timer = setTimeout(() => setShowFire(false), 3500);
-            return () => clearTimeout(timer);
-        } else {
-            setShowFire(false);
-        }
-    }, [isSpinning]);
-
-    // Phase Animation Logic (0=Betting/Result, 1=Spinning)
-    // Only compress during SPINNING. Expand back for RESULT.
     const phaseValue = useSharedValue(0);
     useEffect(() => {
         phaseValue.value = withTiming(isSpinning ? 1 : 0, { duration: 800 });
     }, [isSpinning]);
 
-    // Animated Styles
-    const topStyle = useAnimatedStyle(() => {
-        // Betting/Result: 0.20 (Balanced)
-        // Spinning: 0.45 (Reduced from 0.55 to keep board visible)
-        const flex = interpolate(phaseValue.value, [0, 1], [0.20, 0.45]);
-        return { flex };
-    });
+    const topStyle = useAnimatedStyle(() => ({ flex: 0.28 }));
+    const bottomStyle = useAnimatedStyle(() => ({ flex: 0.72 }));
 
-    const bottomStyle = useAnimatedStyle(() => {
-        // Betting/Result: 0.80 (Large but not overwhelming)
-        // Spinning: 0.55 (Increased from 0.45 so grid doesn't squash)
-        const flex = interpolate(phaseValue.value, [0, 1], [0.80, 0.55]);
-        const opacity = interpolate(phaseValue.value, [0, 1], [1, 0.9]);
-        return { flex, opacity };
+    const overlayStyle = useAnimatedStyle(() => {
+        const opacity = interpolate(phaseValue.value, [0, 1], [0, 0.7]);
+        return { opacity, zIndex: phaseValue.value > 0.1 ? 100 : -1 };
     });
 
     const cameraStyle = useAnimatedStyle(() => {
-        const rotateX = interpolate(phaseValue.value, [0, 1], [55, 0]);
-        const scale = interpolate(phaseValue.value, [0, 1], [0.65, 1]);
-        const translateY = interpolate(phaseValue.value, [0, 1], [0, 0]); // Removed offset
-        return {
-            transform: [
-                { perspective: 1000 },
-                { rotateX: `${rotateX}deg` },
-                { scale },
-                { translateY }
-            ]
-        };
+        const rotateX = interpolate(phaseValue.value, [0, 1], [40, 0]);
+        const scale = interpolate(phaseValue.value, [0, 1], [0.65, 1.1]); // Less zoom in neon mode to keep context
+        const translateY = interpolate(phaseValue.value, [0, 1], [0, 150]);
+        return { transform: [{ perspective: 1000 }, { rotateX: `${rotateX}deg` }, { scale }, { translateY }], zIndex: 200 };
     });
 
-    const fireOverlayStyle = useAnimatedStyle(() => {
-        return {
-            opacity: withTiming(showFire ? 1 : 0, { duration: 500 })
-        };
-    });
+    const fireOverlayStyle = useAnimatedStyle(() => ({ opacity: withTiming(showFire ? 1 : 0, { duration: 500 }) }));
 
-    const handleSpin = () => {
+    const handleSpin = async () => {
         if (currentBet === 0) {
             Alert.alert("Place Your Bets", "You need to place at least one chip to spin the wheel!");
             return;
         }
-        HapticManager.trigger('selection');
-        triggerSpin();
+        const isValid = await useGameStore.getState().validateSession();
+        if (isValid === false) return;
+        if (prepareRound()) startRound();
     };
 
-    // Spin Pulse Animation
-    const spinPulse = useSharedValue(1);
-    useEffect(() => {
-        if (isBetting) {
-            spinPulse.value = withRepeat(
-                withSequence(
-                    withTiming(1.1, { duration: 700 }),
-                    withTiming(1, { duration: 700 })
-                ),
-                -1,
-                true
-            );
-        } else {
-            spinPulse.value = 1;
-        }
-    }, [isBetting]);
-
-    const spinButtonStyle = useAnimatedStyle(() => {
-        return {
-            transform: [{ scale: spinPulse.value }]
-        };
-    });
-
     if (isBonus) {
-        return (
-            <View style={styles.container}>
-                <BonusGame />
-            </View>
-        );
+        return <View style={styles.container}><BonusGame /></View>;
     }
 
     return (
         <View style={styles.container}>
-
-            {/* TOP CONTAINER (WHEEL) */}
-            <Animated.View style={[styles.topContainer, topStyle]}>
-
-                {/* 3D Wrapper */}
-                <Animated.View style={[styles.wheelWrapper, cameraStyle]}>
-
-                    {/* WHEEL CASING / STRUCTURE */}
-                    <View style={styles.wheelCasing}>
-                        <View style={styles.casingInnerOutline}>
-                            <RouletteWheel
-                                isSpinning={isSpinning}
-                                winningNumber={winningNumber}
-                                fireNumbers={fireNumbers}
-                            />
-                        </View>
-                    </View>
-
-
-
-                </Animated.View>
-
-                {/* FIRE OVERLAY */}
-                {/* FIRE OVERLAY MOVED TO ROOT */}
-
-            </Animated.View>
-
-            {/* HISTORY BAR */}
-            <HistoryBar />
-
-            {/* HEADER (Absolute Top) */}
+            {/* HEADER */}
             <View style={styles.header}>
-                <View style={styles.headerLeft}>
-                    <TouchableOpacity onPress={onBack} style={styles.homeButton}>
-                        <Text style={styles.homeButtonText}>⌂</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={[styles.headerLeft, { alignItems: 'flex-start' }]}>
                     <View style={styles.creditsBox}>
-                        <View style={styles.chipIcon}>
-                            <View style={styles.chipInner} />
-                        </View>
+                        <View style={styles.chipIcon}><View style={styles.chipInner} /></View>
                         <Text style={styles.creditsText}>{formatCurrency(credits || 0)}</Text>
                     </View>
-
-                    {/* SHOP BUTTON */}
-                    <TouchableOpacity
-                        style={styles.shopButton}
-                        onPress={() => setStoreOpen(true)}
-                    >
+                </View>
+                <View style={{ flex: 1 }} />
+                <View style={[styles.headerLeft, { alignItems: 'flex-end' }]}>
+                    <TouchableOpacity style={styles.shopButton} onPress={() => setStoreOpen(true)}>
                         <Text style={styles.shopButtonText}>+</Text>
                     </TouchableOpacity>
                 </View>
             </View>
 
-            {/* BOTTOM CONTAINER (BOARD) */}
-            <Animated.View style={[styles.bottomContainer, bottomStyle]}>
+            <View style={{ height: 100 }} />
 
-                {/* SPIN BUTTON (Relocated) */}
-                {/* SPIN BUTTON (Relocated & Animated) */}
-                {isBetting && (
-                    <Animated.View style={[styles.spinButtonContainerMoved, spinButtonStyle]}>
-                        <TouchableOpacity style={styles.spinButton} onPress={handleSpin}>
-                            <Text style={styles.spinText}>SPIN</Text>
-                        </TouchableOpacity>
-                    </Animated.View>
-                )}
-                {/* CENTERED BOARD AREA */}
-                <View
-                    style={{
-                        flex: 1,
-                        width: '95%', // Slight horizontal margin
-                        alignSelf: 'center',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: COLORS.BG_SURFACE, // Defined backing
-                        borderRadius: 12,
-                        borderWidth: 1,
-                        borderColor: COLORS.BORDER_SUBTLE,
-                        marginVertical: 10,
-                        overflow: 'hidden', // Clip board corners
-                        shadowColor: "#000",
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.25,
-                        shadowRadius: 3.84,
-                        elevation: 5,
-                    }}
-                    onLayout={(event) => {
-                        const { width, height } = event.nativeEvent.layout;
-                        setBoardSize({ width, height });
-                    }}
-                >
+            {/* TOP CONTAINER */}
+            <Animated.View style={[styles.topContainer, topStyle]}>
+                <Animated.View style={[styles.wheelWrapper, cameraStyle]}>
+                    <View style={styles.wheelCasing}>
+                        <View style={styles.casingInnerOutline}>
+                            <RouletteWheel isSpinning={isSpinning} winningNumber={winningNumber} fireNumbers={fireNumbers} />
+                        </View>
+                    </View>
+                </Animated.View>
+
+                {/* LEFT ACTIONS (View Mode & Favorites) */}
+                <View style={styles.leftActions}>
+                    <TouchableOpacity style={styles.sideActionBtn} onPress={() => setViewMode(prev => prev === 'GRID' ? 'TRACK' : 'GRID')}>
+                        {viewMode === 'GRID' ? <RouletteIcon size={22} color={COLORS.ACCENT_GOLD} /> : <Ionicons name="grid-outline" size={20} color={COLORS.ACCENT_GOLD} />}
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.sideActionBtn} onPress={() => setStrategiesModalOpen(true)}>
+                        <Ionicons name="heart-outline" size={20} color={COLORS.BET_RED} />
+                    </TouchableOpacity>
+                </View>
+
+                {/* RIGHT ACTIONS (Betting Tools) */}
+                <View style={styles.sideActions}>
+                    <TouchableOpacity style={[styles.sideActionBtn, !isBetting && styles.disabledSideBtn]} onPress={undoLastBet} disabled={!isBetting}>
+                        <Ionicons name="arrow-undo" size={20} color={COLORS.ACCENT_BLUE} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.sideActionBtn, !isBetting && styles.disabledSideBtn]} onPress={() => useGameStore.getState().clearBets()} disabled={!isBetting}>
+                        <Ionicons name="trash-outline" size={20} color={COLORS.DANGER} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.sideActionBtn, (!isBetting || currentBet > 0) && styles.disabledSideBtn]} onPress={rebet} disabled={!isBetting || currentBet > 0}>
+                        <Ionicons name="reload" size={20} color={COLORS.SUCCESS} />
+                    </TouchableOpacity>
+                </View>
+            </Animated.View>
+
+            {/* HISTORY BAR */}
+            <View style={{ height: 60, zIndex: 15, justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)', borderTopWidth: 1, borderBottomWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }}>
+                <HistoryBar />
+            </View>
+
+            {/* BOTTOM CONTAINER */}
+            <Animated.View style={[styles.bottomContainer, bottomStyle]}>
+                <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: '#000' }, overlayStyle]} pointerEvents="none" />
+
+                <View style={{ flex: 1, width: '100%', alignSelf: 'center', justifyContent: 'center', alignItems: 'center', marginTop: 5, backgroundColor: 'transparent' }}
+                    onLayout={(event) => setBoardSize(event.nativeEvent.layout)}>
                     {viewMode === 'GRID' ? (
-                        <BettingBoard
-                            highlightedNumbers={fireNumbers}
-                            disabled={!isBetting}
-                        />
+                        /* NEON BOARD CONTAINER */
+                        <View style={{ width: '100%', height: '100%', borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: COLORS.BORDER_SUBTLE, backgroundColor: 'rgba(20,20,30,0.5)' }}>
+                            <BettingBoard highlightedNumbers={fireNumbers} disabled={!isBetting} />
+                        </View>
                     ) : (
-                        boardSize.height > 0 && (
-                            <RacetrackBoard
-                                width={boardSize.width}
-                                height={boardSize.height}
-                            />
-                        )
+                        boardSize.height > 0 && <RacetrackBoard width={boardSize.width} height={boardSize.height} />
                     )}
                 </View>
 
-                {/* BOTTOM BAR (Chips & Controls) */}
-                <View style={styles.bottomBar}>
-
-                    {/* TOGGLE VIEW */}
-                    <TouchableOpacity
-                        style={styles.utilityButton}
-                        onPress={() => setViewMode(prev => prev === 'GRID' ? 'TRACK' : 'GRID')}
-                    >
-                        <Text style={styles.utilityButtonText}>{viewMode === 'GRID' ? 'TRACK' : 'GRID'}</Text>
-                    </TouchableOpacity>
-
-                    {/* UNDO */}
-                    <TouchableOpacity
-                        style={[styles.utilityButton, (!isBetting) && styles.disabledBtn]}
-                        onPress={undoLastBet}
-                        disabled={!isBetting}
-                    >
-                        <Text style={styles.utilityButtonText}>UNDO</Text>
-                    </TouchableOpacity>
-
-                    {/* REBET */}
-                    <TouchableOpacity
-                        style={[styles.utilityButton, (!isBetting || currentBet > 0) && styles.disabledBtn]}
-                        onPress={() => {
-                            rebet();
-                        }}
-                        disabled={!isBetting || currentBet > 0}
-                    >
-                        <Text style={styles.utilityButtonText}>REBET</Text>
-                    </TouchableOpacity>
-
-                    {/* STRATEGIES (Quick Load) */}
-                    <TouchableOpacity
-                        style={[styles.utilityButton, (!isBetting) && styles.disabledBtn]}
-                        onPress={() => setStrategiesModalOpen(true)}
-                        disabled={!isBetting}
-                    >
-                        <Text style={styles.utilityButtonText}>⭐</Text>
-                    </TouchableOpacity>
-
-                    {/* CHIPS */}
-                    <View style={styles.chipSelector}>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipScroll}>
-                            {CHIPS.map((chip) => {
-                                const isSelected = selectedChipValue === chip.value;
-                                return (
-                                    <TouchableOpacity
-                                        key={chip.value}
-                                        style={[
-                                            styles.chipOption,
-                                            { backgroundColor: chip.color, borderColor: isSelected ? COLORS.ACCENT_GOLD : COLORS.BORDER_SUBTLE },
-                                            isSelected && styles.selectedChip
-                                        ]}
-                                        onPress={() => setSelectedChipValue(chip.value)}
-                                        activeOpacity={0.7}
-                                    >
-                                        <View style={styles.chipInnerDecor}>
-                                            <Text style={[styles.chipLabel, { color: chip.color === '#000000' ? '#FFF' : '#000' }]}>{chip.label}</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                );
-                            })}
-                        </ScrollView>
-                    </View>
-
-                    {/* TOTAL BET */}
-                    <View style={styles.totalBetBox}>
-                        <Text style={styles.totalBetLabel}>BET</Text>
-                        <Text style={styles.totalBetValue}>{formatCurrency(currentBet)}</Text>
-                    </View>
-
-                </View>
-
+                <BettingControls currentBet={currentBet} onSpin={handleSpin} isBetting={isBetting} selectedChipValue={selectedChipValue} onSelectChip={setSelectedChipValue} />
             </Animated.View>
 
-            {/* FIRE OVERLAY (Root Level) */}
+            {/* FIRE OVERLAY */}
             <Animated.View style={[styles.fireOverlay, fireOverlayStyle]} pointerEvents="none">
-                <View style={styles.fireContainerPanel}>
+                <View style={[styles.fireContainerPanel, SHADOWS.NEON_RED]}>
                     <Text style={styles.fireTitle}>MEGA FIRE 🔥</Text>
                     <View style={styles.fireNumbersRow}>
                         {fireNumbers.map((num, i) => (
-                            <Animated.View
-                                key={i}
-                                style={[
-                                    styles.fireBubble,
-                                    { backgroundColor: num === 0 ? COLORS.BET_GREEN : isRed(num) ? COLORS.BET_RED : COLORS.BET_BLACK }
-                                ]}
-                                entering={FadeInDown.delay(i * 50).springify()}
-                            >
+                            <Animated.View key={i} style={[styles.fireBubble, { backgroundColor: num === 0 ? COLORS.BET_GREEN : isRed(num) ? COLORS.BET_RED : COLORS.BET_BLACK }, SHADOWS.NEON_GOLD]} entering={FadeInDown.delay(i * 50).springify()}>
                                 <Text style={styles.fireNumberText}>{num}</Text>
                             </Animated.View>
                         ))}
@@ -427,480 +226,66 @@ export const GameScreen = ({ onBack }: { onBack: () => void }) => {
                 </View>
             </Animated.View>
 
-            {/* RESULT OVERLAY (Root Level) */}
-            {
-                isResult && showResultOverlay && winningNumber !== null && (
-                    <View style={styles.resultOverlay}>
-                        <Text style={styles.resultTitle}>WINNER</Text>
-                        <View style={[styles.resultCircle, { backgroundColor: [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36].includes(winningNumber) ? COLORS.BET_RED : winningNumber === 0 ? COLORS.BET_GREEN : COLORS.BET_BLACK }]}>
-                            <Text style={styles.resultNumber}>{winningNumber}</Text>
-                        </View>
-                        {lastWinAmount > 0 ? (
-                            <Text style={styles.winAmount}>YOU WON {formatCurrency(lastWinAmount)}</Text>
-                        ) : (
-                            <Text style={styles.loseText}>No Win</Text>
-                        )}
+            {/* RESULT OVERLAY */}
+            {isResult && showResultOverlay && winningNumber !== null && (
+                <View style={[styles.resultOverlay, SHADOWS.NEON_GOLD]}>
+                    <Text style={styles.resultTitle}>WINNER</Text>
+                    <View style={[styles.resultCircle, { backgroundColor: [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36].includes(winningNumber) ? COLORS.BET_RED : winningNumber === 0 ? COLORS.BET_GREEN : COLORS.BET_BLACK }, SHADOWS.NEON_BLUE]}>
+                        <Text style={styles.resultNumber}>{winningNumber}</Text>
                     </View>
-                )
-            }
+                    {lastWinAmount > 0 ? <Text style={styles.winAmount}>YOU WON {formatCurrency(lastWinAmount)}</Text> : <Text style={styles.loseText}>No Win</Text>}
+                </View>
+            )}
 
-            {/* STRATEGY MODAL */}
-            <StrategySelector
-                visible={strategiesModalOpen}
-                onClose={() => setStrategiesModalOpen(false)}
-            />
+            {/* CHIP SELECTOR (Moved for Z-INDEX FIX) */}
+            {isBetting && (
+                <ChipSelector
+                    selectedChipValue={selectedChipValue}
+                    onSelectChip={setSelectedChipValue}
+                    style={{ position: 'absolute', left: 20, bottom: 20, zIndex: 9999 }}
+                />
+            )}
 
-            <StoreModal visible={isStoreOpen} />
-
+            <StoreModal visible={isStoreOpen} onHome={onBack} />
+            <StrategySelector visible={strategiesModalOpen} onClose={() => setStrategiesModalOpen(false)} />
         </View >
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: COLORS.BG_MAIN,
-    },
-    // HEADER
-    header: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: 100, // Safe Area Top
-        paddingTop: 40,
-        paddingHorizontal: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        zIndex: 200,
-    },
-    headerLeft: {
-        justifyContent: 'center',
-    },
-    homeButton: {
-        width: 48,
-        height: 48,
-        borderRadius: 24,
-        backgroundColor: COLORS.BG_ELEVATED,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: COLORS.BORDER_SUBTLE,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 6,
-    },
-    homeButtonText: {
-        color: COLORS.ACCENT_GOLD,
-        fontSize: 28,
-        marginTop: -4, // Optical correction
-        fontWeight: 'bold',
-    },
-    creditsBox: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: COLORS.BG_SURFACE,
-        paddingHorizontal: 15,
-        paddingVertical: 8,
-        borderRadius: 20,
-        borderWidth: 1,
-        borderColor: COLORS.BORDER_SUBTLE,
-    },
-    creditsText: {
-        color: COLORS.TEXT_PRIMARY,
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginLeft: 10,
-    },
-    shopButton: {
-        marginLeft: 10,
-        backgroundColor: COLORS.ACCENT_GOLD,
-        width: 32,
-        height: 32,
-        borderRadius: 16,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: COLORS.ACCENT_HOVER,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 2,
-        elevation: 3,
-    },
-    shopButtonText: {
-        color: COLORS.BG_MAIN,
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginTop: -2,
-    },
-    chipIcon: {
-        width: 20,
-        height: 20,
-        borderRadius: 10,
-        backgroundColor: COLORS.ACCENT_GOLD,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: COLORS.ACCENT_HOVER,
-    },
-    chipInner: {
-        width: 12,
-        height: 12,
-        borderRadius: 6,
-        borderWidth: 1,
-        borderColor: COLORS.BG_MAIN,
-        borderStyle: 'dashed',
-    },
+    container: { flex: 1, backgroundColor: COLORS.BG_MAIN },
+    header: { position: 'absolute', top: 0, left: 0, right: 0, height: 100, paddingTop: 40, paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', zIndex: 200 },
+    headerLeft: {},
+    creditsBox: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.6)', paddingHorizontal: 15, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: COLORS.BORDER_ACCENT, ...SHADOWS.NEON_GOLD },
+    creditsText: { color: COLORS.TEXT_PRIMARY, fontSize: 16, fontWeight: 'bold', marginLeft: 10, textShadowColor: COLORS.ACCENT_GOLD, textShadowRadius: 10 },
+    shopButton: { marginLeft: 10, backgroundColor: COLORS.ACCENT_GOLD, width: 32, height: 32, borderRadius: 16, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: '#FFF', ...SHADOWS.NEON_GOLD },
+    shopButtonText: { color: '#000', fontSize: 20, fontWeight: 'bold', marginTop: -2 },
+    chipIcon: { width: 20, height: 20, borderRadius: 10, backgroundColor: COLORS.ACCENT_GOLD, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: '#FFF' },
+    chipInner: { width: 12, height: 12, borderRadius: 6, borderWidth: 1, borderColor: '#000', borderStyle: 'dashed' },
 
-    // TOP (WHEEL Section)
-    topContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'visible',
-        zIndex: 10,
-        paddingTop: 80, // Compensate for Header
-    },
-    wheelWrapper: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    wheelCasing: {
-        padding: 15,
-        backgroundColor: '#2D1B15', // Darker wood
-        borderRadius: 150, // Circular
-        borderWidth: 8,
-        borderColor: '#4E342E',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.8,
-        shadowRadius: 15,
-        elevation: 20,
-    },
-    casingInnerOutline: {
-        borderRadius: 135,
-        borderWidth: 2,
-        borderColor: COLORS.ACCENT_GOLD,
-        padding: 5,
-    },
+    topContainer: { alignItems: 'center', justifyContent: 'center', overflow: 'visible', zIndex: 10 },
+    wheelWrapper: { justifyContent: 'center', alignItems: 'center' },
+    wheelCasing: { padding: 10, backgroundColor: '#111', borderRadius: 150, borderWidth: 4, borderColor: '#333', ...SHADOWS.NEON_BLUE }, // Cyber Casing
+    casingInnerOutline: { borderRadius: 135, borderWidth: 2, borderColor: COLORS.ACCENT_BLUE, padding: 5, shadowColor: COLORS.ACCENT_BLUE, shadowRadius: 10, shadowOpacity: 1 },
 
-    spinButtonContainerMoved: {
-        position: 'absolute',
-        left: 15,
-        top: -130,
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 100,
-    },
-    spinButton: {
-        backgroundColor: COLORS.SUCCESS,
-        width: 65,
-        height: 65,
-        borderRadius: 32.5,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 3,
-        borderColor: COLORS.ACCENT_GOLD,
-        elevation: 8,
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.6,
-        shadowRadius: 5,
-    },
-    spinText: {
-        color: '#FFF',
-        fontWeight: 'bold',
-        fontSize: 14,
-    },
-    disabledBtn: {
-        opacity: 0.5,
-        backgroundColor: COLORS.BG_SURFACE,
-    },
+    sideActions: { position: 'absolute', right: 15, top: 10, zIndex: 50, gap: 12 },
+    leftActions: { position: 'absolute', left: 15, top: 10, zIndex: 50, gap: 12 }, // NEW LEFT STYLES
+    sideActionBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)', ...SHADOWS.NEON_BLUE },
+    disabledSideBtn: { opacity: 0.3, backgroundColor: 'rgba(0,0,0,0.2)', shadowOpacity: 0 },
 
-    // BOTTOM (BOARD)
-    bottomContainer: {
-        zIndex: 20, // Ensure it's above TopContainer so Spin Button is clickable
-        // No explicit background
-    },
+    bottomContainer: { zIndex: 300 },
 
-    // FIRE OVERLAY
-    fireOverlay: {
-        ...StyleSheet.absoluteFillObject,
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 150,
-        backgroundColor: 'rgba(0,0,0,0.4)',
-    },
-    fireContainerPanel: {
-        backgroundColor: 'rgba(0,0,0,0.85)',
-        padding: 15,
-        borderRadius: 20,
-        borderWidth: 1,
-        borderColor: COLORS.ACCENT_GOLD,
-        alignItems: 'center',
-        width: '100%',
-        maxWidth: 400,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.5,
-        shadowRadius: 10,
-        elevation: 10,
-    },
-    fireTitle: {
-        color: '#FF4500',
-        fontSize: 22,
-        fontWeight: 'bold',
-        textShadowColor: 'orange',
-        textShadowRadius: 5,
-        marginBottom: 10,
-    },
-    fireNumbersRow: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        gap: 8,
-    },
-    fireBubble: {
-        width: 36,
-        height: 36,
-        borderRadius: 18,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1.5,
-        borderColor: '#FFF',
-        elevation: 3,
-    },
-    fireNumberText: {
-        color: '#FFF',
-        fontWeight: 'bold',
-        fontSize: 18,
-    },
+    fireOverlay: { ...StyleSheet.absoluteFillObject, justifyContent: 'flex-start', paddingTop: 180, alignItems: 'center', zIndex: 2000, backgroundColor: 'rgba(0,0,0,0.6)' },
+    fireContainerPanel: { backgroundColor: 'rgba(10,10,10,0.95)', padding: 20, borderRadius: 20, borderWidth: 2, borderColor: COLORS.BET_RED, alignItems: 'center', width: '90%', maxWidth: 400 },
+    fireTitle: { color: COLORS.BET_RED, fontSize: 28, fontWeight: '900', textShadowColor: COLORS.BET_RED, textShadowRadius: 15, marginBottom: 15, letterSpacing: 2 },
+    fireNumbersRow: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 10 },
+    fireBubble: { width: 42, height: 42, borderRadius: 21, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: '#FFF' },
+    fireNumberText: { color: '#FFF', fontWeight: 'bold', fontSize: 20 },
 
-    // RESULT OVERLAY
-    resultOverlay: {
-        position: 'absolute',
-        top: '30%', // Centered vertically
-        alignSelf: 'center', // Center horizontally
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'rgba(0,0,0,0.9)', // Darker BG
-        padding: 40,
-        borderRadius: 20,
-        borderWidth: 2,
-        borderColor: COLORS.ACCENT_GOLD,
-        zIndex: 10000, // Max Z-Index
-        elevation: 1000, // Android Elevation
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.8,
-        shadowRadius: 20,
-    },
-    resultTitle: {
-        color: COLORS.ACCENT_GOLD,
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    resultCircle: {
-        width: 80,
-        height: 80,
-        borderRadius: 40,
-        backgroundColor: COLORS.BG_SURFACE,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 4,
-        borderColor: '#FFF',
-        marginBottom: 10,
-    },
-    resultNumber: {
-        color: '#FFF',
-        fontSize: 36,
-        fontWeight: 'bold',
-    },
-    winAmount: {
-        color: COLORS.SUCCESS,
-        fontSize: 24,
-        fontWeight: 'bold',
-    },
-    loseText: {
-        color: COLORS.DANGER,
-        fontSize: 20,
-    },
-
-    // BOTTOM BAR
-    bottomBar: {
-        height: 50, // Reduced from 70 to 50
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: COLORS.BG_SURFACE,
-        borderTopWidth: 1,
-        borderTopColor: COLORS.BORDER_SUBTLE,
-        paddingHorizontal: 15,
-        paddingBottom: 10, // Reduced padding
-        paddingTop: 5,
-        marginTop: 'auto', // Push to bottom
-    },
-    utilityButton: {
-        width: 40, // Reduced from 50
-        height: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: COLORS.BG_MAIN,
-        borderRadius: 20,
-        marginRight: 10,
-        borderWidth: 1,
-        borderColor: COLORS.BORDER_SUBTLE,
-    },
-    utilityButtonText: {
-        color: COLORS.TEXT_SECONDARY,
-        fontSize: 10, // Reduced font
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    chipSelector: {
-        flex: 1,
-        height: 50, // Reduced from 60
-    },
-    chipScroll: {
-        alignItems: 'center',
-        paddingHorizontal: 5,
-    },
-    chipOption: {
-        width: 40, // Reduced from 50
-        height: 40,
-        borderRadius: 20,
-        marginHorizontal: 4, // Tighter spacing
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 2,
-        elevation: 4,
-    },
-    selectedChip: {
-        transform: [{ scale: 1.15 }], // Slightly less scale
-        borderWidth: 2,
-        borderColor: COLORS.ACCENT_GOLD,
-        zIndex: 10,
-        elevation: 10,
-    },
-    chipInnerDecor: {
-        width: 28, // Reduced from 38
-        height: 28,
-        borderRadius: 14,
-        borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.6)',
-        borderStyle: 'dashed',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    chipLabel: {
-        fontSize: 9, // Reduced font
-        fontWeight: 'bold',
-        textShadowColor: 'rgba(0,0,0,0.5)',
-        textShadowRadius: 1,
-    },
-    totalBetBox: {
-        marginLeft: 10,
-        paddingHorizontal: 8, // Reduced padding
-        height: 36, // Reduced height
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-        borderLeftWidth: 1,
-        borderLeftColor: COLORS.BORDER_SUBTLE,
-    },
-    totalBetLabel: {
-        color: COLORS.TEXT_SECONDARY,
-        fontSize: 9,
-        fontWeight: 'bold',
-    },
-    totalBetValue: {
-        color: COLORS.ACCENT_GOLD,
-        fontSize: 14, // Reduced font
-        fontWeight: 'bold',
-    },
-    // MODAL STYLES
-    modalOverlay: {
-        flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.8)',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20,
-    },
-    modalContent: {
-        width: '100%',
-        maxHeight: '80%',
-        backgroundColor: COLORS.BG_SURFACE,
-        borderRadius: 16,
-        padding: 20,
-        borderWidth: 1,
-        borderColor: COLORS.BORDER_SUBTLE,
-    },
-    modalTitle: {
-        color: COLORS.ACCENT_GOLD,
-        fontSize: 22,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        textAlign: 'center',
-    },
-    strategyList: {
-        marginBottom: 20,
-    },
-    emptyText: {
-        color: COLORS.TEXT_SECONDARY,
-        textAlign: 'center',
-        padding: 20,
-    },
-    strategyRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: COLORS.BG_MAIN,
-        padding: 12,
-        borderRadius: 8,
-        marginBottom: 10,
-        borderWidth: 1,
-        borderColor: COLORS.BORDER_SUBTLE,
-    },
-    colorBadge: {
-        width: 16,
-        height: 16,
-        borderRadius: 8,
-        marginRight: 12,
-    },
-    strategyInfo: {
-        flex: 1,
-    },
-    strategyName: {
-        color: '#FFF',
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    strategyCost: {
-        color: COLORS.TEXT_SECONDARY,
-        fontSize: 12,
-    },
-    playStrategyBtn: {
-        backgroundColor: COLORS.ACCENT_GOLD,
-        paddingVertical: 6,
-        paddingHorizontal: 16,
-        borderRadius: 6,
-    },
-    playStrategyText: {
-        color: COLORS.BG_MAIN,
-        fontWeight: 'bold',
-        fontSize: 12,
-    },
-    closeModalBtn: {
-        padding: 15,
-        backgroundColor: COLORS.BG_MAIN,
-        borderRadius: 8,
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: COLORS.BORDER_SUBTLE,
-    },
-    closeModalText: {
-        color: COLORS.TEXT_SECONDARY,
-        fontWeight: 'bold',
-    },
+    resultOverlay: { position: 'absolute', top: '30%', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.95)', padding: 40, borderRadius: 24, borderWidth: 3, borderColor: COLORS.ACCENT_GOLD, zIndex: 10000 },
+    resultTitle: { color: COLORS.ACCENT_GOLD, fontSize: 28, fontWeight: '900', marginBottom: 15, letterSpacing: 2, textShadowColor: COLORS.ACCENT_GOLD, textShadowRadius: 10 },
+    resultCircle: { width: 90, height: 90, borderRadius: 45, backgroundColor: '#000', justifyContent: 'center', alignItems: 'center', borderWidth: 4, borderColor: '#FFF', marginBottom: 15 },
+    resultNumber: { color: '#FFF', fontSize: 40, fontWeight: '900', textShadowColor: '#FFF', textShadowRadius: 10 },
+    winAmount: { color: COLORS.SUCCESS, fontSize: 26, fontWeight: 'bold', textShadowColor: COLORS.SUCCESS, textShadowRadius: 10 },
+    loseText: { color: COLORS.DANGER, fontSize: 24, fontWeight: 'bold', textShadowColor: COLORS.DANGER, textShadowRadius: 10 },
 });

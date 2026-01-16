@@ -70,6 +70,17 @@ export const Config = {
             },
             offeringIdentifier: 'default',
             credits: 2000000
+        },
+        {
+            identifier: 'no_ads_bundle',
+            product: {
+                priceString: '$14.99',
+                title: 'No Ads + Coins',
+                description: 'Remove Ads Forever + 50,000 Coins',
+            },
+            offeringIdentifier: 'default',
+            credits: 50000,
+            isNoAds: true
         }
     ],
 

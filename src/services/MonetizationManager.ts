@@ -1,5 +1,6 @@
 import { Alert, Platform } from 'react-native';
 import { Config } from '../config/Config';
+import { useGameStore } from '../store/useGameStore';
 
 // Mock Interfaces if packages are missing
 interface Package {
@@ -38,11 +39,13 @@ class MonetizationManager {
         if (Config.IS_MOCK_MODE) {
             // Simulate network delay
             await new Promise(resolve => setTimeout(resolve, 500));
-            return MOCK_PACKAGES;
+            return Config.MOCK_PACKAGES;
         }
 
-        return MOCK_PACKAGES; // Fallback
+        return Config.MOCK_PACKAGES; // Fallback
     }
+
+
 
     async purchasePackage(packageIdentifier: string): Promise<boolean> {
         if (Config.IS_MOCK_MODE) {
@@ -50,8 +53,20 @@ class MonetizationManager {
             // Simulate processing
             await new Promise(resolve => setTimeout(resolve, 1500));
 
-            // Random success/fail (mostly success)
-            return true;
+            // FIND PACKAGE
+            const pkg = Config.MOCK_PACKAGES.find(p => p.identifier === packageIdentifier);
+            if (pkg) {
+                // GRANT REWARDS
+                if (pkg.credits) {
+                    useGameStore.getState().addCredits(pkg.credits);
+                }
+                if (pkg.isNoAds) {
+                    useGameStore.getState().setAdFree(true);
+                }
+                return true;
+            }
+
+            return false;
         }
         return false;
     }

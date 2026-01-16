@@ -1,12 +1,22 @@
 import { create } from 'zustand';
 import { Phase } from '../types';
 import { supabase } from '../services/supabase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
 
+const SESSION_ID_KEY = 'roulette_session_id';
 
 let syncTimeout: NodeJS.Timeout;
 
 interface GameState {
     credits: number;
+    // VIP & Profile Props
+    isVip: boolean;
+    isAdFree: boolean; // New State
+    setAdFree: (active: boolean) => void;
+    vipExpiry: string | null;
+    lastDailyBonus: string | null;
+
     currentBet: number;
     bets: Record<string, number>;
     lastRoundBets: Record<string, number>; // For Rebet
@@ -56,6 +66,7 @@ interface GameState {
     loadUserProfile: () => Promise<void>;
     initializeHistory: () => Promise<void>;
     recordGameResult: (winNum: number, isFire: boolean, multiplier: number | null, totalWin: number) => Promise<void>;
+    validateSession: () => Promise<boolean>;
 }
 
 export interface SavedStrategy {
@@ -68,6 +79,11 @@ export interface SavedStrategy {
 
 export const useGameStore = create<GameState>((set, get) => ({
     credits: 1000,
+    isVip: false,
+    isAdFree: false, // Default false
+    // setAdFree defined below with persistence
+    vipExpiry: null,
+    lastDailyBonus: null,
     currentBet: 0,
     bets: {},
     lastRoundBets: {},
@@ -180,6 +196,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     placeBet: (betId, amount) => {
         const state = get();
+        // Optimistic check? Or strict check? Strict check here is too slow (async).
+        // validation should happen before spin or periodically.
         if (state.currentPhase !== 'BETTING') return false;
         if (state.currentBet + amount > state.credits) return false;
 
@@ -270,19 +288,34 @@ export const useGameStore = create<GameState>((set, get) => ({
         });
     },
 
-    // New Supabase Actions
+    // Updated Supabase Actions
     loadUserProfile: async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
             const { data, error } = await supabase
                 .from('profiles')
-                .select('credits')
+                .select('credits, is_vip, is_ad_free, vip_expiry, last_daily_bonus') // Added is_ad_free
                 .eq('id', user.id)
                 .single();
 
             if (data && !error) {
-                set({ credits: data.credits });
+                set({
+                    credits: data.credits,
+                    isVip: data.is_vip || false,
+                    isAdFree: data.is_ad_free || false, // Load persistence
+                    vipExpiry: data.vip_expiry,
+                    lastDailyBonus: data.last_daily_bonus
+                });
             }
+        }
+    },
+
+    setAdFree: async (active: boolean) => {
+        set({ isAdFree: active });
+        // Persist to Supabase
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+            await supabase.from('profiles').update({ is_ad_free: active }).eq('id', user.id);
         }
     },
 
@@ -326,5 +359,31 @@ export const useGameStore = create<GameState>((set, get) => ({
                 total_win: totalWin
             });
         }
+    },
+
+    validateSession: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return false;
+
+        // 1. Get Local ID
+        const localId = await AsyncStorage.getItem(SESSION_ID_KEY);
+        if (!localId) return true; // Loose check if no local ID yet
+
+        // 2. Get DB ID
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('active_session_id')
+            .eq('id', user.id)
+            .single();
+
+        if (error || !data) return true; // Fail safe
+
+        if (data.active_session_id && data.active_session_id !== localId) {
+            // Mismatch!
+            Alert.alert("Sesión Cerrada", "Tu cuenta se ha abierto en otro dispositivo.");
+            await supabase.auth.signOut();
+            return false;
+        }
+        return true;
     }
 }));

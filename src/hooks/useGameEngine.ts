@@ -15,59 +15,51 @@ export const useGameEngine = () => {
         recordGameResult
     } = useGameStore();
 
-    const triggerSpin = () => {
+    const prepareRound = (): boolean => {
         // 1. Validate if bets exist
         const totalBetAmount = Object.values(bets).reduce((sum, amount) => sum + amount, 0);
         if (totalBetAmount === 0) {
             console.warn('No bets placed');
-            return;
+            return false;
         }
 
         if (totalBetAmount > credits) {
             console.warn('Insufficient credits');
-            return;
+            return false;
         }
 
         // 2. Deduct total bet amount
         updateCredits(-totalBetAmount);
 
-        // 3. Generate Fire Numbers (Weighted Probability)
-        const r = Math.random() * 100;
-        let min = 1;
-        let max = 5;
-
-        // 80% chance: 1-5 numbers (Common)
-        // 15% chance: 6-10 numbers (Uncommon)
-        // 5% chance: 11-15 numbers (Rare)
-        if (r >= 80 && r < 95) {
-            min = 6;
-            max = 10;
-        } else if (r >= 95) {
-            min = 11;
-            max = 15;
+        // GENERATE RANDOM FIRE NUMBERS (1-4 numbers)
+        const fireCount = Math.floor(Math.random() * 4) + 1; // 1 to 4 fire numbers
+        const fireNumbers: number[] = [];
+        while (fireNumbers.length < fireCount) {
+            const num = Math.floor(Math.random() * 37);
+            if (!fireNumbers.includes(num)) {
+                fireNumbers.push(num);
+            }
         }
-
-        const fireCount = Math.floor(Math.random() * (max - min + 1)) + min;
-
-        const allNumbers = Array.from({ length: 37 }, (_, i) => i);
-        // Fisher-Yates Shuffle
-        for (let i = allNumbers.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [allNumbers[i], allNumbers[j]] = [allNumbers[j], allNumbers[i]];
-        }
-        const fireNumbers = allNumbers.slice(0, fireCount).sort((a, b) => a - b);
 
         // Snapshot bets for Rebet feature
         useGameStore.getState().snapshotBets();
 
-        // 4. Transition to SPINNING
-        setPhase('SPINNING');
-
-        // IMMEDIATE RESULT GENERATION (No Phase 1)
+        // IMMEDIATE RESULT GENERATION
         const winningNumber = Math.floor(Math.random() * 37);
 
-        // We set the result immediately so the wheel knows where to go.
+        // Set Result immediately (GameScreen will visualize Fire Numbers now)
         setResult(winningNumber, fireNumbers);
+
+        return true;
+    };
+
+    const startRound = () => {
+        const { winningNumber, fireNumbers, bets } = useGameStore.getState();
+
+        if (winningNumber === null) return;
+
+        // 4. Transition to SPINNING (Wheel Animation Starts)
+        setPhase('SPINNING');
 
         // Wait for Spin Animation Duration (6500ms) before resolving
         setTimeout(() => {
@@ -318,6 +310,7 @@ export const useGameEngine = () => {
     };
 
     return {
-        triggerSpin
+        prepareRound,
+        startRound
     };
 };

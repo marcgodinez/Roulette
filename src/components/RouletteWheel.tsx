@@ -129,33 +129,8 @@ export const RouletteWheel: React.FC<Props> = ({ isSpinning, winningNumber, fire
                         style={styles.wheelImage}
                     />
 
-                    {/* FIRE NUMBERS OVERLAY (Rotates WITH Wheel) */}
-                    {fireNumbers.map((num) => {
-                        // Calculate Angle for this number
-                        const index = EUROPEAN_SEQUENCE.indexOf(num);
-                        const angle = index * (360 / 37); // 37 numbers
-
-                        // We need to place a marker at this angle at a specific radius
-                        // Radius ~ 0.8 of half-width (adjust based on image)
-                        const markerRadius = RADIUS * 0.78; // Adjust to match number ring position
-
-                        return (
-                            <View
-                                key={num}
-                                style={[
-                                    styles.fireMarkerContainer,
-                                    {
-                                        transform: [
-                                            { rotate: `${angle}deg` },
-                                            { translateY: -markerRadius }
-                                        ]
-                                    }
-                                ]}
-                            >
-                                <View style={styles.fireGlow} />
-                            </View>
-                        );
-                    })}
+                    {/* FIRE NUMBERS OVERLAY REMOVED AS REQUESTED */}
+                    {/* The user wants fire effect ONLY on the board, not obstructing the wheel view. */}
                 </Animated.View>
             </View>
 

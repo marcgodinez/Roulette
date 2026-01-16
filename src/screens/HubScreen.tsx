@@ -11,7 +11,7 @@ import { usePresence } from '../hooks/usePresence';
 import { formatCurrency } from '../utils/format';
 import { AdManager } from '../services/AdManager';
 
-import { COLORS, METRICS } from '../constants/theme';
+import { COLORS, METRICS, SHADOWS } from '../constants/theme';
 
 export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrategy: () => void }) => {
     const {
@@ -27,7 +27,7 @@ export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrate
         claimAdReward
     } = useHubData();
 
-    const { credits, setStoreOpen, isStoreOpen } = useGameStore();
+    const { credits, setStoreOpen, isStoreOpen, isAdFree } = useGameStore();
     const { user, signOut } = useAuth();
     const onlineCount = usePresence(); // Hook
     const [tab, setTab] = useState<'WEEKLY' | 'LEGENDARY'>('WEEKLY');
@@ -106,15 +106,17 @@ export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrate
                     </TouchableOpacity>
 
                     {/* FREE COINS */}
-                    <TouchableOpacity
-                        style={[styles.actionCard, adLoading && styles.disabledCard]}
-                        onPress={handleWatchAd}
-                        disabled={adLoading}
-                    >
-                        <Text style={styles.actionIcon}>📺</Text>
-                        <Text style={styles.actionTitle}>FREE COINS</Text>
-                        <Text style={styles.actionSub}>{adLoading ? 'Loading Ad...' : 'Watch Video'}</Text>
-                    </TouchableOpacity>
+                    {!isAdFree && (
+                        <TouchableOpacity
+                            style={[styles.actionCard, adLoading && styles.disabledCard]}
+                            onPress={handleWatchAd}
+                            disabled={adLoading}
+                        >
+                            <Text style={styles.actionIcon}>📺</Text>
+                            <Text style={styles.actionTitle}>FREE COINS</Text>
+                            <Text style={styles.actionSub}>{adLoading ? 'Loading Ad...' : 'Watch Video'}</Text>
+                        </TouchableOpacity>
+                    )}
                 </View>
 
                 {/* PLAY BUTTON */}
@@ -206,7 +208,7 @@ export const HubScreen = ({ onPlay, onStrategy }: { onPlay: () => void, onStrate
                 <View style={{ height: 100 }} />
             </ScrollView >
 
-            <StoreModal visible={isStoreOpen} />
+            <StoreModal visible={isStoreOpen} onHome={() => { }} />
             <SettingsModal visible={settingsOpen} onClose={() => setSettingsOpen(false)} />
         </View >
     );
@@ -243,20 +245,22 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: METRICS.borderRadius,
-        backgroundColor: COLORS.BG_SURFACE,
+        backgroundColor: 'rgba(0,0,0,0.6)',
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: COLORS.BORDER_SUBTLE,
+        borderColor: 'rgba(255,255,255,0.2)',
+        ...SHADOWS.NEON_GOLD
     },
     creditCard: {
-        backgroundColor: COLORS.BG_SURFACE,
+        backgroundColor: 'rgba(10, 10, 15, 0.8)',
         borderRadius: METRICS.borderRadius,
         padding: 24,
         marginBottom: 20,
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: COLORS.BORDER_SUBTLE,
+        borderColor: COLORS.ACCENT_GOLD,
+        ...SHADOWS.NEON_GOLD
     },
     creditLabel: {
         color: COLORS.TEXT_SECONDARY,
@@ -273,6 +277,8 @@ const styles = StyleSheet.create({
         color: COLORS.ACCENT_GOLD,
         fontSize: 40,
         fontWeight: 'bold',
+        textShadowColor: COLORS.ACCENT_GOLD,
+        textShadowRadius: 10
     },
     addBtn: {
         backgroundColor: COLORS.ACCENT_GOLD,
@@ -282,6 +288,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 15,
+        borderWidth: 1,
+        borderColor: '#FFF',
+        ...SHADOWS.NEON_GOLD
     },
     addBtnText: {
         color: COLORS.BG_MAIN,
@@ -296,12 +305,15 @@ const styles = StyleSheet.create({
     },
     actionCard: {
         width: '48%',
-        backgroundColor: COLORS.BG_SURFACE,
+        backgroundColor: 'rgba(20, 20, 30, 0.8)',
         borderRadius: METRICS.borderRadius,
         padding: 20,
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: COLORS.BORDER_SUBTLE,
+        borderColor: 'rgba(255,255,255,0.1)',
+        shadowColor: COLORS.ACCENT_BLUE,
+        shadowOpacity: 0.1,
+        shadowRadius: 10
     },
     disabledCard: {
         opacity: 0.5,
@@ -326,25 +338,25 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         alignItems: 'center',
         marginBottom: 25,
-        shadowColor: COLORS.ACCENT_GOLD,
-        shadowOpacity: 0.2,
-        shadowRadius: 10,
-        elevation: 5,
+        borderWidth: 1,
+        borderColor: '#FFF',
+        ...SHADOWS.NEON_GOLD
     },
     playText: {
-        color: COLORS.BG_MAIN,
+        color: '#000',
         fontSize: 20,
         fontWeight: 'bold',
         letterSpacing: 2,
     },
     strategyButton: {
-        backgroundColor: COLORS.BG_SURFACE,
+        backgroundColor: 'rgba(20, 20, 30, 0.8)',
         borderRadius: METRICS.borderRadius,
         paddingVertical: 15,
         alignItems: 'center',
         marginBottom: 25,
         borderWidth: 1,
         borderColor: COLORS.ACCENT_GOLD,
+        ...SHADOWS.NEON_BLUE
     },
     strategyText: {
         color: COLORS.ACCENT_GOLD,
@@ -355,7 +367,7 @@ const styles = StyleSheet.create({
     statsRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: COLORS.BG_SURFACE,
+        backgroundColor: 'rgba(20, 20, 30, 0.6)',
         padding: 16,
         borderRadius: METRICS.borderRadius,
         marginBottom: 25,

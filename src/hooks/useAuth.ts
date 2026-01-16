@@ -7,6 +7,11 @@ import * as AppleAuthentication from 'expo-apple-authentication';
 import { makeRedirectUri } from 'expo-auth-session';
 import { Alert } from 'react-native';
 import { Config } from '../config/Config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Crypto from 'expo-crypto';
+
+// Session Key
+const SESSION_ID_KEY = 'roulette_session_id';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -24,10 +29,28 @@ export const useAuth = () => {
         });
 
         // Listen for changes
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
             setSession(session);
             setUser(session?.user ?? null);
             setLoading(false);
+
+            if (event === 'SIGNED_IN' && session?.user) {
+                // Generate and Set Session ID
+                try {
+                    const newSessionId = Crypto.randomUUID();
+                    await AsyncStorage.setItem(SESSION_ID_KEY, newSessionId);
+
+                    // Update Database
+                    const { error } = await supabase
+                        .from('profiles')
+                        .update({ active_session_id: newSessionId })
+                        .eq('id', session.user.id);
+
+                    if (error) console.error("Failed to update session ID:", error);
+                } catch (e) {
+                    console.error("Session handling error:", e);
+                }
+            }
         });
 
         return () => subscription.unsubscribe();

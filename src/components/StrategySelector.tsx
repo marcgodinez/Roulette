@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Modal, TouchableOpacity, FlatList, StyleSheet, Alert } from 'react-native';
 import { useGameStore } from '../store/useGameStore';
-import { COLORS, METRICS } from '../constants/theme';
+import { COLORS, METRICS, SHADOWS } from '../constants/theme';
 import { PRESET_STRATEGIES, PresetStrategy } from '../constants/strategies_presets';
 
 interface Props {
@@ -149,10 +149,16 @@ export const StrategySelector: React.FC<Props> = ({ visible, onClose }) => {
     );
 };
 
+
+
+// ... (imports remain the same)
+
+// ... (component logic remains the same until styles)
+
 const styles = StyleSheet.create({
     modalOverlay: {
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.7)',
+        backgroundColor: 'rgba(0,0,0,0.85)', // Darker overlay
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20
@@ -160,41 +166,48 @@ const styles = StyleSheet.create({
     modalContent: {
         width: '100%',
         maxWidth: 500,
-        backgroundColor: COLORS.BG_SURFACE,
-        borderRadius: 20,
-        padding: 20,
-        borderWidth: 1,
-        borderColor: COLORS.BORDER_SUBTLE,
-        maxHeight: '80%'
+        backgroundColor: 'rgba(15, 15, 20, 0.95)', // Deep dark background
+        borderRadius: 24,
+        padding: 24,
+        borderWidth: 2,
+        borderColor: COLORS.ACCENT_GOLD,
+        maxHeight: '80%',
+        ...SHADOWS.NEON_GOLD // Neon Glow
     },
     modalTitle: {
         color: COLORS.ACCENT_GOLD,
-        fontSize: 20,
-        fontWeight: 'bold',
+        fontSize: 22,
+        fontWeight: '900',
         textAlign: 'center',
-        marginBottom: 15
+        marginBottom: 20,
+        letterSpacing: 1,
+        textShadowColor: COLORS.ACCENT_GOLD,
+        textShadowRadius: 10
     },
     tabsContainer: {
         flexDirection: 'row',
-        marginBottom: 15,
+        marginBottom: 20,
         borderBottomWidth: 1,
-        borderBottomColor: COLORS.BORDER_SUBTLE
+        borderBottomColor: 'rgba(255,255,255,0.1)'
     },
     tab: {
         flex: 1,
-        paddingVertical: 10,
+        paddingVertical: 12,
         alignItems: 'center'
     },
     activeTab: {
-        borderBottomWidth: 2,
+        borderBottomWidth: 3,
         borderBottomColor: COLORS.ACCENT_GOLD
     },
     tabText: {
         color: COLORS.TEXT_SECONDARY,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: 14
     },
     activeTabText: {
-        color: COLORS.ACCENT_GOLD
+        color: COLORS.ACCENT_GOLD,
+        textShadowColor: COLORS.ACCENT_GOLD,
+        textShadowRadius: 5
     },
     list: {
         marginBottom: 10
@@ -211,18 +224,20 @@ const styles = StyleSheet.create({
     strategyRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: 'rgba(255,255,255,0.05)',
-        padding: 12,
-        borderRadius: 12,
-        marginBottom: 8,
+        backgroundColor: 'rgba(0,0,0,0.6)',
+        padding: 16,
+        borderRadius: 16,
+        marginBottom: 12,
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.05)'
+        borderColor: 'rgba(255,255,255,0.1)'
     },
     colorBadge: {
-        width: 12,
-        height: 12,
-        borderRadius: 6,
-        marginRight: 12
+        width: 14,
+        height: 14,
+        borderRadius: 7,
+        marginRight: 14,
+        borderWidth: 1,
+        borderColor: '#FFF'
     },
     strategyInfo: {
         flex: 1
@@ -230,7 +245,8 @@ const styles = StyleSheet.create({
     strategyName: {
         color: '#FFF',
         fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 16,
+        marginBottom: 2
     },
     strategySub: {
         color: COLORS.TEXT_SECONDARY,
@@ -239,28 +255,32 @@ const styles = StyleSheet.create({
     strategyCost: {
         color: COLORS.ACCENT_GOLD,
         fontSize: 12,
-        marginTop: 2,
+        marginTop: 4,
         fontWeight: 'bold'
     },
     playBtn: {
-        backgroundColor: COLORS.SUCCESS,
+        backgroundColor: 'rgba(0, 200, 0, 0.2)',
         paddingHorizontal: 16,
-        paddingVertical: 8,
-        borderRadius: 8,
-        marginLeft: 10
+        paddingVertical: 10,
+        borderRadius: 10,
+        marginLeft: 10,
+        borderWidth: 1,
+        borderColor: COLORS.SUCCESS,
+        ...SHADOWS.NEON_GREEN
     },
     playBtnText: {
-        color: '#FFF',
+        color: COLORS.SUCCESS,
         fontWeight: 'bold',
         fontSize: 12
     },
     closeBtn: {
-        backgroundColor: COLORS.BG_MAIN,
+        backgroundColor: 'transparent',
         padding: 15,
         borderRadius: 12,
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: COLORS.BORDER_SUBTLE
+        borderColor: COLORS.BORDER_SUBTLE,
+        marginTop: 10
     },
     closeBtnText: {
         color: COLORS.TEXT_SECONDARY,

@@ -1,178 +1,414 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import Animated, {
+    useSharedValue,
+    useAnimatedStyle,
+    withTiming,
+    Easing,
+    cancelAnimation,
+    withSequence,
+    withSpring,
+    withDelay,
+    withRepeat,
+    useDerivedValue,
+    runOnJS
+} from 'react-native-reanimated';
 import { useGameStore } from '../store/useGameStore';
 import { COLORS } from '../constants/theme';
-import { isRed } from '../constants/gameRules';
 
-const GRID_SIZE = 12; // 3x4
+const GRID_SIZE = 12; // 4 Cols x 3 Rows
+const COLS = 4;
+const ROWS = 3;
 
+// HELPER: NEON COLORS
+const getNeonStyle = (val: number) => {
+    // Return: { borderColor, shadowColor, textColor }
+    if (val >= 100) return { color: '#D946EF', shadow: '#F0ABFC' }; // Fuchsia
+    if (val >= 50) return { color: '#EF4444', shadow: '#FCA5A5' }; // Red
+    if (val >= 20) return { color: '#EAB308', shadow: '#FDE047' }; // Yellow/Gold
+    if (val >= 10) return { color: '#22C55E', shadow: '#86EFAC' }; // Green
+    return { color: '#3B82F6', shadow: '#93C5FD' }; // Blue (5x)
+};
+
+const RenderBall = ({ val, size = 50, isRain = false }: { val: number, size?: number, isRain?: boolean }) => {
+    const { color, shadow } = getNeonStyle(val);
+    const fontSize = size * 0.45;
+    const displayVal = String(val);
+
+    return (
+        <View style={{
+            width: size, height: size, borderRadius: size / 2,
+            backgroundColor: 'rgba(20,20,20,0.9)',
+            borderWidth: 2,
+            borderColor: color,
+            alignItems: 'center', justifyContent: 'center',
+            // NEON GLOW EFFECTS
+            shadowColor: color,
+            shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: isRain ? 0.3 : 0.8,
+            shadowRadius: isRain ? 5 : 10,
+            elevation: isRain ? 3 : 10,
+            opacity: isRain ? 0.8 : 1
+        }}>
+            {/* Internal Gloss */}
+            <View style={{
+                position: 'absolute', top: 3, left: size * 0.2, width: size * 0.4, height: size * 0.2,
+                backgroundColor: 'rgba(255,255,255,0.15)', borderRadius: 20, transform: [{ rotate: '-45deg' }]
+            }} />
+
+            {/* NEON TEXT */}
+            <Text style={{
+                color: '#FFF',
+                fontSize: fontSize,
+                fontWeight: '900',
+                textShadowColor: color,
+                textShadowRadius: 10
+            }}>
+                {displayVal}
+            </Text>
+        </View>
+    );
+};
+
+// COMPONENT: LOCKED CELL (THE PRIZE)
+const LockedCell = ({ val }: { val: number }) => {
+    const translateY = useSharedValue(-120);
+    const scaleY = useSharedValue(1.3);
+    const scaleX = useSharedValue(0.8);
+
+    useEffect(() => {
+        translateY.value = withSpring(0, { mass: 0.8, damping: 12, stiffness: 250 });
+        scaleY.value = withSequence(
+            withDelay(50, withTiming(0.7, { duration: 100 })),
+            withSpring(1, { damping: 10, stiffness: 150 })
+        );
+        scaleX.value = withSequence(
+            withDelay(50, withTiming(1.3, { duration: 100 })),
+            withSpring(1, { damping: 10, stiffness: 150 })
+        );
+    }, []);
+
+    const style = useAnimatedStyle(() => ({
+        transform: [{ translateY: translateY.value }, { scaleY: scaleY.value }, { scaleX: scaleX.value }]
+    }));
+
+    return (
+        <Animated.View style={[style, { zIndex: 100 }]}>
+            <RenderBall val={val} size={58} />
+        </Animated.View>
+    );
+};
+
+// COMPONENT: RAIN COLUMN
+const RainColumn = ({ cells, isFull, isActive }: any) => {
+    const CELL_HEIGHT = 70;
+    const STRIP_LENGTH = 30;
+    const VIEW_HEIGHT = CELL_HEIGHT * 3;
+    const STRIP_PIXEL_HEIGHT = CELL_HEIGHT * STRIP_LENGTH;
+
+    const rainData = useMemo(() => {
+        const body = Array(25).fill(0).map(() => {
+            if (Math.random() > 0.4) return null;
+            return [5, 10, 20, 50, 2, 5, 8][Math.floor(Math.random() * 7)];
+        });
+        const tail = Array(5).fill(null);
+        return [...tail, ...body];
+    }, [isActive]);
+
+    const translateY = useSharedValue(-STRIP_PIXEL_HEIGHT);
+    const opacity = useSharedValue(0);
+
+    useEffect(() => {
+        if (!isFull && isActive) {
+            translateY.value = -STRIP_PIXEL_HEIGHT;
+            opacity.value = 1;
+            translateY.value = withTiming(0, { duration: 2000, easing: Easing.linear });
+        } else {
+            opacity.value = withTiming(0, { duration: 300 });
+        }
+    }, [isFull, isActive]);
+
+    const rainStyle = useAnimatedStyle(() => ({
+        transform: [{ translateY: translateY.value }],
+        opacity: opacity.value
+    }));
+
+    return (
+        <View style={styles.column}>
+            {/* RAIN LAYER */}
+            {!isFull ? (
+                <View style={[styles.rainContainer, { height: VIEW_HEIGHT }]}>
+                    <Animated.View style={[styles.rainStrip, rainStyle]}>
+                        {rainData.map((val, i) => (
+                            <View key={i} style={[styles.rainItem, { height: CELL_HEIGHT }]}>
+                                {val !== null ? (
+                                    <View style={{ transform: [{ scale: 0.8 }] }}>
+                                        <RenderBall val={val} size={50} isRain={true} />
+                                    </View>
+                                ) : null}
+                            </View>
+                        ))}
+                    </Animated.View>
+                </View>
+            ) : null}
+
+            {/* CELLS LAYER */}
+            {cells.map((cell: any, r: number) => (
+                <View key={r} style={[styles.cellSlot, { height: CELL_HEIGHT }]}>
+                    {cell.isLocked && cell.value !== null ? (
+                        <LockedCell val={cell.value} />
+                    ) : (
+                        <View style={styles.emptyCell} />
+                    )}
+                </View>
+            ))}
+        </View>
+    );
+};
+
+// COMPONENT: RESULT ANIMATION
+const ResultPanel = ({ multiplier, prize, onCollect }: { multiplier: number, prize: number, onCollect: () => void }) => {
+    const [count, setCount] = useState(0);
+    const [showPrize, setShowPrize] = useState(false);
+
+    useEffect(() => {
+        let startTimestamp = Date.now();
+        const duration = 1500; // 1.5s to count up
+
+        const interval = setInterval(() => {
+            const now = Date.now();
+            const elapsed = now - startTimestamp;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Ease Out Quad
+            const easedProgress = 1 - (1 - progress) * (1 - progress);
+
+            const currentVal = Math.floor(easedProgress * multiplier);
+            setCount(currentVal);
+
+            if (progress >= 1) {
+                clearInterval(interval);
+                setShowPrize(true);
+            }
+        }, 30);
+
+        return () => clearInterval(interval);
+    }, [multiplier]);
+
+    return (
+        <View style={styles.resultPanel}>
+            {!showPrize ? (
+                <View style={{ alignItems: 'center' }}>
+                    <Text style={[styles.statusText, { color: '#AAA' }]}>TOTAL MULTIPLIER</Text>
+                    <Text style={styles.counterText}>{String(count)}x</Text>
+                </View>
+            ) : (
+                <View style={{ alignItems: 'center' }}>
+                    <Text style={styles.winLabel}>TOTAL WIN</Text>
+                    <Text style={styles.finalPrizeText}>${String(prize)}</Text>
+                    <TouchableOpacity activeOpacity={0.8} style={styles.collectBtn} onPress={onCollect}>
+                        <Text style={styles.collectText}>COLLECT</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
+        </View>
+    );
+};
+
+// MAIN COMPONENT
 export const BonusGame = () => {
     const {
         winningNumber,
-        bets,
         updateCredits,
         setPhase,
         setResult,
         addToHistory,
         bonusMode,
-        bonusStake, // From GameEngine (Weighted Sum)
+        bonusStake,
         recordGameResult
     } = useGameStore();
 
-    const [grid, setGrid] = useState<(number | null)[]>(Array(GRID_SIZE).fill(null));
-    const [spinsLeft, setSpinsLeft] = useState(3);
-    const [gameMsg, setGameMsg] = useState('BONUS ROUND STARTED');
-    const [showResult, setShowResult] = useState(false);
+    // STATE
+    const [grid, setGrid] = useState<{ value: number | null, isLocked: boolean }[]>(
+        Array(GRID_SIZE).fill({ value: null, isLocked: false })
+    );
+
+    const [lives, setLives] = useState(3);
+    const [isActive, setIsActive] = useState(false);
+    const [gameStatus, setGameStatus] = useState<'IDLE' | 'PLAYING' | 'FINISHED'>('PLAYING');
+
+    // Result Data
     const [finalStats, setFinalStats] = useState({ multiplier: 0, payout: 0 });
 
     const isSpectator = bonusMode === 'SPECTATOR';
-    // Use weighted stake, or 10 if spectator
     const activeStake = isSpectator ? 10 : bonusStake;
 
-    const handleComplete = useCallback(() => {
-        setPhase('BETTING');
-        setResult(null, []); // Clear result
-    }, [setPhase, setResult]);
-
-    const finishBonus = useCallback((finalGrid: (number | null)[]) => {
-        const totalMultiplier = finalGrid.reduce((acc, val) => acc + (val || 0), 0);
-
-        const payout = Math.floor(totalMultiplier * activeStake);
-
-        setFinalStats({ multiplier: totalMultiplier, payout });
-        setShowResult(true);
-
-        if (!isSpectator) {
-            updateCredits(payout);
-        }
-
-        addToHistory({
-            number: winningNumber || 0,
-            isFire: true,
-            multiplier: totalMultiplier
-        });
-
-        // Record Result to DB
-        recordGameResult(winningNumber || 0, true, totalMultiplier, payout);
-
-    }, [activeStake, winningNumber, updateCredits, addToHistory, isSpectator, recordGameResult]);
+    const [cycleTrigger, setCycleTrigger] = useState(0);
 
     useEffect(() => {
-        if (spinsLeft <= 0) {
-            finishBonus(grid);
+        if (gameStatus !== 'PLAYING') return;
+        if (lives <= 0) {
+            endGame();
             return;
         }
 
-        const isFull = grid.every(cell => cell !== null);
-        if (isFull) {
-            finishBonus(grid);
+        setIsActive(true);
+
+        const emptyIndices = grid.map((c: any, i: number) => ({ ...c, idx: i })).filter((c: any) => !c.isLocked).map((c: any) => c.idx);
+
+        if (emptyIndices.length === 0) {
+            endGame();
             return;
         }
 
-        const interval = setTimeout(() => {
-            const emptyIndices = grid.map((val, idx) => val === null ? idx : -1).filter(idx => idx !== -1);
-            if (emptyIndices.length === 0) return;
+        const hits: { idx: number, val: number }[] = [];
+        // 60% Hit Chance
+        if (Math.random() < 0.60) {
+            const numHits = Math.random() > 0.85 ? 2 : 1;
+            const available = [...emptyIndices];
+            for (let i = 0; i < numHits; i++) {
+                if (available.length > 0) {
+                    const randIdx = Math.floor(Math.random() * available.length);
+                    const targetIdx = available[randIdx];
+                    available.splice(randIdx, 1);
 
-            const shouldLand = Math.random() > 0.3; // 70% chance
+                    const r = Math.random() * 100;
+                    let v = 5;
+                    if (r < 50) v = 5;
+                    else if (r < 75) v = 10;
+                    else if (r < 90) v = 20;
+                    else if (r < 98) v = 50;
+                    else v = 100;
 
-            if (shouldLand) {
-                const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+                    hits.push({ idx: targetIdx, val: v });
+                }
+            }
+        }
 
-                // Weighted Value Selection (Avg ~9x)
-                const rand = Math.random() * 100;
-                let val = 5;
-                if (rand < 10) val = 2;         // 10%
-                else if (rand < 25) val = 3;    // 15%
-                else if (rand < 50) val = 5;    // 25%
-                else if (rand < 70) val = 8;    // 20%
-                else if (rand < 85) val = 10;   // 15%
-                else if (rand < 93) val = 15;   // 8%
-                else if (rand < 97) val = 20;   // 4%
-                else if (rand < 99) val = 50;   // 2%
-                else val = 100;                 // 1%
+        const timeouts: NodeJS.Timeout[] = [];
+        hits.forEach((hit) => {
+            const delay = 500 + Math.random() * 1000;
+            const t = setTimeout(() => {
+                setLives(3);
+                setGrid((prev: any) => {
+                    const next = [...prev];
+                    next[hit.idx] = { value: hit.val, isLocked: true };
+                    return next;
+                });
+            }, delay);
+            timeouts.push(t);
+        });
 
-                const newGrid = [...grid];
-                newGrid[randomIndex] = val;
-                setGrid(newGrid);
-                setSpinsLeft(3); // Reset spins on hit
-                setGameMsg(`Dropped ${val}x!`);
-            } else {
-                setSpinsLeft(prev => prev - 1);
-                setGameMsg('No drop...');
+        const endTimer = setTimeout(() => {
+            setIsActive(false);
+            const didHit = hits.length > 0;
+            let nextLives = didHit ? 3 : lives - 1;
+
+            if (!didHit) {
+                setLives((prev: number) => {
+                    const n = prev - 1;
+                    if (n < 0) return 0;
+                    return n;
+                });
             }
 
-        }, 1500);
+            if (nextLives > 0) {
+                const waitTime = didHit ? 1500 : 1000;
+                setTimeout(() => setCycleTrigger(c => c + 1), waitTime);
+            } else {
+                setTimeout(() => endGame(), 1000);
+            }
 
-        return () => clearTimeout(interval);
-    }, [spinsLeft, grid, finishBonus]);
+        }, 2000);
 
-    // Calculate live stats for Debug Display
-    const currentMultiplier = grid.reduce((acc, val) => acc + (val || 0), 0);
-    const currentTotalWin = Math.floor(currentMultiplier * activeStake);
+        return () => {
+            clearTimeout(endTimer);
+            timeouts.forEach(clearTimeout);
+        };
+    }, [cycleTrigger, gameStatus]);
 
-    // RESULT SCREEN
-    if (showResult) {
-        const numColor = winningNumber === 0 ? COLORS.BET_GREEN : (isRed(winningNumber!) ? COLORS.BET_RED : COLORS.BET_BLACK);
+    const handleSkip = () => {
+        endGame(true);
+    };
 
-        return (
-            <View style={styles.resultContainer}>
-                <Text style={styles.resultTitle}>{isSpectator ? "MISSED WIN" : "BIG WIN!"}</Text>
+    const endGame = (instant = false) => {
+        setIsActive(false);
 
-                <View style={[styles.resultBubble, { backgroundColor: numColor }]}>
-                    <Text style={styles.resultNumber}>{winningNumber}</Text>
-                </View>
+        let finalGrid = [...grid];
+        if (instant) {
+            finalGrid = grid.map(c => {
+                if (c.isLocked) return c;
+                return Math.random() > 0.7 ? { value: 5, isLocked: true } : { value: null, isLocked: false };
+            });
+            setGrid(finalGrid);
+        }
 
-                <View style={styles.statRow}>
-                    <Text style={styles.statLabel}>Total Multiplier</Text>
-                    <Text style={styles.statValue}>{finalStats.multiplier}x</Text>
-                </View>
+        const stats = finalGrid.reduce((acc, c) => acc + (c.isLocked && c.value ? c.value : 0), 0);
+        const payout = stats * activeStake;
 
-                <View style={styles.statRow}>
-                    <Text style={styles.statLabel}>{isSpectator ? "Potential Payout" : "Total Win"}</Text>
-                    <Text style={[styles.statValue, { color: COLORS.ACCENT_GOLD }]}>
-                        {finalStats.payout}
-                    </Text>
-                </View>
+        setFinalStats({ multiplier: stats, payout });
+        setGameStatus('FINISHED');
 
-                {isSpectator && (
-                    <Text style={styles.spectatorHint}>
-                        Turn auto-bet ON for Fire Numbers to never miss out!
-                    </Text>
-                )}
+        if (!isSpectator) updateCredits(payout);
+        addToHistory({ number: winningNumber || 100, isFire: true, multiplier: stats }); // Default 100 if null, ensures primitive
+        recordGameResult(winningNumber || 100, true, stats, payout);
+    };
 
-                <TouchableOpacity style={styles.continueBtn} onPress={handleComplete}>
-                    <Text style={styles.continueText}>CONTINUE</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
+    const renderColumns = () => {
+        const columns = [];
+        for (let c = 0; c < COLS; c++) {
+            const colCells = [];
+            let lockedCount = 0;
+            for (let r = 0; r < ROWS; r++) {
+                const idx = r * COLS + c;
+                const cell = grid[idx];
+                if (cell.isLocked) lockedCount++;
+                colCells.push({ ...cell, idx });
+            }
+            const isFull = lockedCount === ROWS;
+            columns.push(
+                <RainColumn
+                    key={c}
+                    cells={colCells}
+                    isFull={isFull}
+                    isActive={isActive}
+                />
+            );
+        }
+        return columns;
+    };
 
-    // GAMEPLAY SCREEN
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{isSpectator ? "SPECTATOR MODE" : "MEGA FIRE BONUS"}</Text>
-            {isSpectator && <Text style={styles.subTitle}>You didn't bet on {winningNumber}!</Text>}
-
-            <View style={styles.headerRow}>
-                <Text style={styles.spins}>SPINS: {spinsLeft}</Text>
-                <Text style={styles.msg}>{gameMsg}</Text>
+            <View style={styles.header}>
+                <Text style={styles.title}>FIRE DROP</Text>
+                <View style={styles.livesContainer}>
+                    {[1, 2, 3].map(i => (
+                        <View key={i} style={[styles.lifeDot, i > lives ? styles.lifeLost : null]} />
+                    ))}
+                </View>
+                {/* Status Indicator during Play */}
+                <Text style={styles.statusText}>
+                    {gameStatus === 'PLAYING' ? "MULTIPLIERS RAINING..." : "BONUS COMPLETE"}
+                </Text>
             </View>
 
             <View style={styles.gridContainer}>
-                {grid.map((val, index) => (
-                    <View key={index} style={[styles.cell, val ? styles.activeCell : null]}>
-                        <Text style={styles.cellText}>{val ? `${val}x` : ''}</Text>
-                    </View>
-                ))}
+                {renderColumns()}
             </View>
 
-            {/* DEBUG / LIVE INFO (Per User Request) */}
-            <View style={styles.debugInfo}>
-                <Text style={styles.debugText}>Bonus Stake: ${activeStake.toFixed(2)}</Text>
-                <Text style={styles.debugText}>Multiplier: {currentMultiplier}x</Text>
-                <Text style={[styles.debugText, { color: COLORS.ACCENT_GOLD }]}>
-                    {activeStake.toFixed(2)} * {currentMultiplier} = ${currentTotalWin}
-                </Text>
+            <View style={styles.footer}>
+                {gameStatus === 'PLAYING' ? (
+                    <TouchableOpacity style={styles.skipBtn} onPress={handleSkip}>
+                        <Text style={styles.skipText}>SKIP TO RESULT</Text>
+                    </TouchableOpacity>
+                ) : (
+                    <ResultPanel
+                        multiplier={finalStats.multiplier}
+                        prize={finalStats.payout}
+                        onCollect={() => { setPhase('BETTING'); setResult(null, []); }}
+                    />
+                )}
             </View>
         </View>
     );
@@ -180,160 +416,133 @@ export const BonusGame = () => {
 
 const styles = StyleSheet.create({
     container: {
-        width: '90%',
-        padding: 20,
-        alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.95)',
-        borderRadius: 20,
-        borderWidth: 2,
-        borderColor: COLORS.ACCENT_GOLD,
-        alignSelf: 'center',
-        marginTop: 100, // Adjusted for Dynamic Island
-        marginBottom: 40,
-        zIndex: 100,
+        position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+        backgroundColor: 'rgba(5, 5, 10, 0.98)', // Very dark blue/black background
+        justifyContent: 'center', alignItems: 'center'
     },
+    header: { alignItems: 'center', marginBottom: 20 },
     title: {
-        color: COLORS.ACCENT_GOLD,
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 5,
-        textAlign: 'center',
-    },
-    subTitle: {
-        color: COLORS.TEXT_SECONDARY,
-        fontSize: 14,
-        marginBottom: 10,
-    },
-    headerRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        marginBottom: 15,
-        paddingHorizontal: 10,
-    },
-    spins: {
-        color: '#FFF',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    msg: {
-        color: COLORS.ACCENT_GOLD,
-        fontSize: 16,
-        fontStyle: 'italic',
-    },
-    gridContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        gap: 8,
-    },
-    cell: {
-        width: 60,
-        height: 60,
-        backgroundColor: '#222',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#444',
-    },
-    activeCell: {
-        backgroundColor: COLORS.ACCENT_GOLD, // or gradient
-        borderColor: '#FFF',
-        shadowColor: COLORS.ACCENT_GOLD,
-        shadowRadius: 10,
-        elevation: 5,
-    },
-    cellText: {
-        color: '#000',
+        fontSize: 32,
+        color: '#FF4444',
         fontWeight: '900',
-        fontSize: 16,
+        textShadowColor: '#FF0000',
+        textShadowRadius: 20,
+        letterSpacing: 3,
+        marginBottom: 5
+    },
+    statusText: {
+        color: '#666',
+        fontSize: 12,
+        fontWeight: 'bold',
+        marginTop: 5,
+        letterSpacing: 1
+    },
+    livesContainer: { flexDirection: 'row', gap: 8, marginTop: 5 },
+    lifeDot: {
+        width: 12, height: 12, borderRadius: 6,
+        backgroundColor: '#22C55E', // Green Neon
+        borderWidth: 1, borderColor: '#FFF',
+        shadowColor: '#22C55E', shadowRadius: 10, shadowOpacity: 1, elevation: 5
+    },
+    lifeLost: {
+        backgroundColor: '#333', borderColor: '#444',
+        shadowOpacity: 0, elevation: 0
     },
 
-    // RESULT SCREEN
-    resultContainer: {
-        width: '85%',
-        padding: 30,
+    gridContainer: {
+        flexDirection: 'row',
+        backgroundColor: '#000',
+        padding: 5,
+        borderRadius: 14,
+        borderWidth: 2,
+        borderColor: '#333', // Subtle border, focus on content
+        // Outer Glow
+        shadowColor: '#FF4444', shadowOpacity: 0.2, shadowRadius: 30
+    },
+    column: {
+        width: 75,
+        marginHorizontal: 3,
+        backgroundColor: '#0a0a0a',
+        borderRadius: 4,
+        overflow: 'hidden',
+        position: 'relative',
+        height: 210,
+        borderWidth: 1,
+        borderColor: '#222'
+    },
+    rainContainer: {
+        position: 'absolute',
+        top: 0, left: 0, right: 0,
+        overflow: 'hidden',
+    },
+    rainStrip: {
+        position: 'absolute',
+        left: 0, right: 0,
         alignItems: 'center',
-        backgroundColor: '#111',
-        borderRadius: 20,
-        borderWidth: 3,
-        borderColor: COLORS.ACCENT_GOLD,
-        alignSelf: 'center',
-        marginVertical: 50,
-        zIndex: 200,
     },
-    resultTitle: {
-        color: '#FFF',
-        fontSize: 28,
-        fontWeight: 'bold',
-        marginBottom: 20,
+    rainItem: {
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    resultBubble: {
-        width: 80,
-        height: 80,
-        borderRadius: 40,
+
+    cellSlot: {
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 30,
-        borderWidth: 3,
-        borderColor: '#FFF',
-    },
-    resultNumber: {
-        color: '#FFF',
-        fontSize: 32,
-        fontWeight: 'bold',
-    },
-    statRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        marginBottom: 10,
+        zIndex: 10,
         borderBottomWidth: 1,
-        borderBottomColor: '#333',
-        paddingBottom: 5,
+        borderColor: 'rgba(255,255,255,0.05)'
     },
-    statLabel: {
-        color: COLORS.TEXT_SECONDARY,
-        fontSize: 16,
+    emptyCell: {
+        width: '100%', height: '100%'
     },
-    statValue: {
-        color: '#FFF',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    spectatorHint: {
-        color: COLORS.BET_RED, // Reddish
-        textAlign: 'center',
-        marginTop: 15,
-        fontStyle: 'italic',
-    },
-    continueBtn: {
+
+    // Footer & Results
+    footer: {
         marginTop: 30,
-        backgroundColor: COLORS.ACCENT_GOLD,
-        paddingVertical: 12,
-        paddingHorizontal: 40,
-        borderRadius: 25,
-    },
-    continueText: {
-        color: '#000',
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    debugInfo: {
-        marginTop: 20,
-        alignItems: 'center',
-        backgroundColor: '#333',
-        padding: 10,
-        borderRadius: 10,
+        height: 120, // Check height to ensure space for result
+        justifyContent: 'center',
         width: '100%',
-        borderWidth: 1,
-        borderColor: '#555'
+        alignItems: 'center'
     },
-    debugText: {
-        color: '#BBB',
-        fontSize: 14,
-        fontFamily: 'monospace',
-        marginBottom: 2
+    skipBtn: {
+        paddingVertical: 12, paddingHorizontal: 25,
+        backgroundColor: 'rgba(255,255,255,0.05)',
+        borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)'
+    },
+    skipText: { color: '#888', fontWeight: 'bold', fontSize: 12, letterSpacing: 1 },
+
+    // Result Panel
+    resultPanel: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%'
+    },
+    counterText: {
+        fontSize: 42,
+        fontWeight: '900',
+        color: '#FFF',
+        textShadowColor: '#3B82F6', textShadowRadius: 20
+    },
+    winLabel: {
+        color: '#AAA', fontSize: 14, fontWeight: 'bold', letterSpacing: 2, marginBottom: 5
+    },
+    finalPrizeText: {
+        fontSize: 56,
+        fontWeight: '900',
+        color: '#FFF',
+        textShadowColor: '#FFF', textShadowRadius: 30, // WHITE NEON
+        marginBottom: 10
+    },
+    collectBtn: {
+        backgroundColor: '#FFF',
+        paddingHorizontal: 40,
+        paddingVertical: 12,
+        borderRadius: 30,
+        shadowColor: '#FFF', shadowOpacity: 0.5, shadowRadius: 15, elevation: 10
+    },
+    collectText: {
+        color: '#000', fontWeight: '900', fontSize: 16, letterSpacing: 1
     }
 });
