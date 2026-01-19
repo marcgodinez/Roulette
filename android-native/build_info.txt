@@ -1,0 +1,238 @@
+﻿Initialized native services in: C:\Users\marcg\.gradle\native
+Initialized jansi services in: C:\Users\marcg\.gradle\native
+Found daemon DaemonInfo{pid=14420, address=[533545d8-6bd5-4043-9837-6ccb57e37df0 port:57048, addresses:[/127.0.0.1]], state=Idle, lastBusy=1768591150413, context=DefaultDaemonContext[uid=530f2a94-c6b6-4dcc-8475-6983a8f2f8b6,javaHome=C:\Program Files\Android\Android Studio1\jbr,javaVersion=21,javaVendor=JetBrains s.r.o.,daemonRegistryDir=C:\Users\marcg\.gradle\daemon,pid=14420,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-Xmx2048m,-Dfile.encoding=UTF-8,-Duser.country=ES,-Duser.language=es,-Duser.variant]} however its context does not match the desired criteria.
+JVM is incompatible.
+Wanted: DaemonRequestContext{jvmCriteria=C:\Program Files\Java\jdk-22 (no JDK specified, using current Java home), daemonOpts=[-Xmx2048m, -Dfile.encoding=UTF-8, -Duser.country=ES, -Duser.language=es, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=530f2a94-c6b6-4dcc-8475-6983a8f2f8b6,javaHome=C:\Program Files\Android\Android Studio1\jbr,javaVersion=21,javaVendor=JetBrains s.r.o.,daemonRegistryDir=C:\Users\marcg\.gradle\daemon,pid=14420,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-Xmx2048m,-Dfile.encoding=UTF-8,-Duser.country=ES,-Duser.language=es,-Duser.variant]
+
+  Looking for a different daemon...
+The client will now receive all logging from the daemon (pid: 24760). The daemon log file: C:\Users\marcg\.gradle\daemon\9.0-milestone-1\daemon-24760.out.log
+Starting 7th build in daemon [uptime: 28 mins 57.15 secs, performance: 100%, GC rate: 0.00/s, heap usage: 0% of 2 GiB]
+Using 16 worker leases.
+Invalidating in-memory cache of C:\Users\marcg\Documents\Projects\Roulette\android-native\.gradle\9.0-milestone-1\fileHashes\fileHashes.bin
+Invalidating in-memory cache of C:\Users\marcg\Documents\Projects\Roulette\android-native\.gradle\buildOutputCleanup\outputFiles.bin
+Invalidating in-memory cache of C:\Users\marcg\Documents\Projects\Roulette\android-native\.gradle\9.0-milestone-1\fileHashes\resourceHashesCache.bin
+Now considering [C:\Users\marcg\Documents\Projects\Roulette\android-native] as hierarchies to watch
+Watching the file system is configured to be enabled if available
+File system watching is active
+Starting Build
+Invalidating in-memory cache of C:\Users\marcg\.gradle\caches\9.0-milestone-1\fileHashes\fileHashes.bin
+Invalidating in-memory cache of C:\Users\marcg\.gradle\caches\9.0-milestone-1\fileHashes\resourceHashesCache.bin
+Invalidating in-memory cache of C:\Users\marcg\.gradle\caches\journal-1\file-access.bin
+Settings evaluated using settings file 'C:\Users\marcg\Documents\Projects\Roulette\android-native\settings.gradle.kts'.
+Projects loaded. Root project using build file 'C:\Users\marcg\Documents\Projects\Roulette\android-native\build.gradle.kts'.
+Included projects: [root project 'RouletteNative', project ':app']
+
+> Configure project :
+Evaluating root project 'RouletteNative' using build file 'C:\Users\marcg\Documents\Projects\Roulette\android-native\build.gradle.kts'.
+Resolved plugin [id: 'com.android.application', version: '8.2.0', apply: false]
+Resolved plugin [id: 'org.jetbrains.kotlin.android', version: '1.9.0', apply: false]
+
+> Configure project :app
+Evaluating project ':app' using build file 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\build.gradle.kts'.
+Resolved plugin [id: 'com.android.application']
+Resolved plugin [id: 'org.jetbrains.kotlin.android']
+Resolved plugin [id: 'org.jetbrains.kotlin.plugin.serialization', version: '1.9.0']
+Using default execution profile
+Using Kotlin Gradle Plugin gradle81 variant
+All projects evaluated.
+Task path ':app:compileDebugKotlin' matched project ':app'
+Task name matched 'compileDebugKotlin'
+Selected primary task 'compileDebugKotlin' from project :app
+Tasks to be executed: [task ':app:preBuild', task ':app:preDebugBuild', task ':app:checkDebugAarMetadata', task ':app:generateDebugResValues', task ':app:mapDebugSourceSetPaths', task ':app:generateDebugResources', task ':app:mergeDebugResources', task ':app:packageDebugResources', task ':app:parseDebugLocalResources', task ':app:createDebugCompatibleScreenManifests', task ':app:extractDeepLinksDebug', task ':app:processDebugMainManifest', task ':app:processDebugManifest', task ':app:processDebugManifestForPackage', task ':app:processDebugResources', task ':app:compileDebugKotlin']
+Tasks that were excluded: []
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.HelpTasksPlugin_Decorated expected enum ORG_GRADLE_API_PLUGINS_HELPTASKSPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.SoftwareReportingTasksPlugin_Decorated expected enum ORG_GRADLE_API_PLUGINS_SOFTWAREREPORTINGTASKSPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.buildinit.plugins.BuildInitPlugin_Decorated expected enum ORG_GRADLE_BUILDINIT_PLUGINS_BUILDINITPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.buildinit.plugins.WrapperPlugin_Decorated expected enum ORG_GRADLE_BUILDINIT_PLUGINS_WRAPPERPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.kotlin.dsl.provider.plugins.KotlinScriptRootPlugin_Decorated expected enum ORG_GRADLE_KOTLIN_DSL_PROVIDER_PLUGINS_KOTLINSCRIPTROOTPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.kotlin.dsl.provider.plugins.KotlinScriptBasePlugin_Decorated expected enum ORG_GRADLE_KOTLIN_DSL_PROVIDER_PLUGINS_KOTLINSCRIPTBASEPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.HelpTasksPlugin_Decorated expected enum ORG_GRADLE_API_PLUGINS_HELPTASKSPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.SoftwareReportingTasksPlugin_Decorated expected enum ORG_GRADLE_API_PLUGINS_SOFTWAREREPORTINGTASKSPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.buildinit.plugins.BuildInitPlugin_Decorated expected enum ORG_GRADLE_BUILDINIT_PLUGINS_BUILDINITPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.buildinit.plugins.WrapperPlugin_Decorated expected enum ORG_GRADLE_BUILDINIT_PLUGINS_WRAPPERPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.language.base.plugins.LifecycleBasePlugin_Decorated expected enum ORG_GRADLE_LANGUAGE_BASE_PLUGINS_LIFECYCLEBASEPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.BasePlugin_Decorated expected enum ORG_GRADLE_API_PLUGINS_BASEPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin_Decorated expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.ReportingBasePlugin_Decorated expected enum ORG_GRADLE_API_PLUGINS_REPORTINGBASEPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin_Decorated expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JavaBasePlugin_Decorated expected enum ORG_GRADLE_API_PLUGINS_JAVABASEPLUGIN_DECORATED
+Analytics other plugin to proto: Unknown plugin type org.jetbrains.kotlinx.serialization.gradle.SerializationGradleSubplugin expected enum ORG_JETBRAINS_KOTLINX_SERIALIZATION_GRADLE_SERIALIZATIONGRADLESUBPLUGIN
+Analytics other plugin to proto: Unknown plugin type org.gradle.kotlin.dsl.provider.plugins.KotlinScriptBasePlugin_Decorated expected enum ORG_GRADLE_KOTLIN_DSL_PROVIDER_PLUGINS_KOTLINSCRIPTBASEPLUGIN_DECORATED
+Resolve mutations for :app:preBuild (Thread[#975,Execution worker,5,main]) started.
+:app:preBuild (Thread[#984,Execution worker Thread 10,5,main]) started.
+Invalidating in-memory cache of C:\Users\marcg\Documents\Projects\Roulette\android-native\.gradle\9.0-milestone-1\executionHistory\executionHistory.bin
+
+> Task :app:preBuild UP-TO-DATE
+Skipping task ':app:preBuild' as it has no actions.
+Resolve mutations for :app:preDebugBuild (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:preDebugBuild (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:preDebugBuild UP-TO-DATE
+Skipping task ':app:preDebugBuild' as it has no actions.
+Resolve mutations for :app:checkDebugAarMetadata (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:checkDebugAarMetadata (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+Caching disabled for task ':app:checkDebugAarMetadata' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:checkDebugAarMetadata' as it is up-to-date.
+Resolve mutations for :app:generateDebugResValues (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:generateDebugResValues (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:generateDebugResValues UP-TO-DATE
+Caching disabled for task ':app:generateDebugResValues' because:
+  Build cache is disabled
+Skipping task ':app:generateDebugResValues' as it is up-to-date.
+Resolve mutations for :app:mapDebugSourceSetPaths (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:mapDebugSourceSetPaths (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+Caching disabled for task ':app:mapDebugSourceSetPaths' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:mapDebugSourceSetPaths' as it is up-to-date.
+Resolve mutations for :app:generateDebugResources (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:generateDebugResources (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:generateDebugResources UP-TO-DATE
+Skipping task ':app:generateDebugResources' as it has no actions.
+Resolve mutations for :app:mergeDebugResources (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:mergeDebugResources (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:mergeDebugResources UP-TO-DATE
+Caching disabled for task ':app:mergeDebugResources' because:
+  Build cache is disabled
+Skipping task ':app:mergeDebugResources' as it is up-to-date.
+Resolve mutations for :app:packageDebugResources (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:packageDebugResources (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:packageDebugResources UP-TO-DATE
+Caching disabled for task ':app:packageDebugResources' because:
+  Build cache is disabled
+Skipping task ':app:packageDebugResources' as it is up-to-date.
+Resolve mutations for :app:parseDebugLocalResources (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:parseDebugLocalResources (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:parseDebugLocalResources UP-TO-DATE
+Caching disabled for task ':app:parseDebugLocalResources' because:
+  Build cache is disabled
+Skipping task ':app:parseDebugLocalResources' as it is up-to-date.
+Resolve mutations for :app:createDebugCompatibleScreenManifests (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:createDebugCompatibleScreenManifests (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+Caching disabled for task ':app:createDebugCompatibleScreenManifests' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:createDebugCompatibleScreenManifests' as it is up-to-date.
+Resolve mutations for :app:extractDeepLinksDebug (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:extractDeepLinksDebug (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+Caching disabled for task ':app:extractDeepLinksDebug' because:
+  Build cache is disabled
+Skipping task ':app:extractDeepLinksDebug' as it is up-to-date.
+Resolve mutations for :app:processDebugMainManifest (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:processDebugMainManifest (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:processDebugMainManifest UP-TO-DATE
+Caching disabled for task ':app:processDebugMainManifest' because:
+  Build cache is disabled
+Skipping task ':app:processDebugMainManifest' as it is up-to-date.
+Resolve mutations for :app:processDebugManifest (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:processDebugManifest (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:processDebugManifest UP-TO-DATE
+Caching disabled for task ':app:processDebugManifest' because:
+  Build cache is disabled
+Skipping task ':app:processDebugManifest' as it is up-to-date.
+Resolve mutations for :app:processDebugManifestForPackage (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:processDebugManifestForPackage (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+Custom actions are attached to task ':app:processDebugManifestForPackage'.
+Caching disabled for task ':app:processDebugManifestForPackage' because:
+  Build cache is disabled
+Skipping task ':app:processDebugManifestForPackage' as it is up-to-date.
+Resolve mutations for :app:processDebugResources (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:processDebugResources (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:processDebugResources UP-TO-DATE
+Caching disabled for task ':app:processDebugResources' because:
+  Build cache is disabled
+Skipping task ':app:processDebugResources' as it is up-to-date.
+Resolve mutations for :app:compileDebugKotlin (Thread[#984,Execution worker Thread 10,5,main]) started.
+:app:compileDebugKotlin (Thread[#984,Execution worker Thread 10,5,main]) started.
+
+> Task :app:compileDebugKotlin
+Caching disabled for task ':app:compileDebugKotlin' because:
+  Build cache is disabled
+Task ':app:compileDebugKotlin' is not up-to-date because:
+  Task has failed previously.
+The input changes require a full rebuild for incremental task ':app:compileDebugKotlin'.
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\java', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\java', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\java', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\java', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\java', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\java', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\java', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\java', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\java', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\java', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\java', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\java', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\java', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\kotlin', not found
+file or directory 'C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\debug\java', not found
+Kotlin source files: C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\data\models\GameModels.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\data\repositories\AuthRepository.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\data\repositories\HubRepository.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\data\repositories\PlayerRepository.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\MainActivity.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\network\ApiClient.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\auth\AuthScreen.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\auth\AuthViewModel.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\game\BettingBoard.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\game\BettingControls.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\game\ChipSelector.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\game\GameScreen.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\game\GameViewModel.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\game\RouletteWheel.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\hub\HubScreen.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\hub\HubViewModel.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\leaderboard\LeaderboardScreen.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\leaderboard\LeaderboardViewModel.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\navigation\Screen.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\theme\Color.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\ui\theme\Theme.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\utils\NumberUtils.kt, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\java\com\marcgodinez\roulette\utils\SoundManager.kt
+Java source files: 
+Script source files: 
+Script file extensions: 
+Using Kotlin/JVM incremental compilation
+[KOTLIN] Kotlin compilation 'jdkHome' argument: null
+i: found daemon on port 17497 (3600542 ms old), trying to connect
+i: connected to the daemon
+Options for KOTLIN DAEMON: IncrementalCompilationOptions(super=CompilationOptions(compilerMode=INCREMENTAL_COMPILER, targetPlatform=JVM, reportCategories=[0, 3], reportSeverity=2, requestedCompilationResults=[0], kotlinScriptExtensions=[]), areFileChangesKnown=false, modifiedFiles=null, deletedFiles=null, classpathChanges=NotAvailableForNonIncrementalRun, workingDir=C:\Users\marcg\Documents\Projects\Roulette\android-native\app\build\kotlin\compileDebugKotlin\cacheable, multiModuleICSettings=MultiModuleICSettings(buildHistoryFile=C:\Users\marcg\Documents\Projects\Roulette\android-native\app\build\kotlin\compileDebugKotlin\local-state\build-history.bin, useModuleDetection=true), usePreciseJavaTracking=true, outputFiles=[C:\Users\marcg\Documents\Projects\Roulette\android-native\app\build\tmp\kotlin-classes\debug, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\build\kotlin\compileDebugKotlin\cacheable, C:\Users\marcg\Documents\Projects\Roulette\android-native\app\build\kotlin\compileDebugKotlin\local-state])
+
+> Task :app:compileDebugKotlin FAILED
+
+[Incubating] Problems report is available at: file:///C:/Users/marcg/Documents/Projects/Roulette/android-native/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.0-milestone-1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+13 actionable tasks: 1 executed, 12 up-to-date
+Watched directory hierarchies: [C:\Users\marcg\Documents\Projects\Roulette\android-native]

@@ -1,0 +1,66 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.marcgodinez.roulette.app-mergeDebugResources-63:/values-v21/values-v21.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\marcg\\.gradle\\caches\\transforms-3\\daf9fa2d8c1b165626026eca9ba3aaba\\transformed\\jetified-credentials-play-services-auth-1.2.2\\res\\values-v21\\values-v21.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "9",
+                        "endColumns": "12",
+                        "endOffsets": "543"
+                    },
+                    "to": {
+                        "startLines": "16",
+                        "startColumns": "4",
+                        "startOffsets": "1223",
+                        "endLines": "23",
+                        "endColumns": "12",
+                        "endOffsets": "1711"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\marcg\\.gradle\\caches\\transforms-3\\1566b698b64c01a7eeb219ed84b96721\\transformed\\jetified-purchases-8.0.0\\res\\values-v21\\values-v21.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "7",
+                        "endColumns": "12",
+                        "endOffsets": "409"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "368",
+                        "endLines": "11",
+                        "endColumns": "12",
+                        "endOffsets": "722"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\marcg\\.gradle\\caches\\transforms-3\\daa0b1ff0ae04270b32634e531a06820\\transformed\\core-1.13.0\\res\\values-v21\\values-v21.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,13",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,173,237,304,368,484,610,736,864,1036",
+                        "endLines": "2,3,4,5,6,7,8,9,12,17",
+                        "endColumns": "117,63,66,63,115,125,125,127,12,12",
+                        "endOffsets": "168,232,299,363,479,605,731,859,1031,1383"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,12,13,14,15,24,27",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,173,237,304,727,843,969,1095,1716,1888",
+                        "endLines": "2,3,4,5,12,13,14,15,26,31",
+                        "endColumns": "117,63,66,63,115,125,125,127,12,12",
+                        "endOffsets": "168,232,299,363,838,964,1090,1218,1883,2235"
+                    }
+                }
+            ]
+        }
+    ]
+}

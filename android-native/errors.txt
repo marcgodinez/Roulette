@@ -1,0 +1,134 @@
+﻿
+.\gradlew.bat : e: file:///C:/Users/marcg/Documents/Projects/R
+tte/ui/game/GameViewModel.kt:28:9 Unresolved reference: 
+    + CategoryInfo          : NotSpecified: (e: file:///C:/U. 
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ViewModel.kt:30:13 Unresolved reference: PlayerRepository
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ViewModel.kt:38:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ViewModel.kt:39:13 Unresolved reference: PlayerRepository
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ViewModel.kt:40:23 Unresolved reference: ApiClient
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ViewModel.kt:47:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ViewModel.kt:50:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ViewModel.kt:145:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ViewModel.kt:146:26 Unresolved reference: ApiClient
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ViewModel.kt:178:17 Unresolved reference: PlayerRepository
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ViewModel.kt:218:9 Unresolved reference: PlayerRepository
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ViewModel.kt:228:9 Unresolved reference: PlayerRepository
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ViewModel.kt:232:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:14:33 Unresolved reference: HubRepository
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:14:49 Unresolved reference: HubRepository
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+following functions is suitable: 
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+'setValue(HubViewModel, KProperty<*>, [Error type: Error 
+method. None of the following functions is suitable: 
+KProperty<*>, value: Nothing?): Unit defined in 
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:18:35 Unresolved reference: UserProfile
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+following functions is suitable: 
+public inline operator fun <T> State<List<[Error type: 
+Any?, property: KProperty<*>): List<[Error type: Unresolved 
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+'setValue(HubViewModel, KProperty<*>, [Error type: Error 
+method. None of the following functions is suitable: 
+public inline operator fun <T> MutableState<List<[Error type: 
+Any?, property: KProperty<*>, value: List<[Error type: 
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:19:42 Unresolved reference: LeaderboardEntry
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+following functions is suitable: 
+public inline operator fun <T> State<List<[Error type: 
+Any?, property: KProperty<*>): List<[Error type: Unresolved 
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+'setValue(HubViewModel, KProperty<*>, [Error type: Error 
+method. None of the following functions is suitable: 
+public inline operator fun <T> MutableState<List<[Error type: 
+Any?, property: KProperty<*>, value: List<[Error type: 
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:20:45 Unresolved reference: LeaderboardEntry
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+following functions is suitable: 
+public inline operator fun <T> State<List<[Error type: 
+property: KProperty<*>): List<[Error type: Unresolved type 
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+'setValue(HubViewModel, KProperty<*>, [Error type: Error 
+None of the following functions is suitable: 
+public inline operator fun <T> MutableState<List<[Error type: 
+property: KProperty<*>, value: List<[Error type: Unresolved 
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:36:41 Unresolved reference: StorePackage
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:44:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:50:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:55:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:61:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:70:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:74:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:78:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:82:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:86:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:132:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:133:26 Unresolved reference: ApiClient
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:142:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:143:26 Unresolved reference: ApiClient
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:154:25 Unresolved reference: StorePackage
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:161:25 Unresolved reference: StorePackage
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:168:25 Unresolved reference: StorePackage
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:175:25 Unresolved reference: StorePackage
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:186:30 Unresolved reference: StorePackage
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:187:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+ewModel.kt:215:9 Unresolved reference: viewModelScope
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/android-
+FAILURE: Build failed with an exception.
+
+

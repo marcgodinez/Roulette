@@ -1,0 +1,74 @@
+﻿./gradlew : Warning: SDK processing. This version only 
+understands SDK XML versions up to 3 but an SDK XML file of 
+version 4 was encountered. This can happen if you use 
+versions of Android Studio and the command-line tools that 
+were released at different times.
+En línea: 1 Carácter: 1
++ ./gradlew :app:assembleDebug --refresh-dependencies > 
+build_log_recov ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Warning: SDK pr. 
+   ..ifferent times.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:checkDebugAarMetadata
+> Task :app:generateDebugResValues
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources
+> Task :app:packageDebugResources
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug
+> Task :app:parseDebugLocalResources
+> Task :app:mergeDebugResources
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :app:javaPreCompileDebug
+> Task :app:mergeDebugShaders
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets
+> Task :app:compressDebugAssets
+> Task :app:processDebugManifestForPackage
+> Task :app:desugarDebugFileDependencies
+> Task :app:mergeDebugJniLibFolders
+> Task :app:mergeDebugNativeLibs NO-SOURCE
+> Task :app:stripDebugDebugSymbols NO-SOURCE
+> Task :app:checkDebugDuplicateClasses
+> Task :app:validateSigningDebug
+> Task :app:writeDebugAppMetadata
+> Task :app:mergeLibDexDebug
+> Task :app:writeDebugSigningConfigVersions
+> Task :app:processDebugResources
+> Task :app:mergeExtDexDebug
+> Task :app:l8DexDesugarLibDebug
+> Task :app:compileDebugKotlin
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/android-native/app/src/main/java/com/marcgodinez/roulette/MainActivity.kt:53:25 Variable 'startDest' is never used
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/android-native/app/src/main/java/com/marcgodinez/roulette/ui/game/BettingBoard.kt:35:9 Parameter 'highlightedNumbers' is never used
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/android-native/app/src/main/java/com/marcgodinez/roulette/ui/game/BettingBoard.kt:36:9 Parameter 'isSpinning' is never used
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/android-native/app/src/main/java/com/marcgodinez/roulette/ui/game/RouletteWheel.kt:71:9 Parameter 'fireNumbers' is never used
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/android-native/app/src/main/java/com/marcgodinez/roulette/ui/theme/Theme.kt:23:9 Parameter 'darkTheme' is never used
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/android-native/app/src/main/java/com/marcgodinez/roulette/utils/SoundManager.kt:20:14 Parameter 'context' is never used
+
+> Task :app:compileDebugJavaWithJavac NO-SOURCE
+> Task :app:processDebugJavaRes
+> Task :app:dexBuilderDebug
+> Task :app:mergeProjectDexDebug
+> Task :app:mergeDebugJavaResource
+> Task :app:packageDebug
+> Task :app:createDebugApkListingFileRedirect
+> Task :app:assembleDebug
+
+[Incubating] Problems report is available at: file:///C:/Users/marcg/Documents/Projects/Roulette/android-native/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.0-milestone-1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 1m 41s
+32 actionable tasks: 32 executed

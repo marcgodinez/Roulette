@@ -1,0 +1,4 @@
+com.marcgodinez.roulette.test.app-androidTest-0 C:\Users\marcg\Documents\Projects\Roulette\android-native\app\build\generated\res\resValues\androidTest\debug
+com.marcgodinez.roulette.test.app-mergeDebugAndroidTestResources-1 C:\Users\marcg\Documents\Projects\Roulette\android-native\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.marcgodinez.roulette.test.app-mergeDebugAndroidTestResources-2 C:\Users\marcg\Documents\Projects\Roulette\android-native\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.marcgodinez.roulette.test.app-merged_res-3 C:\Users\marcg\Documents\Projects\Roulette\android-native\app\build\intermediates\merged_res\debugAndroidTest
