@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -40,7 +42,13 @@ fun HistoryBar(history: List<Int>, onStatsClick: () -> Unit) {
                                 .border(1.dp, PrimaryGold, CircleShape)
                                 .clickable { onStatsClick() },
                 contentAlignment = Alignment.Center
-        ) { Text("📊", fontSize = 18.sp) }
+        ) {
+            Icon(
+                    imageVector = androidx.compose.material.icons.Icons.Default.BarChart,
+                    contentDescription = "Stats",
+                    tint = Color.White
+            )
+        }
 
         Spacer(modifier = Modifier.width(10.dp))
 

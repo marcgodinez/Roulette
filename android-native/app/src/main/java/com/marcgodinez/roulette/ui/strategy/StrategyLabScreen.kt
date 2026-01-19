@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.marcgodinez.roulette.ui.game.BettingBoard
 import com.marcgodinez.roulette.ui.game.CHIPS
+import com.marcgodinez.roulette.ui.game.ChipButtonDisplay
 import com.marcgodinez.roulette.ui.theme.*
 import com.marcgodinez.roulette.utils.NumberUtils
 
@@ -55,38 +55,16 @@ fun StrategyLabScreen(navController: NavController, viewModel: StrategyViewModel
                         ) {
                                 items(CHIPS) { chip ->
                                         val isSelected = chip.value == viewModel.selectedChipValue
-                                        Box(
+                                        ChipButtonDisplay(
+                                                chip = chip,
+                                                isSelected = isSelected,
+                                                onClick = {
+                                                        viewModel.selectedChipValue = chip.value
+                                                },
+                                                isMain = false,
                                                 modifier =
-                                                        Modifier.size(36.dp)
-                                                                .background(chip.color, CircleShape)
-                                                                .border(
-                                                                        width =
-                                                                                if (isSelected) 2.dp
-                                                                                else 0.dp,
-                                                                        color =
-                                                                                if (isSelected)
-                                                                                        PrimaryGold
-                                                                                else
-                                                                                        Color.Transparent,
-                                                                        shape = CircleShape
-                                                                )
-                                                                .clickable {
-                                                                        viewModel
-                                                                                .selectedChipValue =
-                                                                                chip.value
-                                                                },
-                                                contentAlignment = Alignment.Center
-                                        ) {
-                                                Text(
-                                                        text = chip.label,
-                                                        fontSize = 10.sp,
-                                                        fontWeight = FontWeight.Bold,
-                                                        color =
-                                                                if (chip.color == Color.Black)
-                                                                        Color.White
-                                                                else Color.Black
-                                                )
-                                        }
+                                                        Modifier // ChipButtonDisplay handles size
+                                        )
                                 }
                         }
 
@@ -123,12 +101,14 @@ fun StrategyLabScreen(navController: NavController, viewModel: StrategyViewModel
                                                                 1.dp,
                                                                 ErrorRed
                                                         ),
-                                                shape = RoundedCornerShape(8.dp)
+                                                shape = RoundedCornerShape(12.dp),
+                                                modifier = Modifier.height(50.dp)
                                         ) {
                                                 Text(
-                                                        "Clear",
+                                                        "CLEAR",
                                                         color = ErrorRed,
-                                                        fontWeight = FontWeight.Bold
+                                                        fontWeight = FontWeight.Bold,
+                                                        fontSize = 14.sp
                                                 )
                                         }
 
@@ -138,12 +118,14 @@ fun StrategyLabScreen(navController: NavController, viewModel: StrategyViewModel
                                                         ButtonDefaults.buttonColors(
                                                                 containerColor = PrimaryGold
                                                         ),
-                                                shape = RoundedCornerShape(8.dp)
+                                                shape = RoundedCornerShape(12.dp),
+                                                modifier = Modifier.height(50.dp)
                                         ) {
                                                 Text(
                                                         "SAVE STRATEGY",
                                                         color = DarkBg,
-                                                        fontWeight = FontWeight.Bold
+                                                        fontWeight = FontWeight.Bold,
+                                                        fontSize = 14.sp
                                                 )
                                         }
                                 }

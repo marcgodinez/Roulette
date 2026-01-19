@@ -389,12 +389,16 @@ fun GameScreen(
 
                 // BONUS GAME
                 if (viewModel.currentPhase == GamePhase.BONUS) {
-                        BonusGame(onClose = { m, p -> viewModel.completeBonus(m, p) })
+                        Box(modifier = Modifier.zIndex(300f).fillMaxSize()) {
+                                BonusGame(onClose = { m, p -> viewModel.completeBonus(m, p) })
+                        }
                 }
 
                 // DEBUG BONUS GAME
                 if (showDebugBonus) {
-                        BonusGame(onClose = { _, _ -> showDebugBonus = false })
+                        Box(modifier = Modifier.zIndex(300f).fillMaxSize()) {
+                                BonusGame(onClose = { _, _ -> showDebugBonus = false })
+                        }
                 }
 
                 // RESULT (Parity with GameScreen.tsx ResultOverlay)

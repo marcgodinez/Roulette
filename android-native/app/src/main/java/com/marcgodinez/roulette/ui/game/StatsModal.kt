@@ -68,7 +68,7 @@ fun StatsModal(history: List<Int>, onDismiss: () -> Unit) {
                         verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                            "SESSION ANALYTICS 📊",
+                            "SESSION ANALYTICS",
                             color = PrimaryGold,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
@@ -148,7 +148,7 @@ fun OverviewTab(stats: StatsData) {
                     horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 // HOT
-                KpiBox("HOT 🔥") {
+                KpiBox("HOT") {
                     if (stats.hot.isEmpty()) Text("-", color = TextGray)
                     else {
                         Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
@@ -192,7 +192,7 @@ fun OverviewTab(stats: StatsData) {
                 }
 
                 // COLD
-                KpiBox("COLD ❄️") {
+                KpiBox("COLD") {
                     if (stats.cold.isEmpty()) Text("-", color = TextGray)
                     else {
                         Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {

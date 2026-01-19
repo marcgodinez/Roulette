@@ -303,6 +303,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                         if (result.totalWin > 0) "YOU WON ${result.totalWin}!"
                         else "No luck this time."
 
+                delay(3000) // Show result overlay for 3 seconds
+
                 // TRIGGER AD Logic
                 if (result.totalWin > 0 && !noAds) {
                     winningSpinCount++
@@ -318,8 +320,6 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                         winningSpinCount = 0
                     }
                 }
-
-                delay(3000) // Show result overlay for 3 seconds
 
                 // Reset for next round
                 currentPhase = GamePhase.BETTING

@@ -11,6 +11,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.CardGiftcard
+import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.LocalFireDepartment
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -114,7 +120,7 @@ fun HubScreen(navController: NavController, viewModel: HubViewModel = viewModel(
                                         )
                         ) {
                                 Text(
-                                        text = "STRATEGY LAB 🧪",
+                                        text = "STRATEGY LAB",
                                         color = AccentBlue,
                                         fontSize = 16.sp,
                                         fontWeight = FontWeight.Bold,
@@ -231,13 +237,9 @@ fun BalanceCard(balance: Double, onAddClick: () -> Unit) {
         Card(
                 modifier =
                         Modifier.fillMaxWidth()
-                                .border(1.dp, PrimaryGold, RoundedCornerShape(16.dp))
-                                .shadow(10.dp, spotColor = PrimaryGold),
+                                .border(1.dp, PrimaryGold, RoundedCornerShape(16.dp)),
                 shape = RoundedCornerShape(16.dp),
-                colors =
-                        CardDefaults.cardColors(
-                                containerColor = Color(0xCC0A0A0F)
-                        ) // Semi-transparent dark
+                colors = CardDefaults.cardColors(containerColor = Color.Transparent)
         ) {
                 Column(
                         modifier = Modifier.padding(24.dp).fillMaxWidth(),
@@ -318,9 +320,19 @@ fun ActionRow(viewModel: HubViewModel) {
                                         verticalArrangement = Arrangement.Center,
                                         horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                        Text(
-                                                text = if (bonusAvailable) "🎁" else "⏰",
-                                                fontSize = 24.sp
+                                        Icon(
+                                                imageVector =
+                                                        if (bonusAvailable)
+                                                                androidx.compose.material.icons
+                                                                        .Icons.Default.CardGiftcard
+                                                        else
+                                                                androidx.compose.material.icons
+                                                                        .Icons.Default.Timer,
+                                                contentDescription = null,
+                                                tint =
+                                                        if (bonusAvailable) PrimaryGold
+                                                        else TextGray,
+                                                modifier = Modifier.size(24.dp)
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
                                         if (bonusAvailable) {
@@ -340,12 +352,12 @@ fun ActionRow(viewModel: HubViewModel) {
                                                         "NEXT IN",
                                                         color = TextGray,
                                                         fontWeight = FontWeight.Bold,
-                                                        fontSize = 12.sp
+                                                        fontSize = 11.sp
                                                 )
                                                 Text(
-                                                        countdown.ifEmpty { "Calculating..." },
+                                                        countdown.ifEmpty { "..." },
                                                         color = PrimaryGold,
-                                                        fontSize = 14.sp,
+                                                        fontSize = 12.sp,
                                                         fontWeight = FontWeight.Bold
                                                 )
                                         }
@@ -372,7 +384,14 @@ fun ActionRow(viewModel: HubViewModel) {
                                         contentAlignment = Alignment.Center
                                 ) {
                                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                                Text("✅", fontSize = 32.sp)
+                                                Icon(
+                                                        imageVector =
+                                                                androidx.compose.material.icons
+                                                                        .Icons.Default.CheckCircle,
+                                                        contentDescription = null,
+                                                        tint = Color.White,
+                                                        modifier = Modifier.size(32.dp)
+                                                )
                                                 Spacer(modifier = Modifier.height(4.dp))
                                                 Text(
                                                         "+1,000",
@@ -418,7 +437,18 @@ fun ActionRow(viewModel: HubViewModel) {
                                 horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                                 val noAds = viewModel.profile?.noAds == true
-                                Text(text = if (noAds) "🎁" else "📺", fontSize = 24.sp)
+                                Icon(
+                                        imageVector =
+                                                if (noAds)
+                                                        androidx.compose.material.icons.Icons
+                                                                .Default.CardGiftcard
+                                                else
+                                                        androidx.compose.material.icons.Icons
+                                                                .Default.PlayArrow,
+                                        contentDescription = null,
+                                        tint = if (noAds) PrimaryGold else TextGray,
+                                        modifier = Modifier.size(24.dp)
+                                )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Text(
                                         if (noAds) "PREMIUM GIFT"
@@ -639,7 +669,7 @@ fun LegendaryCard(entry: LeaderboardEntry) {
                 horizontalAlignment = Alignment.CenterHorizontally
         ) {
                 Text(
-                        text = "🏆 BIGGEST HIT 🏆",
+                        text = "BIGGEST HIT",
                         color = PrimaryGold,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
@@ -712,8 +742,16 @@ fun LegendaryCard(entry: LeaderboardEntry) {
                                                         )
                                                         .padding(horizontal = 8.dp, vertical = 4.dp)
                                 ) {
+                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                                                Icon(
+                                                        imageVector = androidx.compose.material.icons.Icons.Default.LocalFireDepartment,
+                                                        contentDescription = null,
+                                                        tint = Color(0xFFFF4500),
+                                                        modifier = Modifier.size(16.dp)
+                                                )
+                                                Spacer(modifier = Modifier.width(4.dp))
                                         Text(
-                                                text = "🔥 ${entry.multiplier}x",
+                                                text = "${entry.multiplier}x",
                                                 color = Color(0xFFFF4500),
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = 14.sp
@@ -735,6 +773,11 @@ fun LegendaryCard(entry: LeaderboardEntry) {
         }
 }
 
+
+        }
+    }
+}
+
 @Composable
 fun PremiumBanner(onClick: () -> Unit) {
         Card(
@@ -753,7 +796,12 @@ fun PremiumBanner(onClick: () -> Unit) {
                         horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(text = "👑", fontSize = 24.sp)
+                                Icon(
+                                        imageVector = androidx.compose.material.icons.Icons.Default.Star,
+                                        contentDescription = null,
+                                        tint = PrimaryGold,
+                                        modifier = Modifier.size(24.dp)
+                                )
                                 Spacer(modifier = Modifier.width(12.dp))
                                 Column {
                                         Text(

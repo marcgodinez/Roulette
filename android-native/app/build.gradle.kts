@@ -81,6 +81,11 @@ dependencies {
     // AdMob
     implementation("com.google.android.gms:play-services-ads:23.0.0")
 
+    // Credential Manager for Google Sign In
+    implementation("androidx.credentials:credentials:1.2.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.2.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
+
     // RevenueCat
     implementation("com.revenuecat.purchases:purchases:8.0.0")
 }

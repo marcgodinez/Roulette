@@ -80,7 +80,7 @@ fun BettingControls(
                                 letterSpacing = 2.sp
                         )
                         Text(
-                                "${NumberUtils.formatCurrency(currentBet.toDouble())} 🪙",
+                                "${NumberUtils.formatCurrency(currentBet.toDouble())}",
                                 color = PrimaryGold,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.ExtraBold

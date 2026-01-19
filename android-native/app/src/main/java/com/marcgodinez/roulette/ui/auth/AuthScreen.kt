@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -26,8 +27,19 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.marcgodinez.roulette.ui.theme.*
+import kotlinx.coroutines.launch
+
+// REPLACEME: Get this from Google Cloud Console (OAuth 2.0 Client ID for Web)
+// This is required even for Android Native to get the ID Token for Supabase.
+const val GOOGLE_WEB_CLIENT_ID =
+        "298592772070-64apivvpind6ino85f5skpv4f8vfof4l.apps.googleusercontent.com"
 
 @Composable
 fun AuthScreen(onLoginSuccess: () -> Unit, viewModel: AuthViewModel = viewModel()) {
@@ -256,8 +268,90 @@ fun AuthScreen(onLoginSuccess: () -> Unit, viewModel: AuthViewModel = viewModel(
                                                         Spacer(modifier = Modifier.height(24.dp))
 
                                                         // Google Button
+                                                        // Google Button
+                                                        val context = LocalContext.current
+                                                        val scope = rememberCoroutineScope()
+
                                                         Button(
-                                                                onClick = { /* TODO: Google Auth */
+                                                                onClick = {
+                                                                        scope.launch {
+                                                                                try {
+                                                                                        val credentialManager =
+                                                                                                CredentialManager
+                                                                                                        .create(
+                                                                                                                context
+                                                                                                        )
+
+                                                                                        // Option 1:
+                                                                                        // Google ID
+                                                                                        // Option
+                                                                                        val googleIdOption =
+                                                                                                GetGoogleIdOption
+                                                                                                        .Builder()
+                                                                                                        .setFilterByAuthorizedAccounts(
+                                                                                                                false
+                                                                                                        )
+                                                                                                        .setServerClientId(
+                                                                                                                GOOGLE_WEB_CLIENT_ID
+                                                                                                        )
+                                                                                                        .setAutoSelectEnabled(
+                                                                                                                true
+                                                                                                        )
+                                                                                                        .build()
+
+                                                                                        val request =
+                                                                                                GetCredentialRequest
+                                                                                                        .Builder()
+                                                                                                        .addCredentialOption(
+                                                                                                                googleIdOption
+                                                                                                        )
+                                                                                                        .build()
+
+                                                                                        val result =
+                                                                                                credentialManager
+                                                                                                        .getCredential(
+                                                                                                                request =
+                                                                                                                        request,
+                                                                                                                context =
+                                                                                                                        context
+                                                                                                        )
+
+                                                                                        val credential =
+                                                                                                result.credential
+                                                                                        if (credential is
+                                                                                                        CustomCredential &&
+                                                                                                        credential
+                                                                                                                .type ==
+                                                                                                                GoogleIdTokenCredential
+                                                                                                                        .TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+                                                                                        ) {
+
+                                                                                                val googleIdTokenCredential =
+                                                                                                        GoogleIdTokenCredential
+                                                                                                                .createFrom(
+                                                                                                                        credential
+                                                                                                                                .data
+                                                                                                                )
+                                                                                                val idToken =
+                                                                                                        googleIdTokenCredential
+                                                                                                                .idToken
+
+                                                                                                viewModel
+                                                                                                        .signInWithGoogle(
+                                                                                                                idToken,
+                                                                                                                onLoginSuccess
+                                                                                                        )
+                                                                                        } else {
+                                                                                                // Handle other cases or failure
+                                                                                        }
+                                                                                } catch (
+                                                                                        e:
+                                                                                                Exception) {
+                                                                                        viewModel
+                                                                                                .error =
+                                                                                                "Google Sign-In failed: ${e.message}"
+                                                                                }
+                                                                        }
                                                                 },
                                                                 shape = RoundedCornerShape(12.dp),
                                                                 colors =
@@ -277,24 +371,6 @@ fun AuthScreen(onLoginSuccess: () -> Unit, viewModel: AuthViewModel = viewModel(
                                                                         fontWeight = FontWeight.Bold
                                                                 )
                                                         }
-
-                                                        Spacer(modifier = Modifier.height(16.dp))
-
-                                                        // Guest Mode (Link Style)
-                                                        Text(
-                                                                text = "Continue as Guest",
-                                                                color = TextGray,
-                                                                fontSize = 14.sp,
-                                                                fontWeight = FontWeight.SemiBold,
-                                                                modifier =
-                                                                        Modifier.clickable {
-                                                                                        viewModel
-                                                                                                .loginAnonymously(
-                                                                                                        onLoginSuccess
-                                                                                                )
-                                                                                }
-                                                                                .padding(8.dp)
-                                                        )
                                                 }
                                         }
                                 }

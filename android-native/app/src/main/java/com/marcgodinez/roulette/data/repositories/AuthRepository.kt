@@ -4,9 +4,13 @@ import android.util.Log
 import com.marcgodinez.roulette.network.ApiClient
 import io.github.jan.supabase.gotrue.SessionStatus
 import io.github.jan.supabase.gotrue.auth
+import io.github.jan.supabase.gotrue.providers.Google
 import io.github.jan.supabase.gotrue.providers.builtin.Email
+import io.github.jan.supabase.gotrue.providers.builtin.IDToken
 import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
+import io.github.jan.supabase.postgrest.rpc
 import kotlinx.coroutines.flow.Flow
 
 object AuthRepository {
@@ -54,19 +58,39 @@ object AuthRepository {
         }
     }
 
+    suspend fun signInWithGoogle(idToken: String): Result<Unit> {
+        return try {
+            ApiClient.supabase.auth.signInWith(IDToken) {
+                this.idToken = idToken
+                this.provider = Google
+            }
+            Log.d("AuthRepository", "Google SignIn Success")
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Log.e("AuthRepository", "Google SignIn Failed", e)
+            Result.failure(e)
+        }
+    }
+
     suspend fun resolveEmailFromUsername(username: String): String? {
         return try {
             val result =
                     ApiClient.supabase
-                            .from("profiles")
-                            .select(columns = Columns.list("email")) {
-                                filter { eq("username", username) }
-                            }
-                            .decodeSingleOrNull<Map<String, String>>()
+                            .postgrest
+                            .rpc(
+                                    "get_email_by_username",
+                                    kotlinx.serialization.json.buildJsonObject {
+                                        put(
+                                                "username_input",
+                                                kotlinx.serialization.json.JsonPrimitive(username)
+                                        )
+                                    }
+                            )
+                            .decodeAs<String>()
 
-            result?.get("email")
+            result
         } catch (e: Exception) {
-            Log.e("AuthRepository", "Error resolving username", e)
+            Log.e("AuthRepository", "Error resolving username via RPC", e)
             null
         }
     }

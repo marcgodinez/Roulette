@@ -13,8 +13,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Redeem
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.ExitToApp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -582,92 +580,23 @@ fun StoreModal(
 
                                                 Divider(color = Color(0xFF333333))
 
-                                                // 4. PROFILE
-                                                Text(
-                                                        "PROFILE",
-                                                        color = Color.Gray,
-                                                        fontSize = 12.sp,
-                                                        fontWeight = FontWeight.Bold,
-                                                        letterSpacing = 2.sp
-                                                )
-
-                                                OutlinedButton(
-                                                        onClick = {
-                                                                onDismiss()
-                                                                onLogout()
-                                                        },
-                                                        colors =
-                                                                ButtonDefaults.outlinedButtonColors(
-                                                                        contentColor = Color.White
-                                                                ),
-                                                        border =
-                                                                BorderStroke(
-                                                                        1.dp,
-                                                                        Color(0xFF333333)
-                                                                ),
-                                                        shape = RoundedCornerShape(10.dp),
-                                                        modifier = Modifier.fillMaxWidth()
+                                                // Footer
+                                                Box(
+                                                        modifier =
+                                                                Modifier.fillMaxWidth()
+                                                                        .padding(15.dp)
+                                                                        .border(
+                                                                                0.dp,
+                                                                                Color.Transparent
+                                                                        ), // Layout placeholder
+                                                        contentAlignment = Alignment.Center
                                                 ) {
-                                                        Icon(
-                                                                Icons.Outlined.ExitToApp,
-                                                                contentDescription = null,
-                                                                modifier = Modifier.size(20.dp)
-                                                        )
-                                                        Spacer(Modifier.width(8.dp))
                                                         Text(
-                                                                "LOG OUT",
-                                                                fontWeight = FontWeight.Bold
+                                                                "v1.0.0",
+                                                                color = Color(0xFF555555),
+                                                                fontSize = 10.sp
                                                         )
                                                 }
-
-                                                OutlinedButton(
-                                                        onClick = {
-                                                                // Confirm delete? Simple for now
-                                                                onDismiss()
-                                                                onDeleteAccount()
-                                                        },
-                                                        colors =
-                                                                ButtonDefaults.outlinedButtonColors(
-                                                                        contentColor =
-                                                                                Color(0xFFEF4444)
-                                                                ),
-                                                        border =
-                                                                BorderStroke(
-                                                                        1.dp,
-                                                                        Color(0xFFEF4444)
-                                                                ),
-                                                        shape = RoundedCornerShape(10.dp),
-                                                        modifier = Modifier.fillMaxWidth()
-                                                ) {
-                                                        Icon(
-                                                                Icons.Outlined.Delete,
-                                                                contentDescription = null,
-                                                                modifier = Modifier.size(20.dp)
-                                                        )
-                                                        Spacer(Modifier.width(8.dp))
-                                                        Text(
-                                                                "DELETE ACCOUNT",
-                                                                fontWeight = FontWeight.Bold
-                                                        )
-                                                }
-                                        }
-
-                                        // Footer
-                                        Box(
-                                                modifier =
-                                                        Modifier.fillMaxWidth()
-                                                                .padding(15.dp)
-                                                                .border(
-                                                                        0.dp,
-                                                                        Color.Transparent
-                                                                ), // Layout placeholder
-                                                contentAlignment = Alignment.Center
-                                        ) {
-                                                Text(
-                                                        "v1.0.0",
-                                                        color = Color(0xFF555555),
-                                                        fontSize = 10.sp
-                                                )
                                         }
                                 }
                         }

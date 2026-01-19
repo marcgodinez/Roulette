@@ -94,4 +94,17 @@ class AuthViewModel(private val repository: AuthRepository = AuthRepository) : V
             )
         }
     }
+
+    fun signInWithGoogle(idToken: String, onSuccess: () -> Unit) {
+        isLoading = true
+        error = null
+        viewModelScope.launch {
+            val result = repository.signInWithGoogle(idToken)
+            isLoading = false
+            result.fold(
+                    onSuccess = { onSuccess() },
+                    onFailure = { error = it.message ?: "Google login failed" }
+            )
+        }
+    }
 }

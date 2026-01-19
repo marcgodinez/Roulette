@@ -10,10 +10,13 @@ MERGED from [androidx.navigation:navigation-common-ktx:2.7.5] C:\Users\marcg\.gr
 MERGED from [androidx.navigation:navigation-runtime-ktx:2.7.5] C:\Users\marcg\.gradle\caches\transforms-3\83e3f3eb793c6d8b696fbd133867f51b\transformed\navigation-runtime-ktx-2.7.5\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.navigation:navigation-compose:2.7.5] C:\Users\marcg\.gradle\caches\transforms-3\b6915eda92613be8447319d4644b5a55\transformed\jetified-navigation-compose-2.7.5\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.datastore:datastore-preferences:1.0.0] C:\Users\marcg\.gradle\caches\transforms-3\5a71c9bb963cc6e6747fe2f8a466c5c2\transformed\jetified-datastore-preferences-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [io.github.jan-tennert.supabase:compose-auth-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\e87ac32cdf2d098b59011e8243bdb306\transformed\jetified-compose-auth-debug\AndroidManifest.xml:2:1-20:12
+MERGED from [androidx.credentials:credentials:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\f3f9c40ca91d50a01812d01c0f39effc\transformed\jetified-credentials-1.2.2\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:17:1-44:12
+MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] C:\Users\marcg\.gradle\caches\transforms-3\493825c7207d1a87b057122ece070f56\transformed\jetified-googleid-1.1.0\AndroidManifest.xml:2:1-7:12
 MERGED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:2:1-16:12
 MERGED from [io.github.jan-tennert.supabase:postgrest-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\d58b39341860b57456d78d3c6d17dfbc\transformed\jetified-postgrest-kt-debug\AndroidManifest.xml:2:1-7:12
 MERGED from [io.github.jan-tennert.supabase:functions-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\9a0b13fc77f02fa8d11b061a044e1ee5\transformed\jetified-functions-kt-debug\AndroidManifest.xml:2:1-7:12
-MERGED from [io.github.jan-tennert.supabase:compose-auth-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\e87ac32cdf2d098b59011e8243bdb306\transformed\jetified-compose-auth-debug\AndroidManifest.xml:2:1-20:12
 MERGED from [io.github.jan-tennert.supabase:gotrue-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\eb7ebc2de8f5f5228cd3bfd620864617\transformed\jetified-gotrue-kt-debug\AndroidManifest.xml:2:1-20:12
 MERGED from [io.github.jan-tennert.supabase:supabase-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\f28eee6e1990fce0858dbd4aef2fd001\transformed\jetified-supabase-kt-debug\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.datastore:datastore:1.0.0] C:\Users\marcg\.gradle\caches\transforms-3\440b1bd822ab0a9f30aec5babd42a058\transformed\jetified-datastore-1.0.0\AndroidManifest.xml:17:1-24:12
@@ -40,9 +43,6 @@ MERGED from [com.google.android.gms:play-services-ads-lite:23.0.0] C:\Users\marc
 MERGED from [androidx.work:work-runtime:2.7.0] C:\Users\marcg\.gradle\caches\transforms-3\bde4ba6cd351aa2b2b299c453c8c45c1\transformed\work-runtime-2.7.0\AndroidManifest.xml:17:1-145:12
 MERGED from [com.google.android.gms:play-services-appset:16.0.1] C:\Users\marcg\.gradle\caches\transforms-3\e8306d18d4f933587edb53d862ba886b\transformed\jetified-play-services-appset-16.0.1\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-location:19.0.0] C:\Users\marcg\.gradle\caches\transforms-3\5fc07d5db25cc615cd1f1f7cd7c8edb2\transformed\jetified-play-services-location-19.0.0\AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] C:\Users\marcg\.gradle\caches\transforms-3\493825c7207d1a87b057122ece070f56\transformed\jetified-googleid-1.1.0\AndroidManifest.xml:2:1-7:12
-MERGED from [androidx.credentials:credentials:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\f3f9c40ca91d50a01812d01c0f39effc\transformed\jetified-credentials-1.2.2\AndroidManifest.xml:2:1-7:12
-MERGED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:17:1-44:12
 MERGED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\marcg\.gradle\caches\transforms-3\628cecfb256490a23540da6d6db0ae56\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:17:1-40:12
 MERGED from [com.google.android.gms:play-services-fido:20.1.0] C:\Users\marcg\.gradle\caches\transforms-3\cbbacd5e09e4a589cc0600380436446a\transformed\jetified-play-services-fido-20.1.0\AndroidManifest.xml:2:1-10:12
 MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.1] C:\Users\marcg\.gradle\caches\transforms-3\f43e3360e4a82fa3c35a7a77c2c7c847\transformed\jetified-play-services-auth-api-phone-18.0.1\AndroidManifest.xml:2:1-7:12
@@ -134,10 +134,12 @@ ADDED from C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\mai
 application
 ADDED from C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\AndroidManifest.xml:8:5-27:19
 INJECTED from C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\AndroidManifest.xml:8:5-27:19
-MERGED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:9:5-14:19
-MERGED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:9:5-14:19
 MERGED from [io.github.jan-tennert.supabase:compose-auth-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\e87ac32cdf2d098b59011e8243bdb306\transformed\jetified-compose-auth-debug\AndroidManifest.xml:8:5-18:19
 MERGED from [io.github.jan-tennert.supabase:compose-auth-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\e87ac32cdf2d098b59011e8243bdb306\transformed\jetified-compose-auth-debug\AndroidManifest.xml:8:5-18:19
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:23:5-42:19
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:23:5-42:19
+MERGED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:9:5-14:19
+MERGED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:9:5-14:19
 MERGED from [io.github.jan-tennert.supabase:gotrue-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\eb7ebc2de8f5f5228cd3bfd620864617\transformed\jetified-gotrue-kt-debug\AndroidManifest.xml:8:5-18:19
 MERGED from [io.github.jan-tennert.supabase:gotrue-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\eb7ebc2de8f5f5228cd3bfd620864617\transformed\jetified-gotrue-kt-debug\AndroidManifest.xml:8:5-18:19
 MERGED from [androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\marcg\.gradle\caches\transforms-3\6838f7d01da0d7b03c730a95775add07\transformed\jetified-ads-adservices-1.0.0-beta05\AndroidManifest.xml:22:5-26:19
@@ -154,8 +156,6 @@ MERGED from [com.google.android.gms:play-services-appset:16.0.1] C:\Users\marcg\
 MERGED from [com.google.android.gms:play-services-appset:16.0.1] C:\Users\marcg\.gradle\caches\transforms-3\e8306d18d4f933587edb53d862ba886b\transformed\jetified-play-services-appset-16.0.1\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-location:19.0.0] C:\Users\marcg\.gradle\caches\transforms-3\5fc07d5db25cc615cd1f1f7cd7c8edb2\transformed\jetified-play-services-location-19.0.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-location:19.0.0] C:\Users\marcg\.gradle\caches\transforms-3\5fc07d5db25cc615cd1f1f7cd7c8edb2\transformed\jetified-play-services-location-19.0.0\AndroidManifest.xml:7:5-20
-MERGED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:23:5-42:19
-MERGED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:23:5-42:19
 MERGED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\marcg\.gradle\caches\transforms-3\628cecfb256490a23540da6d6db0ae56\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:22:5-38:19
 MERGED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\marcg\.gradle\caches\transforms-3\628cecfb256490a23540da6d6db0ae56\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:22:5-38:19
 MERGED from [com.google.android.gms:play-services-fido:20.1.0] C:\Users\marcg\.gradle\caches\transforms-3\cbbacd5e09e4a589cc0600380436446a\transformed\jetified-play-services-fido-20.1.0\AndroidManifest.xml:7:5-8:19
@@ -248,14 +248,20 @@ MERGED from [androidx.navigation:navigation-compose:2.7.5] C:\Users\marcg\.gradl
 MERGED from [androidx.navigation:navigation-compose:2.7.5] C:\Users\marcg\.gradle\caches\transforms-3\b6915eda92613be8447319d4644b5a55\transformed\jetified-navigation-compose-2.7.5\AndroidManifest.xml:5:5-44
 MERGED from [androidx.datastore:datastore-preferences:1.0.0] C:\Users\marcg\.gradle\caches\transforms-3\5a71c9bb963cc6e6747fe2f8a466c5c2\transformed\jetified-datastore-preferences-1.0.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.datastore:datastore-preferences:1.0.0] C:\Users\marcg\.gradle\caches\transforms-3\5a71c9bb963cc6e6747fe2f8a466c5c2\transformed\jetified-datastore-preferences-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [io.github.jan-tennert.supabase:compose-auth-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\e87ac32cdf2d098b59011e8243bdb306\transformed\jetified-compose-auth-debug\AndroidManifest.xml:6:5-44
+MERGED from [io.github.jan-tennert.supabase:compose-auth-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\e87ac32cdf2d098b59011e8243bdb306\transformed\jetified-compose-auth-debug\AndroidManifest.xml:6:5-44
+MERGED from [androidx.credentials:credentials:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\f3f9c40ca91d50a01812d01c0f39effc\transformed\jetified-credentials-1.2.2\AndroidManifest.xml:5:5-44
+MERGED from [androidx.credentials:credentials:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\f3f9c40ca91d50a01812d01c0f39effc\transformed\jetified-credentials-1.2.2\AndroidManifest.xml:5:5-44
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:21:5-44
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:21:5-44
+MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] C:\Users\marcg\.gradle\caches\transforms-3\493825c7207d1a87b057122ece070f56\transformed\jetified-googleid-1.1.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] C:\Users\marcg\.gradle\caches\transforms-3\493825c7207d1a87b057122ece070f56\transformed\jetified-googleid-1.1.0\AndroidManifest.xml:5:5-44
 MERGED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:5:5-44
 MERGED from [io.github.jan-tennert.supabase:postgrest-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\d58b39341860b57456d78d3c6d17dfbc\transformed\jetified-postgrest-kt-debug\AndroidManifest.xml:5:5-44
 MERGED from [io.github.jan-tennert.supabase:postgrest-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\d58b39341860b57456d78d3c6d17dfbc\transformed\jetified-postgrest-kt-debug\AndroidManifest.xml:5:5-44
 MERGED from [io.github.jan-tennert.supabase:functions-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\9a0b13fc77f02fa8d11b061a044e1ee5\transformed\jetified-functions-kt-debug\AndroidManifest.xml:5:5-44
 MERGED from [io.github.jan-tennert.supabase:functions-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\9a0b13fc77f02fa8d11b061a044e1ee5\transformed\jetified-functions-kt-debug\AndroidManifest.xml:5:5-44
-MERGED from [io.github.jan-tennert.supabase:compose-auth-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\e87ac32cdf2d098b59011e8243bdb306\transformed\jetified-compose-auth-debug\AndroidManifest.xml:6:5-44
-MERGED from [io.github.jan-tennert.supabase:compose-auth-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\e87ac32cdf2d098b59011e8243bdb306\transformed\jetified-compose-auth-debug\AndroidManifest.xml:6:5-44
 MERGED from [io.github.jan-tennert.supabase:gotrue-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\eb7ebc2de8f5f5228cd3bfd620864617\transformed\jetified-gotrue-kt-debug\AndroidManifest.xml:6:5-44
 MERGED from [io.github.jan-tennert.supabase:gotrue-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\eb7ebc2de8f5f5228cd3bfd620864617\transformed\jetified-gotrue-kt-debug\AndroidManifest.xml:6:5-44
 MERGED from [io.github.jan-tennert.supabase:supabase-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\f28eee6e1990fce0858dbd4aef2fd001\transformed\jetified-supabase-kt-debug\AndroidManifest.xml:5:5-44
@@ -308,12 +314,6 @@ MERGED from [com.google.android.gms:play-services-appset:16.0.1] C:\Users\marcg\
 MERGED from [com.google.android.gms:play-services-appset:16.0.1] C:\Users\marcg\.gradle\caches\transforms-3\e8306d18d4f933587edb53d862ba886b\transformed\jetified-play-services-appset-16.0.1\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-location:19.0.0] C:\Users\marcg\.gradle\caches\transforms-3\5fc07d5db25cc615cd1f1f7cd7c8edb2\transformed\jetified-play-services-location-19.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-location:19.0.0] C:\Users\marcg\.gradle\caches\transforms-3\5fc07d5db25cc615cd1f1f7cd7c8edb2\transformed\jetified-play-services-location-19.0.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] C:\Users\marcg\.gradle\caches\transforms-3\493825c7207d1a87b057122ece070f56\transformed\jetified-googleid-1.1.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] C:\Users\marcg\.gradle\caches\transforms-3\493825c7207d1a87b057122ece070f56\transformed\jetified-googleid-1.1.0\AndroidManifest.xml:5:5-44
-MERGED from [androidx.credentials:credentials:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\f3f9c40ca91d50a01812d01c0f39effc\transformed\jetified-credentials-1.2.2\AndroidManifest.xml:5:5-44
-MERGED from [androidx.credentials:credentials:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\f3f9c40ca91d50a01812d01c0f39effc\transformed\jetified-credentials-1.2.2\AndroidManifest.xml:5:5-44
-MERGED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:21:5-44
-MERGED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:21:5-44
 MERGED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\marcg\.gradle\caches\transforms-3\628cecfb256490a23540da6d6db0ae56\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\marcg\.gradle\caches\transforms-3\628cecfb256490a23540da6d6db0ae56\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-fido:20.1.0] C:\Users\marcg\.gradle\caches\transforms-3\cbbacd5e09e4a589cc0600380436446a\transformed\jetified-play-services-fido-20.1.0\AndroidManifest.xml:5:5-44
@@ -444,14 +444,6 @@ MERGED from [com.google.firebase:firebase-encoders-json:18.0.0] C:\Users\marcg\.
 		INJECTED from C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
 		INJECTED from C:\Users\marcg\Documents\Projects\Roulette\android-native\app\src\main\AndroidManifest.xml
-activity#com.revenuecat.purchases.amazon.purchasing.ProxyAmazonBillingActivity
-ADDED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:10:9-13:75
-	android:configChanges
-		ADDED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:12:13-96
-	android:theme
-		ADDED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:13:13-72
-	android:name
-		ADDED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:11:13-97
 provider#androidx.startup.InitializationProvider
 ADDED from [io.github.jan-tennert.supabase:compose-auth-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\e87ac32cdf2d098b59011e8243bdb306\transformed\jetified-compose-auth-debug\AndroidManifest.xml:9:9-17:20
 MERGED from [io.github.jan-tennert.supabase:gotrue-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\eb7ebc2de8f5f5228cd3bfd620864617\transformed\jetified-gotrue-kt-debug\AndroidManifest.xml:9:9-17:20
@@ -482,6 +474,44 @@ ADDED from [io.github.jan-tennert.supabase:compose-auth-android-debug:2.5.0] C:\
 		ADDED from [io.github.jan-tennert.supabase:compose-auth-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\e87ac32cdf2d098b59011e8243bdb306\transformed\jetified-compose-auth-debug\AndroidManifest.xml:16:17-49
 	android:name
 		ADDED from [io.github.jan-tennert.supabase:compose-auth-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\e87ac32cdf2d098b59011e8243bdb306\transformed\jetified-compose-auth-debug\AndroidManifest.xml:15:17-87
+service#androidx.credentials.playservices.CredentialProviderMetadataHolder
+ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:24:9-32:19
+	android:enabled
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:26:13-35
+	android:exported
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:27:13-37
+	tools:ignore
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:28:13-60
+	android:name
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:25:13-94
+meta-data#androidx.credentials.CREDENTIAL_PROVIDER_KEY
+ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:29:13-31:104
+	android:value
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:31:17-101
+	android:name
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:30:17-76
+activity#androidx.credentials.playservices.HiddenActivity
+ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:34:9-41:20
+	android:fitsSystemWindows
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:39:13-45
+	android:enabled
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:38:13-37
+	android:configChanges
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:36:13-87
+	android:theme
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:40:13-48
+	android:name
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:35:13-76
+activity#com.revenuecat.purchases.amazon.purchasing.ProxyAmazonBillingActivity
+ADDED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:10:9-13:75
+	android:configChanges
+		ADDED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:12:13-96
+	android:theme
+		ADDED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:13:13-72
+	android:name
+		ADDED from [com.revenuecat.purchases:purchases:8.0.0] C:\Users\marcg\.gradle\caches\transforms-3\1566b698b64c01a7eeb219ed84b96721\transformed\jetified-purchases-8.0.0\AndroidManifest.xml:11:13-97
 meta-data#io.github.jan.supabase.gotrue.SupabaseInitializer
 ADDED from [io.github.jan-tennert.supabase:gotrue-kt-android-debug:2.5.0] C:\Users\marcg\.gradle\caches\transforms-3\eb7ebc2de8f5f5228cd3bfd620864617\transformed\jetified-gotrue-kt-debug\AndroidManifest.xml:14:13-16:52
 	android:value
@@ -879,36 +909,6 @@ action#androidx.work.diagnostics.REQUEST_DIAGNOSTICS
 ADDED from [androidx.work:work-runtime:2.7.0] C:\Users\marcg\.gradle\caches\transforms-3\bde4ba6cd351aa2b2b299c453c8c45c1\transformed\work-runtime-2.7.0\AndroidManifest.xml:140:17-88
 	android:name
 		ADDED from [androidx.work:work-runtime:2.7.0] C:\Users\marcg\.gradle\caches\transforms-3\bde4ba6cd351aa2b2b299c453c8c45c1\transformed\work-runtime-2.7.0\AndroidManifest.xml:140:25-85
-service#androidx.credentials.playservices.CredentialProviderMetadataHolder
-ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:24:9-32:19
-	android:enabled
-		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:26:13-35
-	android:exported
-		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:27:13-37
-	tools:ignore
-		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:28:13-60
-	android:name
-		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:25:13-94
-meta-data#androidx.credentials.CREDENTIAL_PROVIDER_KEY
-ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:29:13-31:104
-	android:value
-		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:31:17-101
-	android:name
-		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:30:17-76
-activity#androidx.credentials.playservices.HiddenActivity
-ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:34:9-41:20
-	android:fitsSystemWindows
-		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:39:13-45
-	android:enabled
-		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:37:13-35
-	android:exported
-		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:38:13-37
-	android:configChanges
-		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:36:13-87
-	android:theme
-		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:40:13-48
-	android:name
-		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.2] C:\Users\marcg\.gradle\caches\transforms-3\daf9fa2d8c1b165626026eca9ba3aaba\transformed\jetified-credentials-play-services-auth-1.2.2\AndroidManifest.xml:35:13-76
 activity#com.google.android.gms.auth.api.signin.internal.SignInHubActivity
 ADDED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\marcg\.gradle\caches\transforms-3\628cecfb256490a23540da6d6db0ae56\transformed\jetified-play-services-auth-20.7.0\AndroidManifest.xml:23:9-27:75
 	android:excludeFromRecents
