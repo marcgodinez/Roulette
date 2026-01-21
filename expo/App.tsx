@@ -9,11 +9,22 @@ import { useGameStore } from './src/store/useGameStore';
 
 import { StrategyEditor } from './src/screens/StrategyEditor';
 
+import { AdManager } from './src/services/AdManager'; // Added back
+import { NotificationManager } from './src/services/NotificationManager';
+import { AudioManager } from './src/services/AudioManager';
+
 export default function App() {
   const { session, loading } = useAuth();
   const { loadUserProfile, setStoreOpen, initializeHistory } = useGameStore();
   const [inGame, setInGame] = useState(false);
   const [inStrategyLab, setInStrategyLab] = useState(false);
+
+  useEffect(() => {
+    AdManager.initialize();
+    NotificationManager.registerForPushNotificationsAsync();
+    NotificationManager.scheduleDailyBonus();
+    AudioManager.initialize();
+  }, []);
 
   useEffect(() => {
     if (session) {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { supabase } from '../services/supabase';
+import { apiClient } from '../services/ApiClient';
 import { useAuth } from '../hooks/useAuth';
 import * as AppleAuthentication from 'expo-apple-authentication';
 
@@ -26,16 +27,12 @@ export const AuthScreen = () => {
                 let targetEmail = email;
                 // 1. Resolve Username if input is not email
                 if (!email.includes('@')) {
-                    const { data, error } = await supabase
-                        .from('profiles')
-                        .select('email')
-                        .eq('username', email)
-                        .single();
+                    const resolvedEmail = await apiClient.getEmailByUsername(email);
 
-                    if (error || !data) {
+                    if (!resolvedEmail) {
                         throw new Error('Username not found');
                     }
-                    targetEmail = data.email;
+                    targetEmail = resolvedEmail;
                 }
                 await signInWithEmail(targetEmail, password);
             } else {

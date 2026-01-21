@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, Switch, Alert } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, Switch, Alert, Linking } from 'react-native';
 import { CustomSlider } from './CustomSlider';
 import { useAudioStore } from '../store/useAudioStore';
 import { AudioManager } from '../services/AudioManager';
@@ -135,6 +135,14 @@ export const SettingsModal = ({ visible, onClose }: Props) => {
                 onPress={() => setCurrentView('ACCOUNT')}
             >
                 <Text style={styles.accountNavText}>ACCOUNT SETTINGS &gt;</Text>
+            </TouchableOpacity>
+
+            {/* PRIVACY POLICY */}
+            <TouchableOpacity
+                style={styles.policyBtn}
+                onPress={() => Linking.openURL('https://marcgodinez.com/privacy-policy')}
+            >
+                <Text style={styles.policyText}>PRIVACY POLICY</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
@@ -280,5 +288,15 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         fontSize: 14,
         fontStyle: 'italic',
-    }
+    },
+    policyBtn: {
+        marginTop: 10,
+        marginBottom: 5,
+        alignItems: 'center',
+    },
+    policyText: {
+        color: COLORS.TEXT_SECONDARY,
+        fontSize: 10,
+        textDecorationLine: 'underline'
+    },
 });

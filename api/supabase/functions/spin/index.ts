@@ -55,7 +55,7 @@ serve(async (req) => {
         console.log("Fetching Profile via Admin Client...");
         let { data: profile, error: profileError } = await adminSupabase
             .from('profiles')
-            .select('credits')
+            .select('credits, xp')
             .eq('id', user.id)
             .maybeSingle()
 
@@ -68,8 +68,8 @@ serve(async (req) => {
             console.log("Profile missing, attempting creation...");
             const { data: newProfile, error: createError } = await adminSupabase
                 .from('profiles')
-                .insert({ id: user.id, credits: 1000 })
-                .select('credits')
+                .insert({ id: user.id, credits: 1000, xp: 0 })
+                .select('credits, xp')
                 .single()
 
             if (createError) {
@@ -114,6 +114,26 @@ serve(async (req) => {
         }
         const isFireHit = fireNumbers.includes(winningNumber);
         console.log(`Fire Numbers: ${fireNumbers}, Is Fire Hit: ${isFireHit}`);
+
+        // XP CALCULATION
+        const currentXp = profile.xp || 0;
+        const xpGained = totalBetAmount; // 1 XP per 1 Coin Bet
+        const newXp = currentXp + xpGained;
+
+        // NON-LINEAR LEVEL FORMULA: XP = 1000 * (Level-1)^1.5
+        // Inverse: Level = floor( (XP/1000)^(1/1.5) ) + 1
+        const EXPONENT = 1.5;
+        const BASE_XP = 1000;
+
+        const currentLevel = Math.floor(Math.pow(currentXp / BASE_XP, 1 / EXPONENT)) + 1;
+        const newLevel = Math.floor(Math.pow(newXp / BASE_XP, 1 / EXPONENT)) + 1;
+
+        let levelBonus = 0;
+        if (newLevel > currentLevel) {
+            const levelsGained = newLevel - currentLevel;
+            levelBonus = levelsGained * 1000;
+            console.log(`LEVEL UP! ${currentLevel} -> ${newLevel}. Bonus: ${levelBonus}`);
+        }
 
         // 3. RESOLVE PAYOUTS
         let totalWin = 0;
@@ -280,13 +300,31 @@ serve(async (req) => {
         });
 
         // 4. UPDATE DB
-        const newBalance = profile.credits - totalBetAmount + totalWin;
-        console.log(`Calculated New Balance: ${newBalance}`);
+        const newBalance = profile.credits - totalBetAmount + totalWin + levelBonus;
+        console.log(`Calculated New Balance: ${newBalance} (Includes Level Bonus: ${levelBonus})`);
 
         // Transaction? (Simplified update for now)
         console.log("Updating Profile...");
-        const { error: updateError } = await adminSupabase.from('profiles').update({ credits: newBalance }).eq('id', user.id);
+        const { error: updateError } = await adminSupabase.from('profiles').update({ credits: newBalance, xp: newXp }).eq('id', user.id);
         if (updateError) console.error("Update Profile Error:", updateError);
+
+        // 5. UPDATE LEAGUE PROGRESS
+        const netProfit = totalWin - totalBetAmount;
+        const { data: leagueEntry } = await adminSupabase
+            .from('league_entries')
+            .select('weekly_profit')
+            .eq('user_id', user.id)
+            .single();
+
+        const currentWeeklyProfit = leagueEntry?.weekly_profit || 0;
+        const newWeeklyProfit = currentWeeklyProfit + netProfit;
+
+        // Upsert (Defaults: IRON IV if new row)
+        await adminSupabase.from('league_entries').upsert({
+            user_id: user.id,
+            weekly_profit: newWeeklyProfit,
+            updated_at: new Date().toISOString()
+        }, { onConflict: 'user_id' });
 
         console.log("Inserting Bet History...");
         const { error: historyError } = await adminSupabase.from('bet_history').insert({
@@ -306,7 +344,11 @@ serve(async (req) => {
                 fireNumbers,
                 totalWin,
                 newBalance,
-                bonusStake: calculatedBonusStake
+                newBalance,
+                bonusStake: calculatedBonusStake,
+                xpEarned: xpGained,
+                newLevel: newLevel,
+                levelUpBonus: levelBonus
             }),
             { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
         )

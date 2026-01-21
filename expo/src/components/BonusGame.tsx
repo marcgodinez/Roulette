@@ -349,6 +349,8 @@ export const BonusGame = () => {
         setFinalStats({ multiplier: stats, payout });
         setGameStatus('FINISHED');
 
+        if (bonusMode === 'DEBUG') return; // Skip API calls
+
         if (!isSpectator) updateCredits(payout);
         addToHistory({ number: winningNumber || 100, isFire: true, multiplier: stats }); // Default 100 if null, ensures primitive
         recordGameResult(winningNumber || 100, true, stats, payout);

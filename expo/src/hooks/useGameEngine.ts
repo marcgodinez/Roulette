@@ -2,6 +2,7 @@ import { useGameStore } from '../store/useGameStore';
 import { apiClient, SpinResult } from '../services/ApiClient';
 import { PAYOUTS, isRed, getColumn, getDozen } from '../constants/gameRules';
 import { Alert } from 'react-native';
+import { formatCurrency } from '../utils/format';
 
 export const useGameEngine = () => {
     const {
@@ -13,7 +14,6 @@ export const useGameEngine = () => {
         setLastWinAmount,
         clearBets,
         setStoreOpen,
-        recordGameResult,
         setBonusStake,
         setBonusMode
     } = useGameStore();
@@ -41,11 +41,28 @@ export const useGameEngine = () => {
 
         pendingSpinResult = result;
 
+        // DEBUG: Force All Fire (0-36)
+        if (useGameStore.getState().debugFireMode) {
+            const allFire = Array.from({ length: 37 }, (_, i) => i);
+
+            // Simulate Bonus Stake if user bet on winning number
+            let simBonusStake = result.bonusStake;
+            if (simBonusStake === 0) {
+                const winNumStr = result.winningNumber.toString();
+                const betAmount = useGameStore.getState().bets[winNumStr];
+                if (betAmount && betAmount > 0) {
+                    simBonusStake = betAmount;
+                }
+            }
+
+            pendingSpinResult = { ...result, fireNumbers: allFire, bonusStake: simBonusStake };
+        }
+
         // 3. Snapshot bets for Rebet feature
         useGameStore.getState().snapshotBets();
 
         // 4. Set visual result immediately so UI updates (Fire Numbers etc)
-        setResult(result.winningNumber, result.fireNumbers);
+        setResult(pendingSpinResult.winningNumber, pendingSpinResult.fireNumbers);
 
         // Optimistically deduct (server already did it, but UI needs to reflect)
         // We will overwrite with strict server balance at the end.
@@ -58,21 +75,37 @@ export const useGameEngine = () => {
         const { winningNumber } = useGameStore.getState();
         if (winningNumber === null || !pendingSpinResult) return;
 
-        setPhase('SPINNING');
+        // Sequence: FIRE REVEAL -> WAIT -> SPINNING -> RESULT
+        setPhase('FIRE_REVEAL');
 
+        // Show Fire Numbers for 3 seconds, then Start Spin
         setTimeout(() => {
-            setPhase('RESULT');
-            if (pendingSpinResult) {
-                resolveVisualsAndPayout(pendingSpinResult, bets);
-            }
-        }, 6500);
+            setPhase('SPINNING');
+
+            // Spin Duration 6.5s
+            setTimeout(() => {
+                setPhase('RESULT');
+                if (pendingSpinResult) {
+                    resolveVisualsAndPayout(pendingSpinResult, bets);
+                }
+            }, 6500);
+
+        }, 3000);
     };
 
     const resolveVisualsAndPayout = (
         result: SpinResult,
         currentBets: Record<string, number>
     ) => {
-        const { winningNumber, fireNumbers, totalWin, newBalance, bonusStake } = result;
+        const { winningNumber, fireNumbers, totalWin, newBalance, bonusStake, levelUpBonus, newLevel, xpEarned } = result;
+
+        // Xp Update
+        useGameStore.getState().addXp(xpEarned || 0);
+
+
+        // Set Win Amount IMMEDIATELY so Overlay has correct text
+        const { setLastWinAmount } = useGameStore.getState();
+        setLastWinAmount(totalWin);
 
         // Calculate Winning Bets LOCALLY for Visuals (Chip Sweeping)
         const winningBetIds: string[] = [];
@@ -134,53 +167,37 @@ export const useGameEngine = () => {
         });
 
         // 1. Set Bonus State (from Server)
+        const { debugFireMode } = useGameStore.getState();
         setBonusStake(bonusStake);
         if (bonusStake > 0) {
-            setBonusMode('NORMAL');
+            setBonusMode(debugFireMode ? 'DEBUG' : 'NORMAL');
         } else if (isFireHit) {
             setBonusMode('SPECTATOR');
         } // Only if fire hit but no inside bet
 
-        // 2. Sweep Chips (T+1.5s)
+        // 2. Sweep Chips (T+3.0s) - After wheel fades out completely (Wheel: 2s delay + 0.8s fade)
         setTimeout(() => {
             const { removeLosingBets } = useGameStore.getState();
             removeLosingBets(winningBetIds);
-        }, 1500);
+        }, 3000);
 
-        // 3. Payout & Finish (T+4s)
+        // 3. Payout & Finish (T+5.0s) - Give user 2s to see filtered chips
         setTimeout(() => {
-            const { clearBets, updateCredits, setPhase, setLastWinAmount, recordGameResult } = useGameStore.getState();
-            const isBonus = (isFireHit && bonusStake > 0) || (isFireHit && totalWin === 0); // Logic alignment needed
+            const { clearBets, updateCredits, setPhase } = useGameStore.getState();
+            const isBonus = (isFireHit && bonusStake > 0);
 
             if (isBonus && bonusStake > 0) {
                 setPhase('BONUS');
-                // Server has already updated balance with immediate win, but bonus is pending.
-                // For now, simple flow:
                 clearBets();
                 return;
             }
 
-            if (totalWin > 0) {
-                setLastWinAmount(totalWin);
-            } else {
-                setLastWinAmount(0);
-            }
-
             // SYNC BALANCE FROM SERVER
-            useGameStore.getState().updateCredits(0); // Trigger sync? No, explicitly set.
-            // We need a specific "setCredits" action or just use updateCredits with diff?
-            // Best: overwrite credits with server value.
-            // Accessing store directly to set specific value might need a new action.
-            // For now, I'll use the store's current logic valid.
-            // Wait, useGameStore doesn't have `setCredits`. It has `updateCredits(delta)`.
-            // I'll calculate delta.
             const current = useGameStore.getState().credits;
             const delta = newBalance - current;
             if (delta !== 0) updateCredits(delta);
 
-            // Record Result (for local history UI)
-            // The server already DB inserted into bet_history. 
-            // We just need to update local UI history state.
+            // Record Result (local UI history)
             useGameStore.getState().addToHistory({
                 number: winningNumber,
                 isFire: isFireHit,
@@ -188,11 +205,17 @@ export const useGameEngine = () => {
             });
 
             clearBets();
-        }, 4000);
+        }, 5000);
 
-        // 4. Reset (T+5s)
+        // 4. Reset (T+6.5s)
         setTimeout(() => {
             const { setPhase, setResult, setLastWinAmount, setStoreOpen, credits } = useGameStore.getState();
+
+            // Trigger Level Up (After Result Overlay closes)
+            if (levelUpBonus && levelUpBonus > 0) {
+                useGameStore.getState().setLevelUpPayload({ level: newLevel, bonus: levelUpBonus });
+            }
+
             // Bonus check
             if (!(isFireHit && bonusStake > 0)) {
                 setPhase('BETTING');
@@ -202,7 +225,7 @@ export const useGameEngine = () => {
                     setTimeout(() => setStoreOpen(true), 500);
                 }
             }
-        }, 5000);
+        }, 6500);
     };
 
     return {

@@ -4,6 +4,7 @@ import { BettingBoard } from '../components/BettingBoard';
 import { useGameStore } from '../store/useGameStore';
 import { COLORS, METRICS } from '../constants/theme';
 import { CHIPS } from '../constants/chips';
+import { ChipSelector } from '../components/ChipSelector';
 
 export const StrategyEditor = ({ onClose }: { onClose: () => void }) => {
     const { saveStrategy } = useGameStore();
@@ -69,23 +70,6 @@ export const StrategyEditor = ({ onClose }: { onClose: () => void }) => {
             {/* CONTROLS */}
             <View style={styles.controls}>
 
-                {/* Chip Selector */}
-                <View style={styles.chipRow}>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                        {CHIPS.map(chip => (
-                            <TouchableOpacity
-                                key={chip.value}
-                                style={[styles.chipOpt, localChipValue === chip.value && styles.activeChip]}
-                                onPress={() => setLocalChipValue(chip.value)}
-                            >
-                                <View style={[styles.chipInner, { backgroundColor: chip.color }]}>
-                                    <Text style={styles.chipText}>{chip.label}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-                </View>
-
                 {/* Actions */}
                 <View style={styles.actionRow}>
                     <View style={styles.infoBox}>
@@ -93,15 +77,24 @@ export const StrategyEditor = ({ onClose }: { onClose: () => void }) => {
                         <Text style={styles.infoValue}>{totalCost}</Text>
                     </View>
 
-                    <TouchableOpacity style={styles.clearBtn} onPress={handleClear}>
-                        <Text style={styles.btnText}>Clear</Text>
-                    </TouchableOpacity>
+                    <View style={styles.buttonsRight}>
+                        <TouchableOpacity style={styles.clearBtn} onPress={handleClear}>
+                            <Text style={styles.btnText}>CLEAR</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.saveBtn} onPress={() => setSaveModalOpen(true)}>
-                        <Text style={styles.saveText}>SAVE STRATEGY</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={styles.saveBtn} onPress={() => setSaveModalOpen(true)}>
+                            <Text style={styles.saveText}>SAVE STRATEGY</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
+
+            {/* CHIP SELECTOR (Floating like Game Screen) */}
+            <ChipSelector
+                selectedChipValue={localChipValue}
+                onSelectChip={setLocalChipValue}
+                style={{ position: 'absolute', left: 20, bottom: 20, zIndex: 9999 }}
+            />
 
             {/* SAVE MODAL */}
             <Modal visible={isSaveModalOpen} transparent animationType="slide">
@@ -180,45 +173,22 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     controls: {
-        height: 140,
+        height: 100, // Reduced height since chip row is gone
         backgroundColor: COLORS.BG_SURFACE,
         borderTopWidth: 1,
         borderColor: COLORS.BORDER_SUBTLE,
-        padding: 15,
-    },
-    chipRow: {
-        flexDirection: 'row',
-        marginBottom: 15,
-    },
-    chipOpt: {
-        marginRight: 10,
-        padding: 2,
-        borderRadius: 20,
-        borderWidth: 2,
-        borderColor: 'transparent',
-    },
-    activeChip: {
-        borderColor: COLORS.ACCENT_GOLD,
-    },
-    chipInner: {
-        width: 36,
-        height: 36,
-        borderRadius: 18,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.5)',
-        borderStyle: 'dashed',
-    },
-    chipText: {
-        fontSize: 10,
-        fontWeight: 'bold',
-        color: '#000',
+        paddingHorizontal: 20,
+        justifyContent: 'center'
     },
     actionRow: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        paddingLeft: 60, // Space for Chip Selector
+    },
+    buttonsRight: {
+        flexDirection: 'row',
+        gap: 10
     },
     infoBox: {
         alignItems: 'flex-start',
@@ -230,30 +200,38 @@ const styles = StyleSheet.create({
     },
     infoValue: {
         color: '#FFF',
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: 'bold',
     },
     clearBtn: {
-        paddingVertical: 10,
+        paddingVertical: 12,
         paddingHorizontal: 20,
         borderRadius: 8,
         borderWidth: 1,
         borderColor: COLORS.DANGER,
         backgroundColor: 'rgba(239, 68, 68, 0.1)',
+        justifyContent: 'center'
     },
     btnText: {
         color: COLORS.DANGER,
         fontWeight: 'bold',
+        fontSize: 12,
+        textTransform: 'uppercase'
     },
     saveBtn: {
-        paddingVertical: 10,
-        paddingHorizontal: 30,
+        paddingVertical: 12,
+        paddingHorizontal: 24,
         backgroundColor: COLORS.ACCENT_GOLD,
         borderRadius: 8,
+        justifyContent: 'center',
+        shadowColor: COLORS.ACCENT_GOLD,
+        shadowOpacity: 0.3,
+        shadowRadius: 5
     },
     saveText: {
         color: COLORS.BG_MAIN,
         fontWeight: 'bold',
+        fontSize: 12,
     },
     // Modal
     modalOverlay: {

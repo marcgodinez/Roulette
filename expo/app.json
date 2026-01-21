@@ -16,9 +16,20 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.marcgodinez.roulette",
-      "usesAppleSignIn": true
+      "usesAppleSignIn": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "com.googleusercontent.apps.298592772070-7r5vgdlvnrr4p1fufhist8b0bdeepvg8"
+            ]
+          }
+        ]
+      }
     },
     "android": {
+      "package": "com.marcgodinez.roulette",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -33,20 +44,28 @@
       [
         "react-native-google-mobile-ads",
         {
-          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
-          "iosAppId": "ca-app-pub-3940256099942544~1458002511"
+          "androidAppId": "ca-app-pub-1182495378626576~2073968648",
+          "iosAppId": "ca-app-pub-1182495378626576~2073968648"
         }
       ],
       [
         "expo-notifications",
         {
           "icon": "./assets/icon.png",
-          "color": "#ffffff",
-          "sounds": [
-            "./assets/sounds/notification.wav"
-          ]
+          "color": "#ffffff"
+        }
+      ],
+      [
+        "expo-tracking-transparency",
+        {
+          "userTrackingPermission": "This identifier will be used to deliver personalized ads to you."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8ed2e4d7-3d50-49a9-a01b-2000944f0112"
+      }
+    }
   }
 }

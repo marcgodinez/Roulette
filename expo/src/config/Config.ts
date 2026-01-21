@@ -1,13 +1,21 @@
 export const Config = {
     // Feature Flags
-    IS_MOCK_MODE: true, // Force Mock Mode for Expo Go or unexpected failures
+    IS_MOCK_MODE: false, // Force Mock Mode for Expo Go or unexpected failures
+
+    // Economy
+    INITIAL_COINS: 5000,
+    AD_REWARD_COINS: 500,
+    BET_LIMITS: {
+        MIN: 10,
+        MAX: 5000,
+    },
 
     // RevenueCat (Purchases)
-    REVENUECAT_API_KEY: 'appl_placeholder_key_revenuecat',
+    REVENUECAT_ANDROID_KEY: process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY || '',
+    REVENUECAT_IOS_KEY: process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY || '',
 
     // AdMob (Ads)
-    // Test Unit ID for Rewarded Video (Android)
-    ADMOB_UNIT_ID: 'ca-app-pub-3940256099942544/5224354917',
+    ADMOB_UNIT_ID: process.env.EXPO_PUBLIC_ADMOB_UNIT_ID || 'ca-app-pub-1182495378626576/2255121410',
 
     // Mock Data
     MOCK_PACKAGES: [
@@ -86,11 +94,10 @@ export const Config = {
 
     // Supabase
     SUPABASE_URL: process.env.EXPO_PUBLIC_SUPABASE_URL || 'https://zvfxffixyojoddqwtpow.supabase.co',
-    SUPABASE_ANON_KEY: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || 'sb_publishable_5njgQ2pUedFPBy9Tlcjkwg_Af1jVUPC',
+    SUPABASE_ANON_KEY: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || '',
 
-    // Google Auth (Replace with your actual Client IDs from Google Cloud Console)
-    GOOGLE_WEB_CLIENT_ID: '98592772070-64apivvpind6ino85f5skpv4f8vfof4l.apps.googleusercontent.com',
-    GOOGLE_ANDROID_CLIENT_ID: '98592772070-64apivvpind6ino85f5skpv4f8vfof4l.apps.googleusercontent.com',
-    GOOGLE_IOS_CLIENT_ID: '98592772070-64apivvpind6ino85f5skpv4f8vfof4l.apps.googleusercontent.com',
+    // Auth
+    GOOGLE_WEB_CLIENT_ID: '298592772070-64apivvpind6ino85f5skpv4f8vfof4l.apps.googleusercontent.com',
+    GOOGLE_ANDROID_CLIENT_ID: '298592772070-o3ac7csrpaqcvr4hes59dcghenhlh64t.apps.googleusercontent.com',
+    GOOGLE_IOS_CLIENT_ID: '298592772070-7r5vgdlvnrr4p1fufhist8b0bdeepvg8.apps.googleusercontent.com',
 };
-

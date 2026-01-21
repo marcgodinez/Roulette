@@ -27,32 +27,26 @@ export const useHubData = () => {
     const [nextBonusTime, setNextBonusTime] = useState<Date | null>(null);
     const [username, setUsername] = useState<string | null>(null);
 
+    // League States
+    const [myLeague, setMyLeague] = useState<any | null>(null);
+    const [leagueLeaderboard, setLeagueLeaderboard] = useState<any[]>([]);
+
     const fetchData = useCallback(async () => {
         if (!user) return;
         setLoading(true);
 
         try {
-            // 1. Fetch Profile for Bonus Check + Username
-            const { data: profile, error: fetchError } = await supabase
-                .from('profiles')
-                .select('credits, last_daily_bonus, username')
-                .eq('id', user.id)
-                .single();
-
-            if (fetchError && fetchError.code !== 'PGRST116') {
-                console.error('[HubData] Error fetching profile:', fetchError);
-            }
+            // 1. Fetch Profile
+            const profile = await apiClient.fetchUserProfile();
 
             if (profile) {
                 console.log('[HubData] Profile loaded:', profile);
                 checkBonusStatus(profile.last_daily_bonus);
                 setUsername(profile.username);
             } else {
-                console.warn('[HubData] Profile missing or hidden. Attempting safe create/recover...');
-
-                // Fallback: Upsert Profile (Do NOT overwrite if exists)
+                console.warn('[HubData] Profile missing. Attempting safe create/recover...');
+                // Fallback: Upsert Profile
                 const usernameFromMeta = user.user_metadata?.username || user.email?.split('@')[0] || 'Player';
-
                 const { error: insertError } = await supabase
                     .from('profiles')
                     .upsert({
@@ -65,47 +59,36 @@ export const useHubData = () => {
                 if (insertError) {
                     console.error('[HubData] Profile creation/recovery failed:', insertError);
                 } else {
-                    console.log('[HubData] Profile checked/created. Retrying fetch...');
+                    console.log('[HubData] Profile checked/created.');
                     setUsername(usernameFromMeta);
                     setDailyBonusAvailable(true);
-                    // Optionally trigger a re-fetch here if we want to be sure
                 }
             }
-            // ... rest of fetch data (Weekly, Legendary, MyStats) same as before or slightly shifted logic inside try block
-            // 2. Weekly Leaderboard
-            const { data: weekly, error: weeklyError } = await supabase
-                .from('weekly_leaderboard')
-                .select('*')
-                .limit(5);
 
-            if (weeklyError) console.error('Weekly Leaderboard Error:', weeklyError);
-            setWeeklyTop(weekly || []);
+            // 2. Match League Logic
+            const leagueEntry = await apiClient.fetchMyLeague();
+            setMyLeague(leagueEntry);
 
-            // 3. Legendary Hits (Top 1)
-            const { data: legendary, error: legendaryError } = await supabase
-                .from('legendary_wins')
-                .select('*')
-                .limit(1);
-
-            if (legendaryError) console.error('Legendary Wins Error:', legendaryError);
-            setLegendaryTop(legendary || []);
-
-            // 4. My Stats
-            const { data: myStats, error: myStatsError } = await supabase
-                .from('bet_history')
-                .select('total_win')
-                .eq('user_id', user.id)
-                .order('total_win', { ascending: false })
-                .limit(1)
-                .single();
-
-            if (myStatsError && myStatsError.code !== 'PGRST116') {
-                console.error('My Best Win Error:', myStatsError);
+            let leagueBoard: any[] = [];
+            if (leagueEntry) {
+                leagueBoard = await apiClient.fetchLeagueLeaderboard(leagueEntry.tier, leagueEntry.division);
+            } else {
+                // Default to Iron 4 view
+                leagueBoard = await apiClient.fetchLeagueLeaderboard('IRON', 4);
             }
+            setLeagueLeaderboard(leagueBoard);
 
-            if (myStats) {
-                setMyBestWin(myStats.total_win);
-            }
+            // 3. Other Leaderboards & Stats
+            const [weekly, legendary, bestWin] = await Promise.all([
+                apiClient.fetchWeeklyLeaderboard(),
+                apiClient.fetchLegendaryWins(),
+                apiClient.fetchMyBestWin()
+            ]);
+
+            setWeeklyTop(weekly);
+            setLegendaryTop(legendary);
+            setMyBestWin(bestWin);
+
 
         } catch (error) {
             console.error('Error fetching hub data:', error);
@@ -180,7 +163,9 @@ export const useHubData = () => {
         claimBonus,
         refresh: fetchData,
         loading,
-        username, // Expose username
-        claimAdReward
+        username,
+        claimAdReward,
+        myLeague,
+        leagueLeaderboard
     };
 };

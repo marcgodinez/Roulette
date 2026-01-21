@@ -1,0 +1,356 @@
+> Task :gradle-plugin:settings-plugin:checkKotlinGradlePluginConfigurationErrors
+> Task :gradle-plugin:shared:checkKotlinGradlePluginConfigurationErrors
+> Task :gradle-plugin:shared:processResources NO-SOURCE
+> Task :gradle-plugin:settings-plugin:pluginDescriptors
+> Task :gradle-plugin:settings-plugin:processResources
+> Task :gradle-plugin:shared:compileKotlin
+> Task :gradle-plugin:shared:compileJava NO-SOURCE
+> Task :gradle-plugin:shared:classes UP-TO-DATE
+> Task :gradle-plugin:shared:jar
+> Task :gradle-plugin:settings-plugin:compileKotlin
+> Task :gradle-plugin:settings-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:settings-plugin:classes
+> Task :gradle-plugin:settings-plugin:jar
+> Task :gradle-plugin:react-native-gradle-plugin:checkKotlinGradlePluginConfigurationErrors
+> Task :gradle-plugin:react-native-gradle-plugin:pluginDescriptors
+> Task :gradle-plugin:react-native-gradle-plugin:processResources
+> Task :gradle-plugin:react-native-gradle-plugin:compileKotlin
+> Task :gradle-plugin:react-native-gradle-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:react-native-gradle-plugin:classes
+> Task :gradle-plugin:react-native-gradle-plugin:jar
+
+> Configure project :expo
+
+Using expo modules
+  - [32mexpo-application[0m (6.0.2)
+  - [32mexpo-asset[0m (11.0.5)
+  - [32mexpo-av[0m (15.0.2)
+  - [32mexpo-constants[0m (17.0.8)
+  - [32mexpo-crypto[0m (14.0.2)
+  - [32mexpo-device[0m (7.0.3)
+  - [32mexpo-file-system[0m (18.0.12)
+  - [32mexpo-font[0m (13.0.4)
+  - [32mexpo-haptics[0m (14.0.1)
+  - [32mexpo-keep-awake[0m (14.0.3)
+  - [32mexpo-linking[0m (7.0.5)
+  - [32mexpo-modules-core[0m (2.2.3)
+  - [32mexpo-notifications[0m (0.29.14)
+  - [32mexpo-web-browser[0m (14.0.2)
+
+
+> Configure project :react-native-google-mobile-ads
+:react-native-google-mobile-ads package.json found at C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-google-mobile-ads\package.json
+
+
+
+
+**************************************************************************************************************
+
+
+
+
+WARNING: react-native-google-mobile-ads requires an 'android_app_id' property inside a 'react-native-google-mobile-ads' key in your app.json.
+         No android_app_id property was found in this location. The native Google Mobile Ads SDK will crash on startup without it.
+         You can safely ignore this warning if you are using our Expo config plugin.
+
+
+
+
+**************************************************************************************************************
+
+
+
+
+:react-native-google-mobile-ads package.json found at C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-google-mobile-ads\package.json
+:react-native-google-mobile-ads:version set from package.json: 16.0.1 (16,0,1 - 16000001)
+:react-native-google-mobile-ads:android.compileSdk using custom value: 35
+:react-native-google-mobile-ads:android.targetSdk using custom value: 34
+:react-native-google-mobile-ads:android.minSdk using custom value: 24
+:react-native-google-mobile-ads:reactNativeAndroidDir C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native\android
+
+> Configure project :react-native-reanimated
+Android gradle plugin: 8.6.0
+Gradle: 8.10.2
+
+> Task :app:generateAutolinkingNewArchitectureFiles
+> Task :app:generateAutolinkingPackageList
+> Task :app:generateCodegenSchemaFromJavaScript SKIPPED
+> Task :app:generateCodegenArtifactsFromSchema SKIPPED
+> Task :app:preBuild
+> Task :app:preDebugBuild
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:checkKotlinGradlePluginConfigurationErrors
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :expo:generateExpoModulesPackageListTask UP-TO-DATE
+> Task :expo:preBuild UP-TO-DATE
+> Task :expo:preDebugBuild UP-TO-DATE
+> Task :expo:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-application:preBuild UP-TO-DATE
+> Task :expo-application:preDebugBuild UP-TO-DATE
+> Task :expo-application:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-asset:preBuild UP-TO-DATE
+> Task :expo-asset:preDebugBuild UP-TO-DATE
+> Task :expo-asset:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-av:preBuild UP-TO-DATE
+> Task :expo-av:preDebugBuild UP-TO-DATE
+> Task :expo-av:writeDebugAarMetadata UP-TO-DATE
+
+> Task :expo-constants:createExpoConfig
+The NODE_ENV environment variable is required but was not specified. Ensure the project is bundled with Expo CLI or NODE_ENV is set.
+Proceeding without mode-specific .env
+
+> Task :expo-constants:preBuild
+> Task :expo-constants:preDebugBuild
+> Task :expo-constants:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-crypto:preBuild UP-TO-DATE
+> Task :expo-crypto:preDebugBuild UP-TO-DATE
+> Task :expo-crypto:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-device:preBuild UP-TO-DATE
+> Task :expo-device:preDebugBuild UP-TO-DATE
+> Task :expo-device:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-file-system:preBuild UP-TO-DATE
+> Task :expo-file-system:preDebugBuild UP-TO-DATE
+> Task :expo-file-system:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-font:preBuild UP-TO-DATE
+> Task :expo-font:preDebugBuild UP-TO-DATE
+> Task :expo-font:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-haptics:preBuild UP-TO-DATE
+> Task :expo-haptics:preDebugBuild UP-TO-DATE
+> Task :expo-haptics:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-keep-awake:preBuild UP-TO-DATE
+> Task :expo-keep-awake:preDebugBuild UP-TO-DATE
+> Task :expo-keep-awake:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-linking:preBuild UP-TO-DATE
+> Task :expo-linking:preDebugBuild UP-TO-DATE
+> Task :expo-linking:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-modules-core:preBuild UP-TO-DATE
+> Task :expo-modules-core:preDebugBuild UP-TO-DATE
+> Task :expo-modules-core:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-notifications:preBuild UP-TO-DATE
+> Task :expo-notifications:preDebugBuild UP-TO-DATE
+> Task :expo-notifications:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-web-browser:preBuild UP-TO-DATE
+> Task :expo-web-browser:preDebugBuild UP-TO-DATE
+> Task :expo-web-browser:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-async-storage_async-storage:preBuild UP-TO-DATE
+> Task :react-native-async-storage_async-storage:preDebugBuild UP-TO-DATE
+> Task :react-native-async-storage_async-storage:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-community_slider:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-community_slider:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-community_slider:preBuild UP-TO-DATE
+> Task :react-native-community_slider:preDebugBuild UP-TO-DATE
+> Task :react-native-community_slider:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-gesture-handler:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-gesture-handler:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-gesture-handler:preBuild UP-TO-DATE
+> Task :react-native-gesture-handler:preDebugBuild UP-TO-DATE
+> Task :react-native-gesture-handler:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-google-mobile-ads:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-google-mobile-ads:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-google-mobile-ads:preBuild UP-TO-DATE
+> Task :react-native-google-mobile-ads:preDebugBuild UP-TO-DATE
+> Task :react-native-google-mobile-ads:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-purchases:preBuild UP-TO-DATE
+> Task :react-native-purchases:preDebugBuild UP-TO-DATE
+> Task :react-native-purchases:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-reanimated:assertLatestReactNativeWithNewArchitectureTask SKIPPED
+> Task :react-native-reanimated:assertMinimalReactNativeVersionTask SKIPPED
+> Task :react-native-reanimated:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-reanimated:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-reanimated:prepareReanimatedHeadersForPrefabs UP-TO-DATE
+> Task :react-native-reanimated:prepareWorkletsHeadersForPrefabs UP-TO-DATE
+> Task :react-native-reanimated:preBuild UP-TO-DATE
+> Task :react-native-reanimated:preDebugBuild UP-TO-DATE
+> Task :react-native-reanimated:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-svg:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-svg:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-svg:preBuild UP-TO-DATE
+> Task :react-native-svg:preDebugBuild UP-TO-DATE
+> Task :react-native-svg:writeDebugAarMetadata UP-TO-DATE
+> Task :app:checkDebugAarMetadata
+> Task :app:generateDebugResValues
+> Task :expo:generateDebugResValues
+> Task :expo:generateDebugResources
+> Task :expo:packageDebugResources
+> Task :expo-application:generateDebugResValues
+> Task :expo-application:generateDebugResources
+> Task :expo-application:packageDebugResources
+> Task :expo-asset:generateDebugResValues
+> Task :expo-asset:generateDebugResources
+> Task :expo-asset:packageDebugResources
+> Task :expo-av:generateDebugResValues
+> Task :expo-av:generateDebugResources
+> Task :expo-av:packageDebugResources
+> Task :expo-constants:generateDebugResValues
+> Task :expo-constants:generateDebugResources
+> Task :expo-constants:packageDebugResources
+> Task :expo-crypto:generateDebugResValues
+> Task :expo-crypto:generateDebugResources
+> Task :expo-crypto:packageDebugResources
+> Task :expo-device:generateDebugResValues
+> Task :expo-device:generateDebugResources
+> Task :expo-device:packageDebugResources
+> Task :expo-file-system:generateDebugResValues
+> Task :expo-file-system:generateDebugResources
+> Task :expo-file-system:packageDebugResources
+> Task :expo-font:generateDebugResValues
+> Task :expo-font:generateDebugResources
+> Task :expo-font:packageDebugResources
+> Task :expo-haptics:generateDebugResValues
+> Task :expo-haptics:generateDebugResources
+> Task :expo-haptics:packageDebugResources
+> Task :expo-keep-awake:generateDebugResValues
+> Task :expo-keep-awake:generateDebugResources
+> Task :expo-keep-awake:packageDebugResources
+> Task :expo-linking:generateDebugResValues
+> Task :expo-linking:generateDebugResources
+> Task :expo-linking:packageDebugResources
+> Task :expo-modules-core:generateDebugResValues
+> Task :expo-modules-core:generateDebugResources
+> Task :expo-modules-core:packageDebugResources
+> Task :expo-notifications:generateDebugResValues
+> Task :expo-notifications:generateDebugResources
+> Task :expo-notifications:packageDebugResources
+> Task :expo-web-browser:generateDebugResValues
+> Task :expo-web-browser:generateDebugResources
+> Task :expo-web-browser:packageDebugResources
+> Task :react-native-async-storage_async-storage:generateDebugResValues
+> Task :react-native-async-storage_async-storage:generateDebugResources
+> Task :react-native-async-storage_async-storage:packageDebugResources
+> Task :react-native-community_slider:generateDebugResValues
+> Task :react-native-community_slider:generateDebugResources
+> Task :react-native-community_slider:packageDebugResources
+> Task :react-native-gesture-handler:generateDebugResValues
+> Task :react-native-gesture-handler:generateDebugResources
+> Task :react-native-gesture-handler:packageDebugResources
+> Task :react-native-google-mobile-ads:generateDebugResValues
+> Task :react-native-google-mobile-ads:generateDebugResources
+> Task :react-native-google-mobile-ads:packageDebugResources
+> Task :react-native-purchases:generateDebugResValues
+> Task :react-native-purchases:generateDebugResources
+> Task :react-native-purchases:packageDebugResources
+> Task :react-native-reanimated:generateDebugResValues
+> Task :react-native-reanimated:generateDebugResources
+> Task :react-native-reanimated:packageDebugResources
+> Task :react-native-svg:generateDebugResValues
+> Task :react-native-svg:generateDebugResources
+> Task :react-native-svg:packageDebugResources
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources
+> Task :app:packageDebugResources
+> Task :app:mergeDebugResources
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug
+> Task :expo:extractDeepLinksDebug
+> Task :expo-application:extractDeepLinksDebug
+> Task :expo-asset:extractDeepLinksDebug
+> Task :app:parseDebugLocalResources
+> Task :expo-av:extractDeepLinksDebug
+> Task :expo-constants:extractDeepLinksDebug
+> Task :expo-crypto:extractDeepLinksDebug
+> Task :expo-asset:processDebugManifest
+> Task :expo-application:processDebugManifest
+> Task :expo-av:processDebugManifest
+> Task :expo:processDebugManifest
+> Task :expo-constants:processDebugManifest
+> Task :expo-device:extractDeepLinksDebug
+> Task :expo-crypto:processDebugManifest
+> Task :expo-file-system:extractDeepLinksDebug
+> Task :expo-device:processDebugManifest
+> Task :expo-font:extractDeepLinksDebug
+
+> Task :expo-file-system:processDebugManifest
+C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\expo-file-system\android\src\main\AndroidManifest.xml:6:9-8:20 Warning:
+	provider#expo.modules.filesystem.FileSystemFileProvider@android:authorities was tagged at AndroidManifest.xml:6 to replace other declarations but no other declaration present
+
+> Task :expo-haptics:extractDeepLinksDebug
+> Task :expo-font:processDebugManifest
+> Task :expo-keep-awake:extractDeepLinksDebug
+> Task :expo-haptics:processDebugManifest
+> Task :expo-linking:extractDeepLinksDebug
+> Task :expo-keep-awake:processDebugManifest
+> Task :expo-modules-core:extractDeepLinksDebug
+> Task :expo-linking:processDebugManifest
+> Task :expo-notifications:extractDeepLinksDebug
+
+> Task :expo-modules-core:processDebugManifest
+C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\expo-modules-core\android\src\main\AndroidManifest.xml:8:9-11:45 Warning:
+	meta-data#com.facebook.soloader.enabled@android:value was tagged at AndroidManifest.xml:8 to replace other declarations but no other declaration present
+
+> Task :expo-web-browser:extractDeepLinksDebug
+> Task :expo-notifications:processDebugManifest
+> Task :react-native-async-storage_async-storage:extractDeepLinksDebug
+> Task :expo-web-browser:processDebugManifest
+> Task :react-native-community_slider:extractDeepLinksDebug
+
+> Task :react-native-async-storage_async-storage:processDebugManifest
+package="com.reactnativecommunity.asyncstorage" found in source AndroidManifest.xml: C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\@react-native-async-storage\async-storage\android\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.reactnativecommunity.asyncstorage" from the source AndroidManifest.xml: C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\@react-native-async-storage\async-storage\android\src\main\AndroidManifest.xml.
+
+> Task :react-native-gesture-handler:extractDeepLinksDebug
+
+> Task :react-native-community_slider:processDebugManifest
+package="com.reactnativecommunity.slider" found in source AndroidManifest.xml: C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\@react-native-community\slider\android\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.reactnativecommunity.slider" from the source AndroidManifest.xml: C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\@react-native-community\slider\android\src\main\AndroidManifest.xml.
+
+> Task :react-native-google-mobile-ads:extractDeepLinksDebug
+> Task :react-native-gesture-handler:processDebugManifest
+> Task :react-native-purchases:extractDeepLinksDebug
+
+> Task :react-native-google-mobile-ads:processDebugManifest
+package="io.invertase.googlemobileads" found in source AndroidManifest.xml: C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-google-mobile-ads\android\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.invertase.googlemobileads" from the source AndroidManifest.xml: C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-google-mobile-ads\android\src\main\AndroidManifest.xml.
+
+> Task :react-native-reanimated:extractDeepLinksDebug
+
+> Task :react-native-purchases:processDebugManifest
+package="com.revenuecat.purchases.react" found in source AndroidManifest.xml: C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-purchases\android\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.revenuecat.purchases.react" from the source AndroidManifest.xml: C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-purchases\android\src\main\AndroidManifest.xml.
+
+> Task :react-native-svg:extractDeepLinksDebug
+> Task :react-native-reanimated:processDebugManifest
+
+> Task :react-native-svg:processDebugManifest
+package="com.horcrux.svg" found in source AndroidManifest.xml: C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-svg\android\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.horcrux.svg" from the source AndroidManifest.xml: C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-svg\android\src\main\AndroidManifest.xml.
+
+> Task :expo:compileDebugLibraryResources
+
+> Task :app:processDebugMainManifest FAILED
+C:\Users\marcg\Documents\Projects\Roulette\expo\android\app\src\debug\AndroidManifest.xml:17:73-127 Error:
+	Attribute meta-data#com.google.android.gms.ads.APPLICATION_ID@value value=(ca-app-pub-1182495378626576~2073968648) from AndroidManifest.xml:17:73-127
+	is also present at [:react-native-google-mobile-ads] AndroidManifest.xml:14:13-29 value=().
+	Suggestion: add 'tools:replace="android:value"' to <meta-data> element at AndroidManifest.xml to override.
+
+See https://developer.android.com/r/studio-ui/build/manifest-merger for more information about the manifest merger.
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:processDebugMainManifest'.
+> Manifest merger failed : Attribute meta-data#com.google.android.gms.ads.APPLICATION_ID@value value=(ca-app-pub-1182495378626576~2073968648) from AndroidManifest.xml:17:73-127
+  	is also present at [:react-native-google-mobile-ads] AndroidManifest.xml:14:13-29 value=().
+  	Suggestion: add 'tools:replace="android:value"' to <meta-data> element at AndroidManifest.xml to override.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.10.2/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 1m 29s
+176 actionable tasks: 138 executed, 38 up-to-date

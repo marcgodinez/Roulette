@@ -1,0 +1,196 @@
+> Task :gradle-plugin:settings-plugin:checkKotlinGradlePluginConfigurationErrors
+> Task :gradle-plugin:shared:checkKotlinGradlePluginConfigurationErrors
+> Task :gradle-plugin:shared:processResources NO-SOURCE
+> Task :gradle-plugin:settings-plugin:pluginDescriptors
+> Task :gradle-plugin:settings-plugin:processResources
+> Task :gradle-plugin:shared:compileKotlin
+> Task :gradle-plugin:shared:compileJava NO-SOURCE
+> Task :gradle-plugin:shared:classes UP-TO-DATE
+> Task :gradle-plugin:shared:jar
+> Task :gradle-plugin:settings-plugin:compileKotlin
+> Task :gradle-plugin:settings-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:settings-plugin:classes
+> Task :gradle-plugin:settings-plugin:jar
+> Task :gradle-plugin:react-native-gradle-plugin:checkKotlinGradlePluginConfigurationErrors
+> Task :gradle-plugin:react-native-gradle-plugin:pluginDescriptors
+> Task :gradle-plugin:react-native-gradle-plugin:processResources
+> Task :gradle-plugin:react-native-gradle-plugin:compileKotlin
+> Task :gradle-plugin:react-native-gradle-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:react-native-gradle-plugin:classes
+> Task :gradle-plugin:react-native-gradle-plugin:jar
+
+> Configure project :expo
+
+Using expo modules
+  - [32mexpo-application[0m (6.0.2)
+  - [32mexpo-asset[0m (11.0.5)
+  - [32mexpo-av[0m (15.0.2)
+  - [32mexpo-constants[0m (17.0.8)
+  - [32mexpo-crypto[0m (14.0.2)
+  - [32mexpo-device[0m (7.0.3)
+  - [32mexpo-file-system[0m (18.0.12)
+  - [32mexpo-font[0m (13.0.4)
+  - [32mexpo-haptics[0m (14.0.1)
+  - [32mexpo-keep-awake[0m (14.0.3)
+  - [32mexpo-linking[0m (7.0.5)
+  - [32mexpo-modules-core[0m (2.2.3)
+  - [32mexpo-notifications[0m (0.29.14)
+  - [32mexpo-web-browser[0m (14.0.2)
+
+
+> Configure project :react-native-google-mobile-ads
+:react-native-google-mobile-ads package.json found at C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-google-mobile-ads\package.json
+
+
+
+
+**************************************************************************************************************
+
+
+
+
+WARNING: react-native-google-mobile-ads requires an 'android_app_id' property inside a 'react-native-google-mobile-ads' key in your app.json.
+         No android_app_id property was found in this location. The native Google Mobile Ads SDK will crash on startup without it.
+         You can safely ignore this warning if you are using our Expo config plugin.
+
+
+
+
+**************************************************************************************************************
+
+
+
+
+:react-native-google-mobile-ads package.json found at C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-google-mobile-ads\package.json
+:react-native-google-mobile-ads:version set from package.json: 16.0.1 (16,0,1 - 16000001)
+:react-native-google-mobile-ads:android.compileSdk using custom value: 35
+:react-native-google-mobile-ads:android.targetSdk using custom value: 34
+:react-native-google-mobile-ads:android.minSdk using custom value: 24
+:react-native-google-mobile-ads:reactNativeAndroidDir C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native\android
+
+> Configure project :react-native-reanimated
+Android gradle plugin: 8.6.0
+Gradle: 8.10.2
+
+> Task :app:generateAutolinkingNewArchitectureFiles UP-TO-DATE
+> Task :app:generateAutolinkingPackageList UP-TO-DATE
+> Task :app:generateCodegenSchemaFromJavaScript SKIPPED
+> Task :app:generateCodegenArtifactsFromSchema SKIPPED
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:checkKotlinGradlePluginConfigurationErrors
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :expo:generateExpoModulesPackageListTask UP-TO-DATE
+> Task :expo:preBuild UP-TO-DATE
+> Task :expo:preDebugBuild UP-TO-DATE
+> Task :expo:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-application:preBuild UP-TO-DATE
+> Task :expo-application:preDebugBuild UP-TO-DATE
+> Task :expo-application:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-asset:preBuild UP-TO-DATE
+> Task :expo-asset:preDebugBuild UP-TO-DATE
+> Task :expo-asset:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-av:preBuild UP-TO-DATE
+> Task :expo-av:preDebugBuild UP-TO-DATE
+> Task :expo-av:writeDebugAarMetadata UP-TO-DATE
+
+> Task :expo-constants:createExpoConfig
+The NODE_ENV environment variable is required but was not specified. Ensure the project is bundled with Expo CLI or NODE_ENV is set.
+Proceeding without mode-specific .env
+
+> Task :expo-constants:preBuild
+> Task :expo-constants:preDebugBuild
+> Task :expo-constants:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-crypto:preBuild UP-TO-DATE
+> Task :expo-crypto:preDebugBuild UP-TO-DATE
+> Task :expo-crypto:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-device:preBuild UP-TO-DATE
+> Task :expo-device:preDebugBuild UP-TO-DATE
+> Task :expo-device:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-file-system:preBuild UP-TO-DATE
+> Task :expo-file-system:preDebugBuild UP-TO-DATE
+> Task :expo-file-system:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-font:preBuild UP-TO-DATE
+> Task :expo-font:preDebugBuild UP-TO-DATE
+> Task :expo-font:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-haptics:preBuild UP-TO-DATE
+> Task :expo-haptics:preDebugBuild UP-TO-DATE
+> Task :expo-haptics:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-keep-awake:preBuild UP-TO-DATE
+> Task :expo-keep-awake:preDebugBuild UP-TO-DATE
+> Task :expo-keep-awake:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-linking:preBuild UP-TO-DATE
+> Task :expo-linking:preDebugBuild UP-TO-DATE
+> Task :expo-linking:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-modules-core:preBuild UP-TO-DATE
+> Task :expo-modules-core:preDebugBuild UP-TO-DATE
+> Task :expo-modules-core:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-notifications:preBuild UP-TO-DATE
+> Task :expo-notifications:preDebugBuild UP-TO-DATE
+> Task :expo-notifications:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-web-browser:preBuild UP-TO-DATE
+> Task :expo-web-browser:preDebugBuild UP-TO-DATE
+> Task :expo-web-browser:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-async-storage_async-storage:preBuild UP-TO-DATE
+> Task :react-native-async-storage_async-storage:preDebugBuild UP-TO-DATE
+> Task :react-native-async-storage_async-storage:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-community_slider:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-community_slider:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-community_slider:preBuild UP-TO-DATE
+> Task :react-native-community_slider:preDebugBuild UP-TO-DATE
+> Task :react-native-community_slider:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-gesture-handler:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-gesture-handler:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-gesture-handler:preBuild UP-TO-DATE
+> Task :react-native-gesture-handler:preDebugBuild UP-TO-DATE
+> Task :react-native-gesture-handler:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-google-mobile-ads:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-google-mobile-ads:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-google-mobile-ads:preBuild UP-TO-DATE
+> Task :react-native-google-mobile-ads:preDebugBuild UP-TO-DATE
+> Task :react-native-google-mobile-ads:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-purchases:preBuild UP-TO-DATE
+> Task :react-native-purchases:preDebugBuild UP-TO-DATE
+> Task :react-native-purchases:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-reanimated:assertLatestReactNativeWithNewArchitectureTask SKIPPED
+> Task :react-native-reanimated:assertMinimalReactNativeVersionTask SKIPPED
+> Task :react-native-reanimated:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-reanimated:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-reanimated:prepareReanimatedHeadersForPrefabs UP-TO-DATE
+> Task :react-native-reanimated:prepareWorkletsHeadersForPrefabs UP-TO-DATE
+> Task :react-native-reanimated:preBuild UP-TO-DATE
+> Task :react-native-reanimated:preDebugBuild UP-TO-DATE
+> Task :react-native-reanimated:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-svg:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-svg:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-svg:preBuild UP-TO-DATE
+> Task :react-native-svg:preDebugBuild UP-TO-DATE
+> Task :react-native-svg:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-worklets:assertMinimalReactNativeVersionTask FAILED
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file 'C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-worklets\android\build.gradle' line: 304
+
+* What went wrong:
+Execution failed for task ':react-native-worklets:assertMinimalReactNativeVersionTask'.
+> [Worklets] React Native 0.76.9 version is not compatible with Worklets 0.5.1
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.10.2/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 39s
+56 actionable tasks: 16 executed, 40 up-to-date

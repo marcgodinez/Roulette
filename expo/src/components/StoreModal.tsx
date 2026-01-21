@@ -145,17 +145,6 @@ export const StoreModal: React.FC<Props> = ({ visible, onHome }) => {
                                 ))}
                             </View>
                         )}
-
-                        <View style={styles.divider} />
-                        <Text style={styles.sectionTitle}>PROFILE</Text>
-                        <TouchableOpacity style={styles.outlineButton} onPress={handleLogout}>
-                            <Ionicons name="log-out-outline" size={20} color={COLORS.TEXT_PRIMARY} style={{ marginRight: 8 }} />
-                            <Text style={styles.outlineBtnText}>LOG OUT</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.outlineButton, { borderColor: COLORS.DANGER, marginTop: 10 }]} onPress={handleDeleteAccount}>
-                            <Ionicons name="trash-outline" size={20} color={COLORS.DANGER} style={{ marginRight: 8 }} />
-                            <Text style={[styles.outlineBtnText, { color: COLORS.DANGER }]}>DELETE ACCOUNT</Text>
-                        </TouchableOpacity>
                     </ScrollView>
 
                     <View style={styles.footer}><Text style={styles.versionText}>v1.0.0</Text></View>

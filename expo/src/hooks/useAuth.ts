@@ -20,6 +20,23 @@ export const useAuth = () => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
+    const startNewSession = async (userId: string) => {
+        try {
+            const newSessionId = Crypto.randomUUID();
+            await AsyncStorage.setItem(SESSION_ID_KEY, newSessionId);
+
+            // Update Database to claim this session
+            const { error } = await supabase
+                .from('profiles')
+                .update({ active_session_id: newSessionId })
+                .eq('id', userId);
+
+            if (error) console.error("Failed to update session ID:", error);
+        } catch (e) {
+            console.error("Session handling error:", e);
+        }
+    };
+
     useEffect(() => {
         // Get initial session
         supabase.auth.getSession().then(({ data: { session } }) => {
@@ -35,21 +52,13 @@ export const useAuth = () => {
             setLoading(false);
 
             if (event === 'SIGNED_IN' && session?.user) {
-                // Generate and Set Session ID
-                try {
-                    const newSessionId = Crypto.randomUUID();
-                    await AsyncStorage.setItem(SESSION_ID_KEY, newSessionId);
-
-                    // Update Database
-                    const { error } = await supabase
-                        .from('profiles')
-                        .update({ active_session_id: newSessionId })
-                        .eq('id', session.user.id);
-
-                    if (error) console.error("Failed to update session ID:", error);
-                } catch (e) {
-                    console.error("Session handling error:", e);
+                // Only generate if missing (e.g. fresh install with persistent auth)
+                const localId = await AsyncStorage.getItem(SESSION_ID_KEY);
+                if (!localId) {
+                    await startNewSession(session.user.id);
                 }
+            } else if (event === 'SIGNED_OUT') {
+                await AsyncStorage.removeItem(SESSION_ID_KEY);
             }
         });
 
@@ -58,12 +67,17 @@ export const useAuth = () => {
 
     const signInWithEmail = async (email: string, password: string) => {
         setLoading(true);
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
         });
         setLoading(false);
         if (error) throw error;
+
+        if (data.user) {
+            // Force new session on explicit login
+            await startNewSession(data.user.id);
+        }
     };
 
     const signUpWithEmail = async (email: string, password: string, username?: string) => {
@@ -116,23 +130,37 @@ export const useAuth = () => {
     });
 
     useEffect(() => {
+        if (request) {
+            console.log("Google Auth Redirect URI:", request.redirectUri);
+        }
+    }, [request]);
+
+    useEffect(() => {
         if (response?.type === 'success') {
             const { authentication } = response;
             if (authentication?.idToken) {
                 signInWithGoogle(authentication.idToken);
+            } else {
+                Alert.alert('Google Sign-In Error', 'No ID Token received from Google');
             }
+        } else if (response?.type === 'error') {
+            Alert.alert('Google Sign-In Error', response.error?.message || 'Unknown error');
+            console.error('[GoogleAuth] Error:', response.error);
         }
     }, [response]);
 
     const signInWithGoogle = async (idToken: string) => {
         setLoading(true);
-        const { error } = await supabase.auth.signInWithIdToken({
+        const { data, error } = await supabase.auth.signInWithIdToken({
             provider: 'google',
             token: idToken,
         });
         setLoading(false);
         if (error) {
             Alert.alert('Google Sign-In Error', error.message);
+        } else if (data.user) {
+            // Force new session on explicit login
+            await startNewSession(data.user.id);
         }
     };
 
@@ -148,11 +176,14 @@ export const useAuth = () => {
             });
 
             if (credential.identityToken) {
-                const { error } = await supabase.auth.signInWithIdToken({
+                const { data, error } = await supabase.auth.signInWithIdToken({
                     provider: 'apple',
                     token: credential.identityToken,
                 });
                 if (error) throw error;
+                if (data.user) {
+                    await startNewSession(data.user.id);
+                }
             }
         } catch (e: any) {
             if (e.code === 'ERR_REQUEST_CANCELED') {

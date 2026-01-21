@@ -1,8 +1,12 @@
 import { create } from 'zustand';
-import { Phase } from '../types';
+import { Phase, SavedStrategy } from '../types';
 import { supabase } from '../services/supabase';
+import { apiClient } from '../services/ApiClient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
+
+import { Config } from '../config/Config';
+import { AudioManager } from '../services/AudioManager';
 
 const SESSION_ID_KEY = 'roulette_session_id';
 
@@ -16,6 +20,7 @@ interface GameState {
     setAdFree: (active: boolean) => void;
     vipExpiry: string | null;
     lastDailyBonus: string | null;
+    xp: number;
 
     currentBet: number;
     bets: Record<string, number>;
@@ -28,8 +33,8 @@ interface GameState {
     addToHistory: (entry: { number: number; isFire: boolean; multiplier: number | null }) => void;
 
     currentPhase: Phase;
-    bonusMode: 'NORMAL' | 'SPECTATOR';
-    setBonusMode: (mode: 'NORMAL' | 'SPECTATOR') => void;
+    bonusMode: 'NORMAL' | 'SPECTATOR' | 'DEBUG';
+    setBonusMode: (mode: 'NORMAL' | 'SPECTATOR' | 'DEBUG') => void;
     winningNumber: number | null;
     fireNumbers: number[];
     lastWinAmount: number;
@@ -41,6 +46,7 @@ interface GameState {
     isStoreOpen: boolean;
     setStoreOpen: (isOpen: boolean) => void;
     addCredits: (amount: number) => void;
+    addXp: (amount: number) => void;
 
     placeBet: (betId: string, amount: number) => boolean;
     undoLastBet: () => void;
@@ -54,6 +60,12 @@ interface GameState {
     setSelectedChipValue: (value: number) => void;
     replaceBets: (newBets: Record<string, number>) => void;
     removeLosingBets: (winningIds: string[]) => void;
+    toggleDebugFire: () => void;
+    debugFireMode: boolean;
+
+    // Level Up State
+    levelUpPayload: { level: number; bonus: number } | null;
+    setLevelUpPayload: (payload: { level: number; bonus: number } | null) => void;
 
     // Strategies
     savedStrategies: SavedStrategy[];
@@ -65,16 +77,8 @@ interface GameState {
     // Supabase Actions
     loadUserProfile: () => Promise<void>;
     initializeHistory: () => Promise<void>;
-    recordGameResult: (winNum: number, isFire: boolean, multiplier: number | null, totalWin: number) => Promise<void>;
     validateSession: () => Promise<boolean>;
-}
-
-export interface SavedStrategy {
-    id: string;
-    name: string;
-    bet_data: Record<string, number>;
-    color_code: string;
-    total_cost: number;
+    recordGameResult: (winningNumber: number, isFire: boolean, multiplier: number, totalWin: number) => Promise<void>;
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -84,6 +88,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     // setAdFree defined below with persistence
     vipExpiry: null,
     lastDailyBonus: null,
+    xp: 0,
     currentBet: 0,
     bets: {},
     lastRoundBets: {},
@@ -103,7 +108,15 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     currentPhase: 'BETTING',
     bonusMode: 'NORMAL',
-    setBonusMode: (mode) => set({ bonusMode: mode }),
+    setBonusMode: (mode: 'NORMAL' | 'SPECTATOR' | 'DEBUG') => set({ bonusMode: mode }),
+
+    debugFireMode: false,
+    toggleDebugFire: () => set((state) => ({ debugFireMode: !state.debugFireMode })),
+
+    levelUpPayload: null,
+    setLevelUpPayload: (payload) => set({ levelUpPayload: payload }),
+
+    setCredits: (amount: number) => set({ credits: amount }),
     winningNumber: null,
     fireNumbers: [],
     lastWinAmount: 0,
@@ -131,41 +144,20 @@ export const useGameStore = create<GameState>((set, get) => ({
     },
 
     loadStrategies: async () => {
-        const { data, error } = await supabase
-            .from('saved_strategies')
-            .select('*')
-            .order('created_at', { ascending: false });
-
-        if (!error && data) {
-            set({ savedStrategies: data as SavedStrategy[] });
-        }
+        const strategies = await apiClient.fetchStrategies();
+        set({ savedStrategies: strategies });
     },
 
     saveStrategy: async (name, betsToSave, color) => {
-        const total_cost = Object.values(betsToSave).reduce((a, b) => a + b, 0);
-        const user = await supabase.auth.getUser();
-        if (!user.data.user) return;
-
-        const { data, error } = await supabase
-            .from('saved_strategies')
-            .insert({
-                user_id: user.data.user.id,
-                name,
-                bet_data: betsToSave,
-                color_code: color,
-                total_cost
-            })
-            .select()
-            .single();
-
-        if (data) {
-            set((state) => ({ savedStrategies: [data as SavedStrategy, ...state.savedStrategies] }));
+        const result = await apiClient.saveStrategy(name, betsToSave, color);
+        if (result) {
+            set((state) => ({ savedStrategies: [result, ...state.savedStrategies] }));
         }
     },
 
     deleteStrategy: async (id) => {
-        const { error } = await supabase.from('saved_strategies').delete().match({ id });
-        if (!error) {
+        const success = await apiClient.deleteStrategy(id);
+        if (success) {
             set((state) => ({ savedStrategies: state.savedStrategies.filter(s => s.id !== id) }));
         }
     },
@@ -191,7 +183,6 @@ export const useGameStore = create<GameState>((set, get) => ({
             fireNumbers: fireNums,
         }),
 
-    lastWinAmount: 0,
     setLastWinAmount: (amount: number) => set({ lastWinAmount: amount }),
 
     placeBet: (betId, amount) => {
@@ -202,8 +193,15 @@ export const useGameStore = create<GameState>((set, get) => ({
         if (state.currentBet + amount > state.credits) return false;
 
         const currentBetAmount = state.bets[betId] || 0;
+        if (currentBetAmount + amount > Config.BET_LIMITS.MAX) {
+            Alert.alert("Max Limit Reached", `Max bet per spot is ${Config.BET_LIMITS.MAX}`);
+            return false;
+        }
+
         const newBets = { ...state.bets, [betId]: currentBetAmount + amount };
         const newHistory = [...state.betHistory, { numberId: betId, amount }];
+
+        AudioManager.playSfx('chip'); // Play sound
 
         set({
             bets: newBets,
@@ -288,23 +286,22 @@ export const useGameStore = create<GameState>((set, get) => ({
         });
     },
 
+    addXp: (amount: number) => set((state) => ({ xp: (state.xp || 0) + amount })),
+
     // Updated Supabase Actions
     loadUserProfile: async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-            const { data, error } = await supabase
-                .from('profiles')
-                .select('credits, is_vip, is_ad_free, vip_expiry, last_daily_bonus') // Added is_ad_free
-                .eq('id', user.id)
-                .single();
+            const data = await apiClient.fetchUserProfile();
 
-            if (data && !error) {
+            if (data) {
                 set({
                     credits: data.credits,
                     isVip: data.is_vip || false,
                     isAdFree: data.is_ad_free || false, // Load persistence
                     vipExpiry: data.vip_expiry,
-                    lastDailyBonus: data.last_daily_bonus
+                    lastDailyBonus: data.last_daily_bonus,
+                    xp: data.xp || 0
                 });
             }
         }
@@ -320,45 +317,11 @@ export const useGameStore = create<GameState>((set, get) => ({
     },
 
     initializeHistory: async () => {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
-
-        // Load existing history (populated by DB trigger for new users)
-        const { data: existingData, error } = await supabase
-            .from('bet_history')
-            .select('winning_number, is_fire, multiplier')
-            .eq('user_id', user.id)
-            .order('created_at', { ascending: false })
-            .limit(100);
-
-        if (existingData && existingData.length > 0) {
-            const history = existingData.map(d => ({
-                number: d.winning_number,
-                isFire: d.is_fire || false,
-                multiplier: d.multiplier
-            }));
-
-            set({
-                fullHistory: history,
-                history: history.slice(0, 15)
-            });
-        }
-    },
-
-    recordGameResult: async (winNum, isFire, multiplier, totalWin) => {
-        const state = get();
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-            await supabase.from('bet_history').insert({
-                user_id: user.id,
-                winning_number: winNum,
-                is_fire: isFire,
-                multiplier: multiplier,
-                bet_details: state.bets,
-                total_bet: state.currentBet,
-                total_win: totalWin
-            });
-        }
+        const historyData = await apiClient.fetchGameHistory(100);
+        set({
+            fullHistory: historyData,
+            history: historyData.slice(0, 15)
+        });
     },
 
     validateSession: async () => {
@@ -385,5 +348,9 @@ export const useGameStore = create<GameState>((set, get) => ({
             return false;
         }
         return true;
+    },
+
+    recordGameResult: async (winningNumber, isFire, multiplier, totalWin) => {
+        await apiClient.recordGameResult(winningNumber, isFire, multiplier, totalWin);
     }
 }));

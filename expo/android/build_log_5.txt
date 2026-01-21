@@ -1,0 +1,1014 @@
+> Task :gradle-plugin:settings-plugin:checkKotlinGradlePluginConfigurationErrors
+> Task :gradle-plugin:shared:checkKotlinGradlePluginConfigurationErrors
+> Task :gradle-plugin:shared:compileKotlin UP-TO-DATE
+> Task :gradle-plugin:shared:compileJava NO-SOURCE
+> Task :gradle-plugin:shared:processResources NO-SOURCE
+> Task :gradle-plugin:shared:classes UP-TO-DATE
+> Task :gradle-plugin:shared:jar UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:compileKotlin UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:settings-plugin:pluginDescriptors UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:processResources UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:classes UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:jar UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:checkKotlinGradlePluginConfigurationErrors
+> Task :gradle-plugin:react-native-gradle-plugin:compileKotlin UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:react-native-gradle-plugin:pluginDescriptors UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:processResources UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:classes UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:jar UP-TO-DATE
+
+> Configure project :expo
+
+Using expo modules
+  - [32mexpo-application[0m (6.0.2)
+  - [32mexpo-asset[0m (11.0.5)
+  - [32mexpo-av[0m (15.0.2)
+  - [32mexpo-constants[0m (17.0.8)
+  - [32mexpo-crypto[0m (14.0.2)
+  - [32mexpo-device[0m (7.0.3)
+  - [32mexpo-file-system[0m (18.0.12)
+  - [32mexpo-font[0m (13.0.4)
+  - [32mexpo-haptics[0m (14.0.1)
+  - [32mexpo-keep-awake[0m (14.0.3)
+  - [32mexpo-linking[0m (7.0.5)
+  - [32mexpo-modules-core[0m (2.2.3)
+  - [32mexpo-notifications[0m (0.29.14)
+  - [32mexpo-web-browser[0m (14.0.2)
+
+
+> Configure project :react-native-google-mobile-ads
+:react-native-google-mobile-ads package.json found at C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-google-mobile-ads\package.json
+
+
+
+
+**************************************************************************************************************
+
+
+
+
+WARNING: react-native-google-mobile-ads requires an 'android_app_id' property inside a 'react-native-google-mobile-ads' key in your app.json.
+         No android_app_id property was found in this location. The native Google Mobile Ads SDK will crash on startup without it.
+         You can safely ignore this warning if you are using our Expo config plugin.
+
+
+
+
+**************************************************************************************************************
+
+
+
+
+:react-native-google-mobile-ads package.json found at C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-google-mobile-ads\package.json
+:react-native-google-mobile-ads:version set from package.json: 16.0.1 (16,0,1 - 16000001)
+:react-native-google-mobile-ads:android.compileSdk using custom value: 35
+:react-native-google-mobile-ads:android.targetSdk using custom value: 34
+:react-native-google-mobile-ads:android.minSdk using custom value: 24
+:react-native-google-mobile-ads:reactNativeAndroidDir C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native\android
+
+> Configure project :react-native-reanimated
+Android gradle plugin: 8.6.0
+Gradle: 8.10.2
+
+> Task :app:generateAutolinkingNewArchitectureFiles UP-TO-DATE
+> Task :app:generateAutolinkingPackageList UP-TO-DATE
+> Task :app:generateCodegenSchemaFromJavaScript SKIPPED
+> Task :app:generateCodegenArtifactsFromSchema SKIPPED
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:checkKotlinGradlePluginConfigurationErrors
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :expo:generateExpoModulesPackageListTask UP-TO-DATE
+> Task :expo:preBuild UP-TO-DATE
+> Task :expo:preDebugBuild UP-TO-DATE
+> Task :expo:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-application:preBuild UP-TO-DATE
+> Task :expo-application:preDebugBuild UP-TO-DATE
+> Task :expo-application:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-asset:preBuild UP-TO-DATE
+> Task :expo-asset:preDebugBuild UP-TO-DATE
+> Task :expo-asset:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-av:preBuild UP-TO-DATE
+> Task :expo-av:preDebugBuild UP-TO-DATE
+> Task :expo-av:writeDebugAarMetadata UP-TO-DATE
+
+> Task :expo-constants:createExpoConfig
+The NODE_ENV environment variable is required but was not specified. Ensure the project is bundled with Expo CLI or NODE_ENV is set.
+Proceeding without mode-specific .env
+
+> Task :expo-constants:preBuild
+> Task :expo-constants:preDebugBuild
+> Task :expo-constants:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-crypto:preBuild UP-TO-DATE
+> Task :expo-crypto:preDebugBuild UP-TO-DATE
+> Task :expo-crypto:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-device:preBuild UP-TO-DATE
+> Task :expo-device:preDebugBuild UP-TO-DATE
+> Task :expo-device:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-file-system:preBuild UP-TO-DATE
+> Task :expo-file-system:preDebugBuild UP-TO-DATE
+> Task :expo-file-system:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-font:preBuild UP-TO-DATE
+> Task :expo-font:preDebugBuild UP-TO-DATE
+> Task :expo-font:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-haptics:preBuild UP-TO-DATE
+> Task :expo-haptics:preDebugBuild UP-TO-DATE
+> Task :expo-haptics:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-keep-awake:preBuild UP-TO-DATE
+> Task :expo-keep-awake:preDebugBuild UP-TO-DATE
+> Task :expo-keep-awake:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-linking:preBuild UP-TO-DATE
+> Task :expo-linking:preDebugBuild UP-TO-DATE
+> Task :expo-linking:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-modules-core:preBuild UP-TO-DATE
+> Task :expo-modules-core:preDebugBuild UP-TO-DATE
+> Task :expo-modules-core:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-notifications:preBuild UP-TO-DATE
+> Task :expo-notifications:preDebugBuild UP-TO-DATE
+> Task :expo-notifications:writeDebugAarMetadata UP-TO-DATE
+> Task :expo-web-browser:preBuild UP-TO-DATE
+> Task :expo-web-browser:preDebugBuild UP-TO-DATE
+> Task :expo-web-browser:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-async-storage_async-storage:preBuild UP-TO-DATE
+> Task :react-native-async-storage_async-storage:preDebugBuild UP-TO-DATE
+> Task :react-native-async-storage_async-storage:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-community_slider:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-community_slider:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-community_slider:preBuild UP-TO-DATE
+> Task :react-native-community_slider:preDebugBuild UP-TO-DATE
+> Task :react-native-community_slider:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-gesture-handler:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-gesture-handler:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-gesture-handler:preBuild UP-TO-DATE
+> Task :react-native-gesture-handler:preDebugBuild UP-TO-DATE
+> Task :react-native-gesture-handler:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-google-mobile-ads:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-google-mobile-ads:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-google-mobile-ads:preBuild UP-TO-DATE
+> Task :react-native-google-mobile-ads:preDebugBuild UP-TO-DATE
+> Task :react-native-google-mobile-ads:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-purchases:preBuild UP-TO-DATE
+> Task :react-native-purchases:preDebugBuild UP-TO-DATE
+> Task :react-native-purchases:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-reanimated:assertLatestReactNativeWithNewArchitectureTask SKIPPED
+> Task :react-native-reanimated:assertMinimalReactNativeVersionTask SKIPPED
+> Task :react-native-reanimated:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-reanimated:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-reanimated:prepareReanimatedHeadersForPrefabs UP-TO-DATE
+> Task :react-native-reanimated:prepareWorkletsHeadersForPrefabs UP-TO-DATE
+> Task :react-native-reanimated:preBuild UP-TO-DATE
+> Task :react-native-reanimated:preDebugBuild UP-TO-DATE
+> Task :react-native-reanimated:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-svg:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-svg:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-svg:preBuild UP-TO-DATE
+> Task :react-native-svg:preDebugBuild UP-TO-DATE
+> Task :react-native-svg:writeDebugAarMetadata UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :expo:generateDebugResValues UP-TO-DATE
+> Task :expo:generateDebugResources UP-TO-DATE
+> Task :expo:packageDebugResources UP-TO-DATE
+> Task :expo-application:generateDebugResValues UP-TO-DATE
+> Task :expo-application:generateDebugResources UP-TO-DATE
+> Task :expo-application:packageDebugResources UP-TO-DATE
+> Task :expo-asset:generateDebugResValues UP-TO-DATE
+> Task :expo-asset:generateDebugResources UP-TO-DATE
+> Task :expo-asset:packageDebugResources UP-TO-DATE
+> Task :expo-av:generateDebugResValues UP-TO-DATE
+> Task :expo-av:generateDebugResources UP-TO-DATE
+> Task :expo-av:packageDebugResources UP-TO-DATE
+> Task :expo-constants:generateDebugResValues UP-TO-DATE
+> Task :expo-constants:generateDebugResources UP-TO-DATE
+> Task :expo-constants:packageDebugResources UP-TO-DATE
+> Task :expo-crypto:generateDebugResValues UP-TO-DATE
+> Task :expo-crypto:generateDebugResources UP-TO-DATE
+> Task :expo-crypto:packageDebugResources UP-TO-DATE
+> Task :expo-device:generateDebugResValues UP-TO-DATE
+> Task :expo-device:generateDebugResources UP-TO-DATE
+> Task :expo-device:packageDebugResources UP-TO-DATE
+> Task :expo-file-system:generateDebugResValues UP-TO-DATE
+> Task :expo-file-system:generateDebugResources UP-TO-DATE
+> Task :expo-file-system:packageDebugResources UP-TO-DATE
+> Task :expo-font:generateDebugResValues UP-TO-DATE
+> Task :expo-font:generateDebugResources UP-TO-DATE
+> Task :expo-font:packageDebugResources UP-TO-DATE
+> Task :expo-haptics:generateDebugResValues UP-TO-DATE
+> Task :expo-haptics:generateDebugResources UP-TO-DATE
+> Task :expo-haptics:packageDebugResources UP-TO-DATE
+> Task :expo-keep-awake:generateDebugResValues UP-TO-DATE
+> Task :expo-keep-awake:generateDebugResources UP-TO-DATE
+> Task :expo-keep-awake:packageDebugResources UP-TO-DATE
+> Task :expo-linking:generateDebugResValues UP-TO-DATE
+> Task :expo-linking:generateDebugResources UP-TO-DATE
+> Task :expo-linking:packageDebugResources UP-TO-DATE
+> Task :expo-modules-core:generateDebugResValues UP-TO-DATE
+> Task :expo-modules-core:generateDebugResources UP-TO-DATE
+> Task :expo-modules-core:packageDebugResources UP-TO-DATE
+> Task :expo-notifications:generateDebugResValues UP-TO-DATE
+> Task :expo-notifications:generateDebugResources UP-TO-DATE
+> Task :expo-notifications:packageDebugResources UP-TO-DATE
+> Task :expo-web-browser:generateDebugResValues UP-TO-DATE
+> Task :expo-web-browser:generateDebugResources UP-TO-DATE
+> Task :expo-web-browser:packageDebugResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateDebugResValues UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateDebugResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:packageDebugResources UP-TO-DATE
+> Task :react-native-community_slider:generateDebugResValues UP-TO-DATE
+> Task :react-native-community_slider:generateDebugResources UP-TO-DATE
+> Task :react-native-community_slider:packageDebugResources UP-TO-DATE
+> Task :react-native-gesture-handler:generateDebugResValues UP-TO-DATE
+> Task :react-native-gesture-handler:generateDebugResources UP-TO-DATE
+> Task :react-native-gesture-handler:packageDebugResources UP-TO-DATE
+> Task :react-native-google-mobile-ads:generateDebugResValues UP-TO-DATE
+> Task :react-native-google-mobile-ads:generateDebugResources UP-TO-DATE
+> Task :react-native-google-mobile-ads:packageDebugResources UP-TO-DATE
+> Task :react-native-purchases:generateDebugResValues UP-TO-DATE
+> Task :react-native-purchases:generateDebugResources UP-TO-DATE
+> Task :react-native-purchases:packageDebugResources UP-TO-DATE
+> Task :react-native-reanimated:generateDebugResValues UP-TO-DATE
+> Task :react-native-reanimated:generateDebugResources UP-TO-DATE
+> Task :react-native-reanimated:packageDebugResources UP-TO-DATE
+> Task :react-native-svg:generateDebugResValues UP-TO-DATE
+> Task :react-native-svg:generateDebugResources UP-TO-DATE
+> Task :react-native-svg:packageDebugResources UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :expo:extractDeepLinksDebug UP-TO-DATE
+> Task :expo:processDebugManifest UP-TO-DATE
+> Task :expo-application:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-application:processDebugManifest UP-TO-DATE
+> Task :expo-asset:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-asset:processDebugManifest UP-TO-DATE
+> Task :expo-av:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-av:processDebugManifest UP-TO-DATE
+> Task :expo-constants:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-constants:processDebugManifest UP-TO-DATE
+> Task :expo-crypto:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-crypto:processDebugManifest UP-TO-DATE
+> Task :expo-device:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-device:processDebugManifest UP-TO-DATE
+> Task :expo-file-system:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-file-system:processDebugManifest UP-TO-DATE
+> Task :expo-font:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-font:processDebugManifest UP-TO-DATE
+> Task :expo-haptics:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-haptics:processDebugManifest UP-TO-DATE
+> Task :expo-keep-awake:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-keep-awake:processDebugManifest UP-TO-DATE
+> Task :expo-linking:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-linking:processDebugManifest UP-TO-DATE
+> Task :expo-modules-core:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-modules-core:processDebugManifest UP-TO-DATE
+> Task :expo-notifications:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-notifications:processDebugManifest UP-TO-DATE
+> Task :expo-web-browser:extractDeepLinksDebug UP-TO-DATE
+> Task :expo-web-browser:processDebugManifest UP-TO-DATE
+> Task :react-native-async-storage_async-storage:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-async-storage_async-storage:processDebugManifest UP-TO-DATE
+> Task :react-native-community_slider:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-community_slider:processDebugManifest UP-TO-DATE
+> Task :react-native-gesture-handler:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-gesture-handler:processDebugManifest UP-TO-DATE
+> Task :react-native-google-mobile-ads:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-google-mobile-ads:processDebugManifest UP-TO-DATE
+> Task :react-native-purchases:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-purchases:processDebugManifest UP-TO-DATE
+> Task :react-native-reanimated:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-reanimated:processDebugManifest UP-TO-DATE
+> Task :react-native-svg:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-svg:processDebugManifest UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :expo:compileDebugLibraryResources UP-TO-DATE
+> Task :expo:parseDebugLocalResources UP-TO-DATE
+> Task :expo:generateDebugRFile UP-TO-DATE
+> Task :expo-application:compileDebugLibraryResources UP-TO-DATE
+> Task :expo-application:parseDebugLocalResources UP-TO-DATE
+> Task :expo-application:generateDebugRFile UP-TO-DATE
+> Task :expo-asset:compileDebugLibraryResources UP-TO-DATE
+> Task :expo-asset:parseDebugLocalResources UP-TO-DATE
+> Task :expo-asset:generateDebugRFile UP-TO-DATE
+> Task :expo-av:compileDebugLibraryResources UP-TO-DATE
+> Task :expo-av:parseDebugLocalResources UP-TO-DATE
+> Task :expo-av:generateDebugRFile UP-TO-DATE
+> Task :expo-constants:compileDebugLibraryResources UP-TO-DATE
+> Task :expo-constants:parseDebugLocalResources UP-TO-DATE
+> Task :expo-constants:generateDebugRFile UP-TO-DATE
+> Task :expo-crypto:compileDebugLibraryResources UP-TO-DATE
+> Task :expo-crypto:parseDebugLocalResources UP-TO-DATE
+> Task :expo-crypto:generateDebugRFile UP-TO-DATE
+> Task :expo-device:compileDebugLibraryResources UP-TO-DATE
+> Task :expo-device:parseDebugLocalResources UP-TO-DATE
+> Task :expo-device:generateDebugRFile UP-TO-DATE
+> Task :expo-file-system:compileDebugLibraryResources UP-TO-DATE
+> Task :expo-file-system:parseDebugLocalResources UP-TO-DATE
+> Task :expo-file-system:generateDebugRFile UP-TO-DATE
+> Task :expo-font:compileDebugLibraryResources UP-TO-DATE
+> Task :expo-font:parseDebugLocalResources UP-TO-DATE
+> Task :expo-font:generateDebugRFile UP-TO-DATE
+> Task :expo-haptics:compileDebugLibraryResources UP-TO-DATE
+> Task :expo-haptics:parseDebugLocalResources UP-TO-DATE
+> Task :expo-haptics:generateDebugRFile UP-TO-DATE
+> Task :expo-keep-awake:compileDebugLibraryResources UP-TO-DATE
+> Task :expo-keep-awake:parseDebugLocalResources UP-TO-DATE
+> Task :expo-keep-awake:generateDebugRFile UP-TO-DATE
+> Task :expo-linking:compileDebugLibraryResources UP-TO-DATE
+> Task :expo-linking:parseDebugLocalResources UP-TO-DATE
+> Task :expo-linking:generateDebugRFile UP-TO-DATE
+> Task :expo-modules-core:compileDebugLibraryResources UP-TO-DATE
+> Task :expo-modules-core:parseDebugLocalResources UP-TO-DATE
+> Task :expo-modules-core:generateDebugRFile UP-TO-DATE
+> Task :expo-notifications:compileDebugLibraryResources UP-TO-DATE
+> Task :expo-notifications:parseDebugLocalResources UP-TO-DATE
+> Task :expo-notifications:generateDebugRFile UP-TO-DATE
+> Task :expo-web-browser:compileDebugLibraryResources UP-TO-DATE
+> Task :expo-web-browser:parseDebugLocalResources UP-TO-DATE
+> Task :expo-web-browser:generateDebugRFile UP-TO-DATE
+> Task :react-native-async-storage_async-storage:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateDebugRFile UP-TO-DATE
+> Task :react-native-community_slider:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-community_slider:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-community_slider:generateDebugRFile UP-TO-DATE
+> Task :react-native-gesture-handler:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-gesture-handler:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-gesture-handler:generateDebugRFile UP-TO-DATE
+> Task :react-native-google-mobile-ads:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-google-mobile-ads:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-google-mobile-ads:generateDebugRFile UP-TO-DATE
+> Task :react-native-purchases:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-purchases:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-purchases:generateDebugRFile UP-TO-DATE
+> Task :react-native-reanimated:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-reanimated:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-reanimated:generateDebugRFile UP-TO-DATE
+> Task :react-native-svg:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-svg:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-svg:generateDebugRFile UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :expo:checkKotlinGradlePluginConfigurationErrors
+> Task :expo:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-application:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-application:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-modules-core:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-modules-core:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-modules-core:compileDebugKotlin UP-TO-DATE
+> Task :expo-modules-core:javaPreCompileDebug UP-TO-DATE
+> Task :expo-modules-core:compileDebugJavaWithJavac
+> Task :expo-application:javaPreCompileDebug UP-TO-DATE
+> Task :expo-asset:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-asset:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-asset:javaPreCompileDebug UP-TO-DATE
+> Task :expo-av:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-av:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-av:javaPreCompileDebug UP-TO-DATE
+> Task :expo-constants:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-constants:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-constants:javaPreCompileDebug UP-TO-DATE
+> Task :expo-crypto:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-crypto:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-crypto:javaPreCompileDebug UP-TO-DATE
+> Task :expo-device:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-device:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-device:javaPreCompileDebug UP-TO-DATE
+> Task :expo-file-system:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-file-system:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-file-system:javaPreCompileDebug UP-TO-DATE
+> Task :expo-font:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-font:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-font:javaPreCompileDebug UP-TO-DATE
+> Task :expo-haptics:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-haptics:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-haptics:javaPreCompileDebug UP-TO-DATE
+> Task :expo-keep-awake:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-keep-awake:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-keep-awake:javaPreCompileDebug UP-TO-DATE
+> Task :expo-linking:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-linking:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-linking:javaPreCompileDebug UP-TO-DATE
+> Task :expo-notifications:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-notifications:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-notifications:javaPreCompileDebug UP-TO-DATE
+> Task :expo-web-browser:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-web-browser:generateDebugBuildConfig UP-TO-DATE
+> Task :expo-web-browser:javaPreCompileDebug UP-TO-DATE
+> Task :expo:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-async-storage_async-storage:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-async-storage_async-storage:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-async-storage_async-storage:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :react-native-community_slider:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-community_slider:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-community_slider:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-community_slider:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :react-native-gesture-handler:checkKotlinGradlePluginConfigurationErrors
+> Task :react-native-gesture-handler:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-reanimated:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-reanimated:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-reanimated:packageNdkLibs NO-SOURCE
+> Task :react-native-reanimated:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-reanimated:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :react-native-gesture-handler:compileDebugKotlin UP-TO-DATE
+> Task :react-native-gesture-handler:javaPreCompileDebug UP-TO-DATE
+> Task :expo-modules-core:bundleLibCompileToJarDebug
+> Task :react-native-gesture-handler:compileDebugJavaWithJavac
+> Task :expo-application:compileDebugKotlin
+> Task :expo-asset:compileDebugKotlin
+> Task :expo-application:compileDebugJavaWithJavac
+> Task :expo-application:bundleLibCompileToJarDebug
+> Task :expo-constants:compileDebugKotlin
+> Task :expo-crypto:compileDebugKotlin
+> Task :expo-font:compileDebugKotlin
+> Task :expo-device:compileDebugKotlin
+
+> Task :expo-av:compileDebugKotlin
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-av/android/src/main/java/expo/modules/av/ViewUtils.kt:10:26 'Promise' is deprecated. AsyncFunction will crash when called. Use expo.modules.kotlin.Promise instead
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-av/android/src/main/java/expo/modules/av/ViewUtils.kt:19:129 'Promise' is deprecated. AsyncFunction will crash when called. Use expo.modules.kotlin.Promise instead
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-av/android/src/main/java/expo/modules/av/ViewUtils.kt:21:78 'resolveView(Int): View?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-av/android/src/main/java/expo/modules/av/ViewUtils.kt:39:111 'Promise' is deprecated. AsyncFunction will crash when called. Use expo.modules.kotlin.Promise instead
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-av/android/src/main/java/expo/modules/av/ViewUtils.kt:52:78 'resolveView(Int): View?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-av/android/src/main/java/expo/modules/av/player/datasource/CustomHeadersOkHttpDataSourceFactory.kt:32:12 'constructor OkHttpDataSource(Call.Factory, String?, CacheControl?, HttpDataSource.RequestProperties?)' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-av/android/src/main/java/expo/modules/av/progress/AndroidLooperTimeMachine.kt:8:5 'constructor Handler()' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-av/android/src/main/java/expo/modules/av/video/VideoViewModule.kt:64:17 'tryRunWithVideoView(ModuleRegistry, Int, ViewUtils.VideoViewCallback, Promise): Unit' is deprecated. Use `dispatchCommands` in favor of finding view with imperative calls
+
+> Task :expo-asset:compileDebugJavaWithJavac
+> Task :expo-asset:bundleLibCompileToJarDebug
+
+> Task :expo-av:compileDebugJavaWithJavac
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+> Task :expo-file-system:compileDebugKotlin
+> Task :expo-av:bundleLibCompileToJarDebug
+> Task :expo-constants:compileDebugJavaWithJavac
+> Task :expo-constants:bundleLibCompileToJarDebug
+> Task :expo-crypto:compileDebugJavaWithJavac
+> Task :expo-crypto:bundleLibCompileToJarDebug
+> Task :expo-device:compileDebugJavaWithJavac
+> Task :expo-device:bundleLibCompileToJarDebug
+> Task :expo-file-system:compileDebugJavaWithJavac
+> Task :expo-file-system:bundleLibCompileToJarDebug
+> Task :expo-font:compileDebugJavaWithJavac
+> Task :expo-font:bundleLibCompileToJarDebug
+> Task :expo-linking:compileDebugKotlin
+> Task :expo-keep-awake:compileDebugKotlin
+> Task :expo-haptics:compileDebugKotlin
+> Task :expo-haptics:compileDebugJavaWithJavac
+> Task :expo-haptics:bundleLibCompileToJarDebug
+> Task :expo-keep-awake:compileDebugJavaWithJavac
+> Task :expo-keep-awake:bundleLibCompileToJarDebug
+> Task :expo-linking:compileDebugJavaWithJavac
+> Task :expo-linking:bundleLibCompileToJarDebug
+> Task :react-native-google-mobile-ads:checkKotlinGradlePluginConfigurationErrors
+> Task :react-native-google-mobile-ads:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-gesture-handler:bundleLibCompileToJarDebug
+> Task :react-native-google-mobile-ads:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-purchases:checkKotlinGradlePluginConfigurationErrors
+> Task :react-native-purchases:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-purchases:compileDebugKotlin UP-TO-DATE
+> Task :react-native-purchases:javaPreCompileDebug UP-TO-DATE
+
+> Task :expo-web-browser:compileDebugKotlin
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-web-browser/android/src/main/java/expo/modules/webbrowser/WebBrowserModule.kt:112:15 'setToolbarColor(Int): CustomTabsIntent.Builder' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-web-browser/android/src/main/java/expo/modules/webbrowser/WebBrowserModule.kt:117:15 'setSecondaryToolbarColor(Int): CustomTabsIntent.Builder' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-web-browser/android/src/main/java/expo/modules/webbrowser/WebBrowserModule.kt:123:15 'addDefaultShareMenuItem(): CustomTabsIntent.Builder' is deprecated. Deprecated in Java
+
+> Task :react-native-google-mobile-ads:compileDebugKotlin
+e: Incompatible classes were found in dependencies. Remove them from the classpath or use '-Xskip-metadata-version-check' to suppress errors
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/java.com.google.android.gms.libs.filecompliance.proto_file_access_api_type_kt_proto_lite.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/java.com.google.android.libraries.admob.ad_quality_metrics.internal_ad_quality_lib_impl.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/java.com.google.android.libraries.admob.ad_quality_metrics.internal_ad_quality_scope_provider.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/java.com.google.android.libraries.admob.ad_quality_metrics_ad_quality_data_pinger.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/java.com.google.android.libraries.admob.ad_quality_metrics_ad_quality_data_serializer.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/java.com.google.android.libraries.admob.ad_quality_metrics_ad_quality_data_store_module.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/java.com.google.android.libraries.admob.ad_quality_metrics_ad_quality_kt_proto_lite.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/java.com.google.android.libraries.admob.ad_quality_metrics_ad_quality_lib.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/java.com.google.android.libraries.admob.ad_quality_metrics_clock.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/java.com.google.android.libraries.ads.mobile.sdk.internal.util_clock.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/java.com.google.android.libraries.ads.mobile.sdk.internal.util_clock_module.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/java.com.google.android.libraries.internal.ads.adshield.protos_adshield_options_kt_proto_lite.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/java.com.google.async.coroutines_annotations.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/logs.proto.chrome_search_chrome_search_extensions_kt_proto_lite.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/third_party.kotlin.protobuf.src.commonMain.kotlin.com.google.protobuf.kotlin_only_for_use_in_proto_generated_code_its_generator_and_tests.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/8.10.2/transforms/b80b441dad34bbafaf53edfdc6ba3a21/transformed/play-services-ads-24.6.0-api.jar!/META-INF/third_party.kotlin.protobuf.src.commonMain.kotlin.com.google.protobuf.kotlin_shared_runtime.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/META-INF/kotlin-stdlib-jdk7.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/META-INF/kotlin-stdlib-jdk8.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/META-INF/kotlin-stdlib.kotlin_moduleModule was compiled with an incompatible version of Kotlin. The binary version of its metadata is 2.1.0, expected version is 1.9.0.
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:34:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:35:26 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:36:31 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:37:52 Unresolved reference: let
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:37:61 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:37:76 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:38:64 Unresolved reference: let
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:38:73 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:38:88 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:43:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:44:26 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:45:31 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:46:27 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:47:39 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:53:10 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:58:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:59:26 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:60:31 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:61:27 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:62:39 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:67:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:68:27 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAdHelper.kt:69:39 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAppOpenModule.kt:39:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAppOpenModule.kt:46:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAppOpenModule.kt:55:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAppOpenModule.kt:62:26 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsAppOpenModule.kt:65:26 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:59:38 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:75:13 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:76:13 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:80:7 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:95:14 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:96:7 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:110:7 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:117:14 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:125:16 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:127:16 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:129:14 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:130:14 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:131:9 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:139:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:149:7 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:156:19 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:157:19 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:158:19 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:159:11 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:168:9 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:169:44 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:170:30 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:171:31 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:172:43 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:180:16 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:181:16 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:184:15 Unresolved reference: let
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:184:21 Cannot infer a type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:188:35 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:191:39 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:193:24 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:198:20 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:200:21 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:201:21 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:202:13 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:215:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:219:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:223:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:231:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:240:18 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:242:17 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:246:9 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:257:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:258:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:259:9 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:274:13 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:275:13 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsFullScreenAdModule.kt:276:7 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsInterstitialModule.kt:40:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsInterstitialModule.kt:47:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsInterstitialModule.kt:56:29 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsInterstitialModule.kt:63:26 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsInterstitialModule.kt:66:26 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsMediaView.kt:30:94 Unresolved reference: java
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsMediaView.kt:31:19 Unresolved reference: getNativeAd
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsMediaView.kt:32:12 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsMediaView.kt:32:27 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsMediaView.kt:33:7 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsMediaView.kt:38:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsMediaView.kt:39:18 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsMediaView.kt:40:20 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsMediaView.kt:41:20 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsMediaView.kt:46:11 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsMediaView.kt:51:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsMediaView.kt:55:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsMediaViewManager.kt:44:10 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsMediaViewManager.kt:49:10 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:41:21 Unresolved reference: checkNotNull
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:43:18 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:96:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:105:30 For-loop range must have an 'iterator()' method
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:107:16 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:108:16 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:109:16 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:110:18 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:112:17 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:121:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:122:13 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:129:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:132:14 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:133:17 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:136:11 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:144:21 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:146:21 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:155:46 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:156:17 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:162:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsModule.kt:167:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:46:18 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:47:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:51:94 Unresolved reference: java
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:52:19 Unresolved reference: getNativeAd
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:53:23 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:54:9 'return' is not allowed here
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:56:7 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:56:18 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:57:7 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:64:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:65:36 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:66:30 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:67:38 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:68:34 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:69:31 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:70:31 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:71:36 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:72:30 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:73:31 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:74:31 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:76:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:80:16 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:81:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:81:17 Class 'kotlin.coroutines.CoroutineContext' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/coroutines/CoroutineContext.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:81:50 Class 'kotlin.coroutines.CoroutineContext' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/coroutines/CoroutineContext.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:82:7 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:83:17 Unresolved reference: let
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:83:36 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:83:48 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:84:29 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:89:11 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:94:16 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:95:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:96:18 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:97:18 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:101:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdView.kt:105:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdViewManager.kt:45:11 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdViewManager.kt:46:12 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdViewManager.kt:58:10 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdViewManager.kt:63:10 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdViewManager.kt:67:22 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeAdViewManager.kt:79:22 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:38:27 Unresolved reference: HashMap
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:45:12 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:50:12 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:51:12 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:52:12 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:53:12 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:54:12 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:55:12 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:56:12 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:57:28 Unresolved reference: let
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:58:14 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:58:38 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:59:12 Unresolved reference: run
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:60:14 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:62:22 Unresolved reference: let
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:64:14 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:64:33 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:65:14 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:65:31 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:66:14 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:67:12 Unresolved reference: run
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:68:14 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:71:30 Unresolved reference: let
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:72:22 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:72:47 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:73:22 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:73:52 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:74:22 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:74:44 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:75:14 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:78:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:89:11 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:91:7 Unresolved reference: it
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:106:9 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:110:9 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:114:9 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:118:9 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:124:9 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:128:9 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:132:9 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:136:9 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:185:16 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:186:51 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:187:20 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:189:25 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:190:25 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:191:25 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:192:13 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:194:26 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:198:16 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:202:17 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:203:7 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:210:17 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:212:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:213:15 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsNativeModule.kt:214:51 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:32:12 Unresolved reference: listOf
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:55:62 Unresolved reference: HashMap
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:57:18 Unresolved reference: moduleInfos[ReactNativeAppModule.NAME]
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:57:18 No set method providing array access
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:66:18 Unresolved reference: moduleInfos[ReactNativeGoogleMobileAdsModule.NAME]
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:66:18 No set method providing array access
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:75:18 Unresolved reference: moduleInfos[ReactNativeGoogleMobileAdsConsentModule.NAME]
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:75:18 No set method providing array access
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:84:18 Unresolved reference: moduleInfos[ReactNativeGoogleMobileAdsAppOpenModule.NAME]
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:84:18 No set method providing array access
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:93:18 Unresolved reference: moduleInfos[ReactNativeGoogleMobileAdsInterstitialModule.NAME]
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:93:18 No set method providing array access
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:102:18 Unresolved reference: moduleInfos[ReactNativeGoogleMobileAdsRewardedModule.NAME]
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:102:18 No set method providing array access
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:111:18 Unresolved reference: moduleInfos[ReactNativeGoogleMobileAdsRewardedInterstitialModule.NAME]
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:111:18 No set method providing array access
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:120:18 Unresolved reference: moduleInfos[ReactNativeGoogleMobileAdsNativeModule.NAME]
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsPackage.kt:120:18 No set method providing array access
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsRewardedInterstitialModule.kt:40:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsRewardedInterstitialModule.kt:47:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsRewardedInterstitialModule.kt:56:28 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsRewardedInterstitialModule.kt:63:26 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsRewardedInterstitialModule.kt:66:26 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsRewardedModule.kt:40:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsRewardedModule.kt:47:5 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsRewardedModule.kt:56:16 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsRewardedModule.kt:63:26 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+e: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/react-native-google-mobile-ads/android/src/main/java/io/invertase/googlemobileads/ReactNativeGoogleMobileAdsRewardedModule.kt:66:26 Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The actual metadata version is 2.1.0, but the compiler version 1.9.0 can read versions up to 2.0.0.
+The class is loaded from C:/Users/marcg/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.1.0/85f8b81009cda5890e54ba67d64b5e599c645020/kotlin-stdlib-2.1.0.jar!/kotlin/Unit.class
+
+> Task :react-native-google-mobile-ads:compileDebugKotlin FAILED
+
+> Task :react-native-purchases:compileDebugJavaWithJavac
+C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-purchases\android\src\main\java\com\revenuecat\purchases\react\RNPurchasesModule.java:66: warning: [removal] onCatalystInstanceDestroy() in NativeModule has been deprecated and marked for removal
+    public void onCatalystInstanceDestroy() {
+                ^
+Note: C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-purchases\android\src\main\java\com\revenuecat\purchases\react\RNPurchasesModule.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: C:\Users\marcg\Documents\Projects\Roulette\expo\node_modules\react-native-purchases\android\src\main\java\com\revenuecat\purchases\react\RNPurchasesModule.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+1 warning
+
+> Task :expo-notifications:compileDebugKotlin
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/Utils.kt:41:21 'get(String!): Any?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/categories/ExpoNotificationCategoriesModule.kt:69:40 'getParcelableArrayList(String?): ArrayList<T!>?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/categories/ExpoNotificationCategoriesModule.kt:122:36 'getParcelable(String?): T?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/debug/DebugLogging.kt:30:23 'get(String!): Any?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/model/RemoteNotificationContent.kt:21:45 'readParcelable(ClassLoader?): T?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/model/triggers/FirebaseNotificationTrigger.kt:19:12 'readParcelable(ClassLoader?): T?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/presentation/ExpoNotificationPresentationModule.kt:46:33 'getSerializable(String?): Serializable?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/presentation/ExpoNotificationPresentationModule.kt:57:43 'getParcelableArrayList(String?): ArrayList<T!>?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/presentation/ExpoNotificationPresentationModule.kt:61:33 'getSerializable(String?): Serializable?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/presentation/ExpoNotificationPresentationModule.kt:81:31 'getSerializable(String?): Serializable?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/presentation/ExpoNotificationPresentationModule.kt:95:31 'getSerializable(String?): Serializable?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/presentation/builders/BaseNotificationBuilder.kt:35:100 'constructor Builder(Context)' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/scheduling/NotificationScheduler.kt:51:40 'getParcelableArrayList(String?): ArrayList<T!>?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/scheduling/NotificationScheduler.kt:58:33 'getSerializable(String?): Serializable?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/scheduling/NotificationScheduler.kt:81:35 'getSerializable(String?): Serializable?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/scheduling/NotificationScheduler.kt:128:31 'getSerializable(String?): Serializable?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/notifications/scheduling/NotificationScheduler.kt:142:31 'getSerializable(String?): Serializable?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/NotificationsService.kt:480:34 'getParcelable(String?): T?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/NotificationsService.kt:481:28 'getParcelable(String?): T?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/NotificationsService.kt:505:33 'getParcelableExtra(String!): T?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/NotificationsService.kt:506:27 'getParcelableExtra(String!): T?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/NotificationsService.kt:609:54 'get(String!): Any?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/NotificationsService.kt:676:22 'getParcelable(String?): T?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/NotificationsService.kt:677:22 'getParcelable(String?): T?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/NotificationsService.kt:704:14 'getParcelableExtra(String!): T?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/NotificationsService.kt:734:18 'getParcelableExtra(String!): T?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/NotificationsService.kt:774:22 'getParcelable(String?): T?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/delegates/Base64Serialization.kt:26:45 Returning type parameter has been inferred to Nothing implicitly because Nothing is more specific than specified expected type. Please specify type arguments explicitly in accordance with expected type to hide this warning. Nothing can produce an exception at runtime. See KT-36776 for more details.
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/delegates/ExpoHandlingDelegate.kt:63:85 Parameter 'notificationResponse' is never used
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/delegates/ExpoPresentationDelegate.kt:194:70 'priority: Int' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/delegates/ExpoPresentationDelegate.kt:195:41 'vibrate: LongArray!' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/delegates/ExpoPresentationDelegate.kt:196:30 'sound: Uri!' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/delegates/ExpoPresentationDelegate.kt:207:41 'get(String!): Any?' is deprecated. Deprecated in Java
+w: file:///C:/Users/marcg/Documents/Projects/Roulette/expo/node_modules/expo-notifications/android/src/main/java/expo/modules/notifications/service/delegates/ExpoPresentationDelegate.kt:210:124 'get(String!): Any?' is deprecated. Deprecated in Java
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':react-native-google-mobile-ads:compileDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.10.2/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 1m 23s
+354 actionable tasks: 64 executed, 290 up-to-date
